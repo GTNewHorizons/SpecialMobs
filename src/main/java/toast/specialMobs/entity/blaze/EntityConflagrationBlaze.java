@@ -17,7 +17,6 @@ import toast.specialMobs.entity.SpecialMobData;
 
 public class EntityConflagrationBlaze extends Entity_SpecialBlaze
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/conflagration.png")
     };

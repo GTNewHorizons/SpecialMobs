@@ -20,7 +20,6 @@ import toast.specialMobs.entity.skeleton.Entity_SpecialSkeleton;
 
 public class EntityUndeadWitch extends Entity_SpecialWitch
 {
-    @SuppressWarnings("hiding")
 	public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/undead.png")
     };

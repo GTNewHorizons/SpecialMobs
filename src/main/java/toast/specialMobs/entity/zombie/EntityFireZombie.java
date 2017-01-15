@@ -13,7 +13,6 @@ import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
 public class EntityFireZombie extends Entity_SpecialZombie {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "zombie/fire.png"), new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "zombie/fire_villager.png") };
 
     public EntityFireZombie(World world) {

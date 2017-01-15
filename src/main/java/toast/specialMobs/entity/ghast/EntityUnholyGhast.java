@@ -18,7 +18,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityUnholyGhast extends EntityMeleeGhast
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/unholy.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/unholy_shooting.png")

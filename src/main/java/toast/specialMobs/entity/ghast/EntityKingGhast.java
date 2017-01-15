@@ -11,7 +11,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityKingGhast extends Entity_SpecialGhast
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/king.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/king_shooting.png")

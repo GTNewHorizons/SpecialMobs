@@ -31,7 +31,6 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
     // The entity state id for reveal particle effect.
     public static final byte HU_REVEAL_FX = 11;
 
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/ninja.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/ninja_wither.png")

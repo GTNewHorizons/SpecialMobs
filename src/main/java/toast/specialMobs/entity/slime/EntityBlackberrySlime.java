@@ -10,7 +10,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityBlackberrySlime extends Entity_SpecialSlime
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "slime/blackberry.png")
     };

@@ -14,7 +14,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityDesertSpider extends Entity_SpecialSpider
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/desert.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/desert_eyes.png")

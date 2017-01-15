@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 import toast.specialMobs._SpecialMobs;
 
 public class EntityFireCreeper extends Entity_SpecialCreeper {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/fire.png") };
 
     public EntityFireCreeper(World world) {

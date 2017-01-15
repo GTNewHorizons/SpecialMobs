@@ -8,7 +8,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityFighterGhast extends EntityMeleeGhast
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/fighter.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/fighter_shooting.png")

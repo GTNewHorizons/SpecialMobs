@@ -18,7 +18,6 @@ public class EntityFaintGhast extends EntityMeleeGhast
     /// Useful properties for this class.
     private static final boolean XRAY_GHOSTS = Properties.getBoolean(Properties.STATS, "xray_ghosts");
 
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/faint.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/faint_shooting.png")

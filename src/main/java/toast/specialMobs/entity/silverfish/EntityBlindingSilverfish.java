@@ -11,7 +11,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityBlindingSilverfish extends Entity_SpecialSilverfish
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "silverfish/blinding.png")
     };

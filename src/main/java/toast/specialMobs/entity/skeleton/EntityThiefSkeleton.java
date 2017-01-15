@@ -17,7 +17,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityThiefSkeleton extends Entity_SpecialSkeleton
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/thief.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/thief_wither.png")

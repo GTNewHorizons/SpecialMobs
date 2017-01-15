@@ -14,7 +14,6 @@ import toast.specialMobs.entity.SpecialMobData;
 
 public class EntityShadowsWitch extends Entity_SpecialWitch
 {
-    @SuppressWarnings("hiding")
 	public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/shadows.png")
     };

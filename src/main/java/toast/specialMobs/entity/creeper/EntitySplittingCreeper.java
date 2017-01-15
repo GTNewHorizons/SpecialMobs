@@ -11,7 +11,6 @@ import toast.specialMobs.entity.SpecialMobData;
 
 public class EntitySplittingCreeper extends Entity_SpecialCreeper
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/splitting.png")
     };

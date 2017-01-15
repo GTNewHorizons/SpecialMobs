@@ -14,7 +14,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityWatermelonSlime extends Entity_SpecialSlime
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "slime/watermelon.png")
     };

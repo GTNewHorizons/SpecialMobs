@@ -10,7 +10,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityDirtCreeper extends Entity_SpecialCreeper
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/dirt.png")
     };

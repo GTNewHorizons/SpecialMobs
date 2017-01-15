@@ -10,7 +10,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityBlindingEnderman extends Entity_SpecialEnderman
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/blinding.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/blinding_eyes.png")

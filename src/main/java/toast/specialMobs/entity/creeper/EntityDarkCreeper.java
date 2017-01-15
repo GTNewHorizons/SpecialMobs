@@ -11,7 +11,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityDarkCreeper extends Entity_SpecialCreeper
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/dark.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/dark_eyes.png")

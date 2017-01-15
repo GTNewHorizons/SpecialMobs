@@ -17,7 +17,6 @@ import toast.specialMobs.entity.SpecialMobData;
 
 public class EntityMotherCaveSpider extends Entity_SpecialCaveSpider
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/mother.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/mother_eyes.png")

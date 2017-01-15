@@ -7,7 +7,6 @@ import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
 
 public class EntityLightningCreeper extends Entity_SpecialCreeper {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/lightning.png") };
 
     public EntityLightningCreeper(World world) {

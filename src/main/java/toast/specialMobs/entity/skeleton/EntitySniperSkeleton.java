@@ -8,7 +8,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntitySniperSkeleton extends Entity_SpecialSkeleton
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/sniper.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/sniper_wither.png")

@@ -12,7 +12,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityRageWitch extends Entity_SpecialWitch
 {
-    @SuppressWarnings("hiding")
 	public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/rage.png")
     };

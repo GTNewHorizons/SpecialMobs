@@ -16,7 +16,6 @@ import toast.specialMobs.entity.SpecialMobData;
 
 public class EntityMirageEnderman extends Entity_SpecialEnderman
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/mirage.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/mirage_eyes.png")

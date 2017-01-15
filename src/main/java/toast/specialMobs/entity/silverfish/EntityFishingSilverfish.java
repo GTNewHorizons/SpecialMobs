@@ -11,7 +11,6 @@ import toast.specialMobs.entity.IAngler;
 
 public class EntityFishingSilverfish extends Entity_SpecialSilverfish implements IAngler
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "silverfish/fishing.png")
     };

@@ -16,7 +16,6 @@ import toast.specialMobs.entity.SpecialMobData;
 
 public class EntityWebSpider extends Entity_SpecialSpider
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/web.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/web_eyes.png")

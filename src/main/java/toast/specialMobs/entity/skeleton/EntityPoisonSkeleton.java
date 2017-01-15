@@ -11,7 +11,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityPoisonSkeleton extends Entity_SpecialSkeleton
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/poison.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/poison_wither.png")

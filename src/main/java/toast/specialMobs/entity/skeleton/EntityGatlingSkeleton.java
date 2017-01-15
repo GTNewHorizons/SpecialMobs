@@ -8,7 +8,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityGatlingSkeleton extends Entity_SpecialSkeleton
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/gatling.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/gatling_wither.png")

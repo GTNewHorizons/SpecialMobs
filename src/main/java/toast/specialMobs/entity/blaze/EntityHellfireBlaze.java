@@ -12,7 +12,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityHellfireBlaze extends Entity_SpecialBlaze
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/hellfire.png")
     };

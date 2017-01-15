@@ -21,7 +21,6 @@ import toast.specialMobs.entity.spider.Entity_SpecialSpider;
 
 public class EntityWildsWitch extends Entity_SpecialWitch
 {
-    @SuppressWarnings("hiding")
 	public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/wilds.png")
     };

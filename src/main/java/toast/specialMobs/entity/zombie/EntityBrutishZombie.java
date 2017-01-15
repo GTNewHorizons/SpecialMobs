@@ -12,7 +12,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityBrutishZombie extends Entity_SpecialZombie
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "zombie/brutish.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "zombie/brutish_villager.png")

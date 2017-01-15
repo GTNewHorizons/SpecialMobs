@@ -8,7 +8,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityToughSpider extends Entity_SpecialSpider
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/tough.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/tough_eyes.png")

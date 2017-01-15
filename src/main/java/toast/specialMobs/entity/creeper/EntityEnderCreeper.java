@@ -23,7 +23,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityEnderCreeper extends Entity_SpecialCreeper
 {
-    @SuppressWarnings("hiding")
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/ender.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/ender_eyes.png")
