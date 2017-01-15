@@ -1,6 +1,9 @@
 package toast.specialMobs.entity.witch;
 
+import java.lang.reflect.Field;
 import java.util.Collection;
+
+import org.apache.commons.lang3.reflect.FieldUtils;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -19,7 +22,6 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityDominationWitch extends Entity_SpecialWitch
 {
-    @SuppressWarnings("hiding")
 	public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/domination.png")
     };
@@ -83,7 +85,7 @@ public class EntityDominationWitch extends Entity_SpecialWitch
         }
         super.onLivingUpdate();
     }
-
+    
     /// Overridden to modify attack effects.
     @Override
 	protected void onTypeAttack(Entity target) {
@@ -93,9 +95,22 @@ public class EntityDominationWitch extends Entity_SpecialWitch
     		if (EntityDominationWitch.canAffectMind(livingTarget)) {
 	    		for (PotionEffect effect : (Collection<PotionEffect>) livingTarget.getActivePotionEffects()) {
 	    			try {
-	    				if (!Potion.potionTypes[effect.getPotionID()].isBadEffect()) {
-	    					stolenEffect = effect;
-	    					break;
+	    				// isBadEffect is a private field in Versions prior to 1.8.8
+	    				Field potionEffectField = FieldUtils.getDeclaredField(Potion.class, "isBadEffect");
+	    				if (potionEffectField == null) // Field not found, let's try the obfuscated name
+	    				    potionEffectField = FieldUtils.getDeclaredField(Potion.class, "field_76418_K");
+	    				if (potionEffectField != null)
+	    				{
+	    				    boolean tIsBadPotionEffect = false;
+	    				    Object tFieldObject = FieldUtils.readField(potionEffectField, Potion.potionTypes[effect.getPotionID()], true);
+	    				    if (tFieldObject != null)
+	    				         tIsBadPotionEffect = (boolean)tFieldObject;
+	    				    
+	    				    if (tIsBadPotionEffect)
+	    				    {
+	    				        stolenEffect = effect;
+	    				        break;
+	    				    }
 	    				}
 	    			}
 	    			catch (Exception ex) {
