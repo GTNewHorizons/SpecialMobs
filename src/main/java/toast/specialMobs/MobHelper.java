@@ -102,6 +102,14 @@ public abstract class MobHelper
         }
         explosion.affectedBlockPositions.addAll(affectedBlocks);
         explosion.doExplosionB(false);
+        /*
+		System.out.println(String.format("[%s] ========= darkExplode() called  ===========", _SpecialMobs.MODID));
+		System.out.println(String.format("[%s] Dimension: %d ", _SpecialMobs.MODID, exploder.dimension));
+		System.out.println(String.format("[%s] EntityClass: %s ", _SpecialMobs.MODID, exploder.getClass().getName()));
+		System.out.println(String.format("[%s] Radius: %d ", _SpecialMobs.MODID, radius));
+		System.out.println(String.format("[%s] AffectedBlocks count: %d ", _SpecialMobs.MODID, affectedBlocks.size()));
+		System.out.println(String.format("[%s] =======================================", _SpecialMobs.MODID));
+        */
         _SpecialMobs.CHANNEL.sendToDimension(new MessageExplosion(explosion), exploder.dimension);
     }
 
@@ -190,6 +198,13 @@ public abstract class MobHelper
                 exploder.worldObj.spawnEntityInWorld(new EntityLightningBolt(exploder.worldObj, posX + x, posY, posZ + z));
             }
         }
+        /*
+		System.out.println(String.format("[%s] ========= lightningExplode() called  ===========", _SpecialMobs.MODID));
+		System.out.println(String.format("[%s] Dimension: %d ", _SpecialMobs.MODID, exploder.dimension));
+		System.out.println(String.format("[%s] EntityClass: %s ", _SpecialMobs.MODID, exploder.getClass().getName()));
+		System.out.println(String.format("[%s] Radius: %d ", _SpecialMobs.MODID, radius));
+		System.out.println(String.format("[%s] =======================================", _SpecialMobs.MODID));
+        */
         _SpecialMobs.CHANNEL.sendToDimension(new MessageExplosion(posX, posY, posZ, radius, "lightning"), exploder.dimension);
     }
 

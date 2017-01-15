@@ -1,5 +1,10 @@
 package toast.specialMobs.network;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
+
+import toast.specialMobs._SpecialMobs;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -58,6 +63,8 @@ public class MessageExplosion implements IMessage {
     // Array of affected block relative coords. Only used for NORMAL type explosions.
     public byte[][] affectedBlocks;
 
+    private static final int MEGABYTE = (1024*1024);
+    
     public MessageExplosion() {
     }
 
@@ -106,6 +113,8 @@ public class MessageExplosion implements IMessage {
      */
     @Override
     public void fromBytes(ByteBuf buf) {
+    	MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
+    	int count = 0;
 		try {
 			this.type = ExplosionType.getType(buf.readByte());
 			this.size = buf.readFloat();
@@ -114,7 +123,7 @@ public class MessageExplosion implements IMessage {
 			this.posZ = buf.readDouble();
 
 			if (this.type == ExplosionType.NORMAL) {
-				int count = buf.readInt();
+				count = buf.readInt();
 				this.affectedBlocks = new byte[count][];
 				for (int i = 0; i < count; i++) {
 					this.affectedBlocks[i] = new byte[] {
@@ -125,7 +134,29 @@ public class MessageExplosion implements IMessage {
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
-		}
+			/*
+			System.out.println(String.format("[%s] ========= fromBytes() crash ===========", _SpecialMobs.MODID));
+			System.out.println(String.format("[%s] count: %d ", _SpecialMobs.MODID, count));
+			System.out.println(String.format("[%s] type: %s ", _SpecialMobs.MODID, type.toString()));
+			System.out.println(String.format("[%s] size: %f", _SpecialMobs.MODID, size));
+			System.out.println(String.format("[%s] X / Y / Z: %f / %f / %f ", _SpecialMobs.MODID, posX, posY, posZ));
+			System.out.println(String.format("[%s] =======================================", _SpecialMobs.MODID));
+			*/
+	    } catch (OutOfMemoryError e) {
+	    	/*
+			System.out.println(String.format("[%s] ========= fromBytes() crash ===========", _SpecialMobs.MODID));
+			System.out.println(String.format("[%s] count: %d ", _SpecialMobs.MODID, count));
+			System.out.println(String.format("[%s] type: %s ", _SpecialMobs.MODID, type.toString()));
+			System.out.println(String.format("[%s] size: %f", _SpecialMobs.MODID, size));
+			System.out.println(String.format("[%s] X / Y / Z: %f / %f / %f ", _SpecialMobs.MODID, posX, posY, posZ));
+			System.out.println(String.format("[%s] =======================================", _SpecialMobs.MODID));
+	    	
+	        MemoryUsage heapUsage = memoryBean.getHeapMemoryUsage();
+	        long maxMemory = heapUsage.getMax() / MEGABYTE;
+	        long usedMemory = heapUsage.getUsed() / MEGABYTE;
+	        System.out.println("Memory Use :" + usedMemory + "M/" + maxMemory + "M");
+	        */
+	    }
     }
 
     /*
@@ -162,48 +193,56 @@ public class MessageExplosion implements IMessage {
          */
         @Override
         public IMessage onMessage(MessageExplosion message, MessageContext ctx) {
-            World world = FMLClientHandler.instance().getWorldClient();
-            if (message.type == ExplosionType.LIGHTNING) {
-                if (message.size < 0.0F) {
-                    message.size = 0.0F;
-                }
-                for (float x = -message.size; x <= message.size; x++) {
-                    for (float z = -message.size; z <= message.size; z++) {
-                        world.spawnEntityInWorld(new EntityLightningBolt(world, message.posX + x, message.posY, message.posZ + z));
-                    }
-                }
-            }
-            else {
-                if (message.type == ExplosionType.NORMAL && message.size >= 2.0F) {
-                    world.spawnParticle("hugeexplosion", message.posX, message.posY, message.posZ, 1.0, 0.0, 0.0);
-                }
-                else {
-                    world.spawnParticle("largeexplode", message.posX, message.posY, message.posZ, 1.0, 0.0, 0.0);
-                }
-
-                if (message.type == ExplosionType.NORMAL && message.affectedBlocks != null) {
-                    int count = message.affectedBlocks.length;
-                    double[] relPos;
-                    double fxPosX, fxPosY, fxPosZ;
-                    for (int i = 0; i < count; i++) {
-                        relPos = new double[3];
-                        for (int d = 0; d < 3; d++) {
-                            relPos[d] = message.affectedBlocks[i][d] + world.rand.nextFloat();
-                        }
-                        fxPosX = relPos[0] + message.posX;
-                        fxPosY = relPos[1] + message.posY;
-                        fxPosZ = relPos[2] + message.posZ;
-                        double velo = Math.sqrt(relPos[0] * relPos[0] + relPos[1] * relPos[1] + relPos[2] * relPos[2]);
-                        double mult = 0.5 / (velo / message.size + 0.1) * (world.rand.nextFloat() * world.rand.nextFloat() + 0.3F) / velo;
-                        for (int d = 0; d < 3; d++) {
-                            relPos[d] *= mult;
-                        }
-                        world.spawnParticle("explode", (fxPosX + message.posX) / 2.0, (fxPosY + message.posY) / 2.0, (fxPosZ + message.posZ) / 2.0, relPos[0], relPos[1], relPos[2]);
-                        world.spawnParticle("smoke", fxPosX, fxPosY, fxPosZ, relPos[0], relPos[1], relPos[2]);
-                    }
-                }
-            }
-            return null;
+        	try
+        	{
+	            World world = FMLClientHandler.instance().getWorldClient();
+	            if (message.type == ExplosionType.LIGHTNING) {
+	                if (message.size < 0.0F) {
+	                    message.size = 0.0F;
+	                }
+	                for (float x = -message.size; x <= message.size; x++) {
+	                    for (float z = -message.size; z <= message.size; z++) {
+	                        world.spawnEntityInWorld(new EntityLightningBolt(world, message.posX + x, message.posY, message.posZ + z));
+	                    }
+	                }
+	            }
+	            else {
+	                if (message.type == ExplosionType.NORMAL && message.size >= 2.0F) {
+	                    world.spawnParticle("hugeexplosion", message.posX, message.posY, message.posZ, 1.0, 0.0, 0.0);
+	                }
+	                else {
+	                    world.spawnParticle("largeexplode", message.posX, message.posY, message.posZ, 1.0, 0.0, 0.0);
+	                }
+	
+	                if (message.type == ExplosionType.NORMAL && message.affectedBlocks != null) {
+	                    int count = message.affectedBlocks.length;
+	                    double[] relPos;
+	                    double fxPosX, fxPosY, fxPosZ;
+	                    for (int i = 0; i < count; i++) {
+	                        relPos = new double[3];
+	                        for (int d = 0; d < 3; d++) {
+	                            relPos[d] = message.affectedBlocks[i][d] + world.rand.nextFloat();
+	                        }
+	                        fxPosX = relPos[0] + message.posX;
+	                        fxPosY = relPos[1] + message.posY;
+	                        fxPosZ = relPos[2] + message.posZ;
+	                        double velo = Math.sqrt(relPos[0] * relPos[0] + relPos[1] * relPos[1] + relPos[2] * relPos[2]);
+	                        double mult = 0.5 / (velo / message.size + 0.1) * (world.rand.nextFloat() * world.rand.nextFloat() + 0.3F) / velo;
+	                        for (int d = 0; d < 3; d++) {
+	                            relPos[d] *= mult;
+	                        }
+	                        world.spawnParticle("explode", (fxPosX + message.posX) / 2.0, (fxPosY + message.posY) / 2.0, (fxPosZ + message.posZ) / 2.0, relPos[0], relPos[1], relPos[2]);
+	                        world.spawnParticle("smoke", fxPosX, fxPosY, fxPosZ, relPos[0], relPos[1], relPos[2]);
+	                    }
+	                }
+	            }
+        	}
+        	catch (Exception ex)
+        	{
+        		//System.out.println(String.format("[%s] ====== SM|EX->onMessage() crash ========", _SpecialMobs.MODID));
+        		ex.printStackTrace();
+        	}
+        	return null;
         }
 
     }
