@@ -45,7 +45,7 @@ public class _SpecialMobs
     /** This mod's id. */
     public static final String MODID = "SpecialMobs";
     /** This mod's version. */
-    public static final String VERSION = "3.2.2";
+    public static final String VERSION = "GRADLETOKEN_VERSION";
 
     /** If true, this mod starts up in debug mode. */
     public static final boolean debug = false;
