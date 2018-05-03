@@ -49,3 +49,4 @@ bin/
 .settings/
 .project
 .classpath
+.gradle/
