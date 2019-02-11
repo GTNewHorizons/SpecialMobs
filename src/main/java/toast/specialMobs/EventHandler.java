@@ -133,8 +133,8 @@ public class EventHandler
             }
 
             if (pain > 0) {
-                EntityDamageSourceIndirect b = new EntityDamageSourceIndirect("pain", attacker, a);
-		        event.entityLiving.attackEntityFrom(b, event.entityLiving.getHealth() - pain);
+                EntityDamageSourceIndirect b = new EntityDamageSourceIndirect("pain", attacker, event.entityLiving);
+		event.entityLiving.attackEntityFrom(b, event.entityLiving.getHealth() - pain);
                 //event.entityLiving.setHealth(event.entityLiving.getHealth() - pain); Remove this call, it's bad. x)
             }
             if (plague > 0) {
