@@ -10,6 +10,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -134,8 +135,8 @@ public class EventHandler
             }
 
             if (pain > 0) {
-                EntityDamageSourceIndirect b = new EntityDamageSourceIndirect("pain", attacker, event.entityLiving);
-		event.entityLiving.attackEntityFrom(b, event.entityLiving.getHealth() - pain);
+                DamageSource g = (new DamageSource("pain")).setDamageBypassesArmor();
+                event.entityLiving.attackEntityFrom(g, event.entityLiving.getHealth() - pain);            	
                 //event.entityLiving.setHealth(event.entityLiving.getHealth() - pain); Remove this call, it's bad. x)
             }
             if (plague > 0) {
