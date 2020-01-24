@@ -23,6 +23,8 @@ public abstract class Properties {
     public static final String SPAWNING = "_extra_spawning";
     public static final String GENERAL = "_general";
     public static final String STATS = "_mob_stats";
+    public static final String LAVAMONSTER_GENERAL = "lavamonster_general";
+    public static final String LAVAMONSTER_SPAWNING = "lavamonster_spawning";
 
     /// Property array, matched up to MONSTER_KEY[], vanilla monster species will only exist if the same index here is true.
     private static boolean[] monsterVanilla = new boolean[_SpecialMobs.MONSTER_KEY.length];
@@ -49,6 +51,24 @@ public abstract class Properties {
 
         config.load();
 
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_animated_texture", true, "If true, lava monsters will have animated textures.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_armor", 0, "The amount of armor lava monsters have.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_health", 16.0, "Lava monsters' maximum health.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_cooldown", 80, "Ticks a monster must wait after attacking before it can start winding up again.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_shots", 3, "Number of fireballs shot with each attack.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_spacing", 6, "Ticks between each fireball shot in an attack.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_windup", 60, "Ticks it takes before a monster can start an attack.");
+
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_Nether_spawn", true, "If true, lava monsters will spawn in the Nether.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_depth_hazard", false, "If true, lava monsters will not spawn above layer 16.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_flowing_lava", false, "If true, lava monsters do not require a source block to spawn.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_shallow_lava", false, "If true, lava monsters will be able to spawn in lava one block deep.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_chance", 0.05, "The chance for a lava monster spawn attempt to be successful.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_frequency", 10, "The number of ticks between each lava monster spawn attempt.");
+
+        config.addCustomCategoryComment(Properties.LAVAMONSTER_GENERAL, "General and/or miscellaneous options for Lava Monsters.");
+        config.addCustomCategoryComment(Properties.LAVAMONSTER_SPAWNING, "Options dictating the spawning algorithm for Lava Monsters.");
+        
         Properties.add(config, Properties.ENCHANTS, "pain_bow", 160);
         Properties.add(config, Properties.ENCHANTS, "pain_sword", 161);
         Properties.add(config, Properties.ENCHANTS, "plague_bow", 162);
@@ -235,7 +255,7 @@ public abstract class Properties {
             return ((Number) property).intValue();
         if (property instanceof Boolean)
             return ((Boolean) property).booleanValue() ? 1 : 0;
-        Properties.debugException("Tried to get int for invalid property! @" + property.getClass().getName());
+        Properties.debugException("Tried to get int for invalid property! @" + property == null ? "(null)" : property.getClass().getName());
         return 0;
     }
 
