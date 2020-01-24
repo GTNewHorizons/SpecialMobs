@@ -109,9 +109,10 @@ public class EntityLavaMonster extends EntityMob {
         if (this.worldObj.isAirBlock(x, y, z)) {
             this.worldObj.setBlock(x, y, z, Blocks.fire, 0, 2);
         }
-        if (this.getBrightness(1.0F) > 0.5F) {
-            this.entityAge -= 2;
-        }
+//////RAH Remove decreasing age in bright areas, this prevents them from despawning.
+//        if (this.getBrightness(1.0F) > 0.5F) {
+//            this.entityAge -= 2;
+//        }
         super.onLivingUpdate();
     }
 

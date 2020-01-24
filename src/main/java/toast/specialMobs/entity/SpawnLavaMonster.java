@@ -27,12 +27,12 @@ import toast.specialMobs.Properties;
 public class SpawnLavaMonster {
     /// Handy properties for this class.
     public static final int SPAWN_FREQUENCY = Properties.getInt(Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_frequency");
+    public static final int SPAWN_MAX = Properties.getInt(Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_max");
+    public static final int SPAWN_RANGE = Properties.getInt(Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_range");
     public static final boolean DEPTH_HAZARD = Properties.getBoolean(Properties.LAVAMONSTER_SPAWNING, "lavamonster_depth_hazard");
     public static final boolean SHALLOW_LAVA = Properties.getBoolean(Properties.LAVAMONSTER_SPAWNING, "lavamonster_shallow_lava");
     public static final boolean FLOWING_LAVA = Properties.getBoolean(Properties.LAVAMONSTER_SPAWNING, "lavamonster_flowing_lava");
     public static final boolean NETHER_SPAWN = Properties.getBoolean(Properties.LAVAMONSTER_SPAWNING, "lavamonster_Nether_spawn");
-    /// The max number of lava monsters around.
-    private static final int maxNumberOfCreature = 20;
 
     /// Counter to the next spawn attempt.
     private int spawnTime = 0;
@@ -57,7 +57,7 @@ public class SpawnLavaMonster {
         for (EntityPlayer player : (List<EntityPlayer>) world.playerEntities) {
             int chunkX = MathHelper.floor_double(player.posX / 16.0);
             int chunkZ = MathHelper.floor_double(player.posZ / 16.0);
-            byte spawnRange = 8; /// In chunks.
+            byte spawnRange = (byte) (SPAWN_RANGE&0xff); /// In chunks.
             for (int x = -spawnRange; x <= spawnRange; x++) {
                 for (int z = -spawnRange; z <= spawnRange; z++) {
                     boolean isEdge = x == -spawnRange || x == spawnRange || z == -spawnRange || z == spawnRange;
@@ -74,7 +74,7 @@ public class SpawnLavaMonster {
 
         int numberSpawned = 0;
         ChunkCoordinates spawnCoords = world.getSpawnPoint();
-        if (world.countEntities(EntityLavaMonster.class) <= SpawnLavaMonster.maxNumberOfCreature * this.eligibleChunksForSpawning.size() / 256) {
+        if (world.countEntities(EntityLavaMonster.class) <= SpawnLavaMonster.SPAWN_MAX * this.eligibleChunksForSpawning.size() / 256) {
             ArrayList<ChunkCoordIntPair> chunks = new ArrayList(this.eligibleChunksForSpawning.keySet());
             Collections.shuffle(chunks);
             chunkIterator: for (ChunkCoordIntPair chunkCoord : chunks) {

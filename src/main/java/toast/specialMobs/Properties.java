@@ -64,7 +64,9 @@ public abstract class Properties {
         Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_flowing_lava", false, "If true, lava monsters do not require a source block to spawn.");
         Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_shallow_lava", false, "If true, lava monsters will be able to spawn in lava one block deep.");
         Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_chance", 0.05, "The chance for a lava monster spawn attempt to be successful.");
-        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_frequency", 10, "The number of ticks between each lava monster spawn attempt.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_frequency", 40, "The number of ticks between each lava monster spawn attempt.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_max", 2, "The maximum number of lava monsters in the `area`.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_range", 4, "The radius of the `area` in chunks to spawn around the player.");
 
         config.addCustomCategoryComment(Properties.LAVAMONSTER_GENERAL, "General and/or miscellaneous options for Lava Monsters.");
         config.addCustomCategoryComment(Properties.LAVAMONSTER_SPAWNING, "Options dictating the spawning algorithm for Lava Monsters.");
