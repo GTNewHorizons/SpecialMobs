@@ -25,7 +25,7 @@ public class RenderLavaMonster extends RenderLiving {
         else {
             LAVA_MONSTER_TEXTURES = new ResourceLocation[1];
         }
-        String path = _SpecialMobs.MODID + ":textures/models/lavaMonster_";
+        String path = _SpecialMobs.TEXTURE_PATH + "lavamonster/lavaMonster_";
         for (int i = 0; i < RenderLavaMonster.LAVA_MONSTER_TEXTURES.length; i++) {
             RenderLavaMonster.LAVA_MONSTER_TEXTURES[i] = new ResourceLocation(path + Integer.toString(i) + ".png");
         }
