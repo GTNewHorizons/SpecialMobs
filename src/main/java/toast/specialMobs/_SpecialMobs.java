@@ -330,6 +330,7 @@ public class _SpecialMobs
             EntityRegistry.addSpawn(EntityMiniGhast.class, spawnWeight, 1, 1, EnumCreatureType.monster, BiomeGenBase.ocean, BiomeGenBase.frozenOcean, BiomeGenBase.plains, BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.extremeHills, BiomeGenBase.extremeHillsEdge, BiomeGenBase.forest, BiomeGenBase.forestHills, BiomeGenBase.taiga, BiomeGenBase.taigaHills, BiomeGenBase.swampland, BiomeGenBase.river, BiomeGenBase.frozenRiver, BiomeGenBase.icePlains, BiomeGenBase.iceMountains, BiomeGenBase.beach, BiomeGenBase.jungle, BiomeGenBase.jungleHills);
         }
         
+        // Register Lava Monster
         EntityRegistry.registerModEntity(EntityLavaMonster.class, "LavaMonster", 0, this, 80, 3, true);
         id = EntityRegistry.findGlobalUniqueEntityId();
         try {
