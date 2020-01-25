@@ -331,18 +331,20 @@ public class _SpecialMobs
         }
         
         // Register Lava Monster
-        EntityRegistry.registerModEntity(EntityLavaMonster.class, "LavaMonster", 0, this, 80, 3, true);
-        id = EntityRegistry.findGlobalUniqueEntityId();
-        try {
-            Method method = EntityRegistry.class.getDeclaredMethod("validateAndClaimId", int.class);
-            method.setAccessible(true);
-            id = ((Integer) method.invoke(EntityRegistry.instance(), Integer.valueOf(id))).intValue();
+        EntityRegistry.registerModEntity(EntityLavaMonster.class, "LavaMonster", id++, this, 80, 3, true);
+        if (makeSpawnEggs) {
+	        eggId = EntityRegistry.findGlobalUniqueEntityId();
+	        try {
+	            Method method = EntityRegistry.class.getDeclaredMethod("validateAndClaimId", int.class);
+	            method.setAccessible(true);
+	            eggId = ((Integer) method.invoke(EntityRegistry.instance(), Integer.valueOf(eggId))).intValue();
+	        }
+	        catch (Exception ex) {
+	            _SpecialMobs.console("Error claiming spawn egg ID! Spawn egg will probably be overwritten. @" + ex.getClass().getName());
+	        }
+	        EntityList.IDtoClassMapping.put(Integer.valueOf(eggId), EntityLavaMonster.class);
+	        EntityList.entityEggs.put(Integer.valueOf(eggId), new EntityEggInfo(eggId, 0xff0000, 0xfcfc00));
         }
-        catch (Exception ex) {
-            _SpecialMobs.console("Error claiming spawn egg ID! Spawn egg will probably be overwritten. @" + ex.getClass().getName());
-        }
-        EntityList.IDtoClassMapping.put(Integer.valueOf(id), EntityLavaMonster.class);
-        EntityList.entityEggs.put(Integer.valueOf(id), new EntityEggInfo(id, 0xff0000, 0xfcfc00));
         new SpawnLavaMonster();
         
     }
