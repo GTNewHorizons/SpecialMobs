@@ -154,11 +154,45 @@ public class EntityLavaMonster extends EntityMob {
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.
     @Override
     protected void dropRareDrop(int superRare) {
-        ItemStack drop = new ItemStack(Items.leather_boots);
-        drop.setStackDisplayName("\u00a7cLava Boots");
-        drop.addEnchantment(Enchantment.fireProtection, 10);
-        ((ItemArmor) drop.getItem()).func_82813_b(drop, 0xff0000); /// Dyes the armor.
-        this.entityDropItem(drop, 0.0F);
+    	ItemStack drop;
+    	if (superRare == 0) {
+	        drop = new ItemStack(Items.iron_boots);
+	        drop.setStackDisplayName("\u00a7cLava Slippers");
+	        drop.addEnchantment(Enchantment.fireProtection, 3);
+	        this.entityDropItem(drop, 1.0F);
+    	} else
+    	{
+    		switch( this.rand.nextInt(4) ) {
+    		case 0:
+    			drop = new ItemStack(Items.diamond_boots);
+		        drop.setStackDisplayName("\u00a7cFirefighter Boots"); // In honor of the brave men and women who run into danger, not away
+		        drop.addEnchantment(Enchantment.fireProtection, 4);
+		        drop.addEnchantment(Enchantment.featherFalling, 2);
+		        this.entityDropItem(drop, 1.0F);
+		        break;
+    		case 1:
+    			drop = new ItemStack(Items.diamond_leggings);
+		        drop.setStackDisplayName("\u00a7cFirefighter Pants");
+		        drop.addEnchantment(Enchantment.fireProtection, 4);
+		        drop.addEnchantment(Enchantment.blastProtection, 2);
+		        this.entityDropItem(drop, 1.0F);
+		        break;
+    		case 2:
+    			drop = new ItemStack(Items.diamond_chestplate);
+		        drop.setStackDisplayName("\u00a7cFirefighter Jacket");
+		        drop.addEnchantment(Enchantment.fireProtection, 4);
+		        drop.addEnchantment(Enchantment.projectileProtection, 2);
+		        this.entityDropItem(drop, 1.0F);
+		        break;
+    		case 3:
+    			drop = new ItemStack(Items.diamond_helmet);
+		        drop.setStackDisplayName("\u00a7cFirefighter Helmet");
+		        drop.addEnchantment(Enchantment.fireProtection, 4);
+		        drop.addEnchantment(Enchantment.respiration, 2);
+		        this.entityDropItem(drop, 0.0F);
+		        break;
+    		}
+    	}
     }
 
     /// Returns true if this mob is on fire. Used for rendering.
