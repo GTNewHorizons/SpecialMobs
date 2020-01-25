@@ -31,6 +31,7 @@ public class EntityLavaMonster extends EntityMob {
     public static final int BASE_ARMOR = Properties.getInt(Properties.LAVAMONSTER_GENERAL, "lavamonster_armor");
     public static final double SPAWN_CHANCE = Properties.getDouble(Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_chance");
     public static final boolean ANIMATE_TEXTURE = Properties.getBoolean(Properties.LAVAMONSTER_GENERAL, "lavamonster_animated_texture");
+    public static final boolean START_FIRES = Properties.getBoolean(Properties.LAVAMONSTER_GENERAL, "lavamonster_fires");
 
     /// Ticks until the next attack phase change.
     public int attackDelay = 0;
@@ -106,7 +107,7 @@ public class EntityLavaMonster extends EntityMob {
         int x = MathHelper.floor_double(this.posX);
         int y = MathHelper.floor_double(this.posY);
         int z = MathHelper.floor_double(this.posZ);
-        if (this.worldObj.isAirBlock(x, y, z)) {
+        if (START_FIRES && this.worldObj.isAirBlock(x, y, z)) {
             this.worldObj.setBlock(x, y, z, Blocks.fire, 0, 2);
         }
 //////RAH Remove decreasing age in bright areas, this prevents them from despawning.

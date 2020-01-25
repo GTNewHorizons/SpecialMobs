@@ -58,6 +58,7 @@ public abstract class Properties {
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_shots", 3, "Number of fireballs shot with each attack.");
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_spacing", 6, "Ticks between each fireball shot in an attack.");
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_windup", 60, "Ticks it takes before a monster can start an attack.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_fires", false, "Lava monsters on land cause fires. Enabling this makes it hard to get loot.");
 
         Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_Nether_spawn", true, "If true, lava monsters will spawn in the Nether.");
         Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_depth_hazard", false, "If true, lava monsters will not spawn above layer 16.");
