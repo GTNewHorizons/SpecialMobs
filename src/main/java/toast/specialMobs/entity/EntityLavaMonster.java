@@ -144,10 +144,13 @@ public class EntityLavaMonster extends EntityMob {
     @Override
     protected void dropFewItems(boolean recentlyHit, int looting) {
         for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
-            this.dropItem(Items.fire_charge, 1);
+            this.dropItem(Items.coal, 1);
         }
         if (recentlyHit && (this.rand.nextInt(2) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-            this.dropItem(Items.coal, 1);
+            this.dropItem(Items.fire_charge, 1);
+        }
+        if (recentlyHit && (this.rand.nextInt(15) == 0)) {
+        	this.dropItem(Items.lava_bucket, 1);
         }
     }
 
