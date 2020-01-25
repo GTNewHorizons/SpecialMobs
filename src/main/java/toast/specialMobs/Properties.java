@@ -86,7 +86,6 @@ public abstract class Properties {
         
         Properties.add(config, Properties.GENERAL, "random_scaling", 0.3, "The maximum magnitude for random size scaling (scaling * 50% = max difference %). Setting this to 0 disables random size scaling. Default is +/-15%");
         Properties.add(config, Properties.GENERAL, "spawn_eggs", false, "If true, the game will attempt to make a spawn egg for each special mob. Be warned, this will eat up " + mobsAdded + " global entity ids. Default is false.");
-        Properties.add(config, Properties.GENERAL, "trolling", true, "If false, trolling will be disabled. Default is true.");
 
         Properties.add(config, Properties.STATS, "baby_skeleton_chance", 0.05, 0.0, 1.0, "(0 <= x <= 1) Chance that a skeleton will spawn as a baby. Default is 5%.");
         Properties.add(config, Properties.STATS, "bow_chance_pigzombie", 0.25, 0.0, 1.0, "(0 <= x <= 1) Chance that a zombie pigman will spawn with a bow, if possible. Default is 25%.");
