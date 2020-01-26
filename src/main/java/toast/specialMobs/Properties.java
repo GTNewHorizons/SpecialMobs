@@ -78,6 +78,7 @@ public abstract class Properties {
         
         Properties.add(config, Properties.ENCHANTS, "pain_bow", 160);
         Properties.add(config, Properties.ENCHANTS, "pain_sword", 161);
+        Properties.add(config, Properties.ENCHANTS, "pain_damage",  1.34, "The amount of direct damage done by each level of the Pain enchant");
         Properties.add(config, Properties.ENCHANTS, "plague_bow", 162);
         Properties.add(config, Properties.ENCHANTS, "plague_sword", 163);
         Properties.add(config, Properties.ENCHANTS, "poison_bow", 164);
@@ -111,7 +112,7 @@ public abstract class Properties {
 
         Properties.init(config, "monster", _SpecialMobs.MONSTER_KEY, _SpecialMobs.MONSTER_TYPES, Properties.monsterVanilla, Properties.monsterSpawn, Properties.monsterWeights);
 
-        config.addCustomCategoryComment(Properties.ENCHANTS, "Ids for all enchantments added by this mod. Set the id to -1 to disable any specific enchantment.");
+        config.addCustomCategoryComment(Properties.ENCHANTS, "Info for all enchantments added by this mod. Set the id to -1 to disable any specific enchantment.");
         config.addCustomCategoryComment(Properties.SPAWNING, "Weighted chances for each additional spawn. Set the weight to 0 to disable the spawn.");
         config.addCustomCategoryComment(Properties.GENERAL, "Spawn rates for each mob type and miscellaneous options.");
         config.addCustomCategoryComment(Properties.STATS, "Additional options for mobs\' stats, such as the chance for the mob to have a bow or to be unusually hostile.");
