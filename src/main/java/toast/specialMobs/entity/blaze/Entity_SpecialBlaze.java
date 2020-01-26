@@ -150,6 +150,7 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
     }
 
     /// Called to attack the target.
+    /// Note that this does BOTH an attack with attackEntityAsMob, AND with onTypeAttack
     @Override
     public boolean attackEntityAsMob(Entity target) {
         if (super.attackEntityAsMob(target)) {

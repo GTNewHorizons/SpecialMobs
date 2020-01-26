@@ -88,7 +88,7 @@ public class EventHandler
      * Called by EntityLivingBase.attackEntityFrom().
      * EntityLivingBase entityLiving = the entity being damaged.
      * DamageSource source = the source of the damage.
-     * int ammount = the amount of damage to be applied.
+     * int amount = the amount of damage to be applied.
      *
      * @param event the event being triggered.
      */
