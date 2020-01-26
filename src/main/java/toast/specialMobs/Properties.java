@@ -54,11 +54,15 @@ public abstract class Properties {
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_animated_texture", true, "If true, lava monsters will have animated textures.");
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_armor", 0, "The amount of armor lava monsters have.");
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_health", 16.0, "Lava monsters' maximum health.");
-        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_cooldown", 80, "Ticks a monster must wait after attacking before it can start winding up again.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_cooldown", 60, "Ticks a monster must wait after attacking before it can start winding up again.");
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_shots", 3, "Number of fireballs shot with each attack.");
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_spacing", 6, "Ticks between each fireball shot in an attack.");
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_windup", 60, "Ticks it takes before a monster can start an attack.");
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_fires", false, "Lava monsters on land cause fires. Enabling this makes it hard to get loot.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_basic_loot", false, "Lava monsters will only drop basic loot: coal and fire charges.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_time", 60, "Average ticks between heal attempts when the lava monster is standing in lava.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_percent", .25, "Percent to heal when standing in lava");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_max", 12, "Maximum half-hearts to heal when standing in lava. Useful for infernals");
 
         Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_Nether_spawn", true, "If true, lava monsters will spawn in the Nether.");
         Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_depth_hazard", false, "If true, lava monsters will not spawn above layer 16.");

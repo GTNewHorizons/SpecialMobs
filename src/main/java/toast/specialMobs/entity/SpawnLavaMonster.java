@@ -94,6 +94,9 @@ public class SpawnLavaMonster {
             ArrayList<ChunkCoordIntPair> chunks = new ArrayList(this.eligibleChunksForSpawning.keySet());
             Collections.shuffle(chunks);
             chunkIterator: for (ChunkCoordIntPair chunkCoord : chunks) {
+            	if (numberSpawned >= (maxAllowedInWorld - countInWorld)) {
+            		break;
+            	}
                 if (!this.eligibleChunksForSpawning.get(chunkCoord).booleanValue()) { // Don't spawn lava monsters on the chunks furthest from the player. Keeps them a little close and keeps a buffer distance
                     ChunkPosition chunkPos = this.getRandomSpawningPointInChunk(world, chunkCoord.chunkXPos, chunkCoord.chunkZPos);
                     int x = chunkPos.chunkPosX;
@@ -120,18 +123,18 @@ public class SpawnLavaMonster {
                                 float posX = X + 0.5F;
                                 float posY = Y;
                                 float posZ = Z + 0.5F;
-                                if (world.getClosestPlayer(posX, posY, posZ, 24.0) == null) {
+                                if (world.getClosestPlayer(posX, posY, posZ, 24.0) == null) { // No player closer than 24 blocks
                                     float spawnX = posX - spawnCoords.posX;
                                     float spawnY = posY - spawnCoords.posY;
                                     float spawnZ = posZ - spawnCoords.posZ;
                                     float spawnDist = spawnX * spawnX + spawnY * spawnY + spawnZ * spawnZ;
-                                    if (spawnDist >= 576.0F) {
+                                    if (spawnDist >= 576.0F) {  // Make sure we aren't filling the spawn chunks with lava monsters
                                         EntityLavaMonster lavaMonster = new EntityLavaMonster(world);
                                         lavaMonster.setLocationAndAngles(posX, posY, posZ, world.rand.nextFloat() * 360.0F, 0.0F);
                                         Result canSpawn = ForgeEventFactory.canEntitySpawn(lavaMonster, world, posX, posY, posZ);
                                         if (canSpawn == Result.ALLOW || canSpawn == Result.DEFAULT && lavaMonster.getCanSpawnHere()) {
                                             numberSpawned++;
-                                            _SpecialMobs.debugConsole("Mob Spawned at X " + spawnX + "  Z " + spawnZ);
+                                            _SpecialMobs.debugConsole("Mob Spawned at X " + posX + "  Y " + posY + "  Z " + posZ);
                                             world.spawnEntityInWorld(lavaMonster);
                                             if (!ForgeEventFactory.doSpecialSpawn(lavaMonster, world, posX, posY, posZ)) {
                                                 lavaMonster.onSpawnWithEgg((IEntityLivingData) null);

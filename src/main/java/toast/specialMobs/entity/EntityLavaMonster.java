@@ -1,5 +1,6 @@
 package toast.specialMobs.entity;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -32,6 +33,10 @@ public class EntityLavaMonster extends EntityMob {
     public static final double SPAWN_CHANCE = Properties.getDouble(Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_chance");
     public static final boolean ANIMATE_TEXTURE = Properties.getBoolean(Properties.LAVAMONSTER_GENERAL, "lavamonster_animated_texture");
     public static final boolean START_FIRES = Properties.getBoolean(Properties.LAVAMONSTER_GENERAL, "lavamonster_fires");
+    public static final boolean BASIC_LOOT = Properties.getBoolean(Properties.LAVAMONSTER_GENERAL, "lavamonster_basic_loot");
+    public static final int HEAL_TIME = Properties.getInt(Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_time");
+    public static final double HEAL_PERCENT = Properties.getDouble(Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_percent");
+    public static final double HEAL_MAX = Properties.getDouble(Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_max");
 
     /// Ticks until the next attack phase change.
     public int attackDelay = 0;
@@ -104,16 +109,27 @@ public class EntityLavaMonster extends EntityMob {
         if (this.rand.nextInt(200) == 0) {
             this.worldObj.playSoundAtEntity(this, "liquid.lava", 0.2F + this.rand.nextFloat() * 0.2F, 0.9F + this.rand.nextFloat() * 0.15F);
         }
+        // On average, every HEAL_TIME (multiplied by 2 because average) heal the lava monster if it is standing in lava. This way players have to lure it out to do more damage
+        if (( this.rand.nextInt(HEAL_TIME*2) == 0) && (this.worldObj.getBlock((int) Math.round(posX), (int) Math.round(posY), (int) Math.round(posZ)).getMaterial() == Material.lava)) {
+        	float damage = this.getMaxHealth() - this.getHealth();
+        	if( damage != 0) {
+	        	// Always try healing at least 1 half-heart
+	        	damage = (float) Math.max(damage*HEAL_PERCENT, 1);
+	        	// Heal damage or HEAL_MAX/2 hearts, whichever is smaller.
+	        	this.heal( (float) Math.min( damage*HEAL_PERCENT, HEAL_MAX));
+        	}
+        }
         int x = MathHelper.floor_double(this.posX);
         int y = MathHelper.floor_double(this.posY);
         int z = MathHelper.floor_double(this.posZ);
         if (START_FIRES && this.worldObj.isAirBlock(x, y, z)) {
             this.worldObj.setBlock(x, y, z, Blocks.fire, 0, 2);
         }
-//////RAH Remove decreasing age in bright areas, this prevents them from despawning.
-//        if (this.getBrightness(1.0F) > 0.5F) {
-//            this.entityAge -= 2;
-//        }
+        
+        // 2 extra age ticks is added in bright areas, but since this spawns in lava, we want to negate those 2 extra ticks.
+        if (this.getBrightness(1.0F) > 0.5F) {
+            this.entityAge -= 2;
+        }
         super.onLivingUpdate();
     }
 
@@ -149,7 +165,7 @@ public class EntityLavaMonster extends EntityMob {
         if (recentlyHit && (this.rand.nextInt(2) == 0 || this.rand.nextInt(1 + looting) > 0)) {
             this.dropItem(Items.fire_charge, 1);
         }
-        if (recentlyHit && (this.rand.nextInt(15) == 0)) {
+        if (!BASIC_LOOT && recentlyHit && (this.rand.nextInt(15) == 0)) {
         	this.dropItem(Items.lava_bucket, 1);
         }
     }
@@ -158,7 +174,7 @@ public class EntityLavaMonster extends EntityMob {
     @Override
     protected void dropRareDrop(int superRare) {
     	ItemStack drop;
-    	if (superRare == 0) {
+    	if ((superRare == 0)|| BASIC_LOOT) {
 	        drop = new ItemStack(Items.iron_boots);
 	        drop.setStackDisplayName("\u00a7cLava Slippers");
 	        drop.addEnchantment(Enchantment.fireProtection, 3);
