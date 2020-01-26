@@ -53,7 +53,7 @@ public abstract class Properties {
 
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_animated_texture", true, "If true, lava monsters will have animated textures.");
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_armor", 0, "The amount of armor lava monsters have.");
-        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_health", 16.0, "Lava monsters' maximum health.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_health", 24.0, "Lava monsters' maximum health.");
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_cooldown", 60, "Ticks a monster must wait after attacking before it can start winding up again.");
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_shots", 3, "Number of fireballs shot with each attack.");
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_spacing", 6, "Ticks between each fireball shot in an attack.");
