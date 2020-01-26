@@ -62,7 +62,7 @@ public abstract class Properties {
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_basic_loot", false, "Lava monsters will only drop basic loot: coal and fire charges.");
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_time", 60, "Average ticks between heal attempts when the lava monster is standing in lava.");
         Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_percent", .25, "Percent to heal when standing in lava");
-        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_max", 12, "Maximum half-hearts to heal when standing in lava. Useful for infernals");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_max", 12, "Maximum half-hearts to heal when standing in lava. Useful to keep infernals reasonable");
 
         Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_Nether_spawn", true, "If true, lava monsters will spawn in the Nether.");
         Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_depth_hazard", false, "If true, lava monsters will not spawn above layer 16.");

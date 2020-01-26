@@ -116,7 +116,7 @@ public class EntityLavaMonster extends EntityMob {
 	        	// Always try healing at least 1 half-heart
 	        	damage = (float) Math.max(damage*HEAL_PERCENT, 1);
 	        	// Heal damage or HEAL_MAX/2 hearts, whichever is smaller.
-	        	this.heal( (float) Math.min( damage*HEAL_PERCENT, HEAL_MAX));
+	        	this.heal( (float) Math.min( damage, HEAL_MAX));
         	}
         }
         int x = MathHelper.floor_double(this.posX);
@@ -145,7 +145,8 @@ public class EntityLavaMonster extends EntityMob {
     @Override
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
         if (damageSource.getSourceOfDamage() instanceof EntitySnowball) {
-            damage = Math.max(3.0F, damage);
+        	// Snowballs are super-effective. Only takes 3 hits to kill them
+            damage = Math.max(this.getMaxHealth()/2 - 1, damage);
         }
         return super.attackEntityFrom(damageSource, damage);
     }
