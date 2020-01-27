@@ -94,10 +94,12 @@ public abstract class Properties {
         Properties.add(config, Properties.GENERAL, "spawn_eggs", false, "If true, the game will attempt to make a spawn egg for each special mob. Be warned, this will eat up " + mobsAdded + " global entity ids. Default is false.");
 
         Properties.add(config, Properties.STATS, "baby_skeleton_chance", 0.05, 0.0, 1.0, "(0 <= x <= 1) Chance that a skeleton will spawn as a baby. Default is 5%.");
+        Properties.add(config, Properties.STATS, "blaze_snowball_hits",  4, 2, 10, "How many snowballs it takes to kill a blaze(does not account for cooldown or regen)");
         Properties.add(config, Properties.STATS, "bow_chance_pigzombie", 0.25, 0.0, 1.0, "(0 <= x <= 1) Chance that a zombie pigman will spawn with a bow, if possible. Default is 25%.");
         Properties.add(config, Properties.STATS, "bow_chance_skeleton", 0.95, 0.0, 1.0, "(0 <= x <= 1) Chance that a skeleton will spawn with a bow, if possible. Default is 95%.");
         Properties.add(config, Properties.STATS, "bow_chance_wither", 0.05, 0.0, 1.0, "(0 <= x <= 1) Chance that a wither skeleton will spawn with a bow, if possible. Default is 5%.");
         Properties.add(config, Properties.STATS, "bow_chance_zombie", 0.05, 0.0, 1.0, "(0 <= x <= 1) Chance that a zombie will spawn with a bow, if possible. Default is 5%.");
+        Properties.add(config, Properties.STATS, "conflagration_snowball_hits",  2, 2, 10, "How many snowballs it takes to kill a conflagration(does not account for cooldown or regen)");
         Properties.add(config, Properties.STATS, "creeper_charge_chance", 0.01, 0.0, 1.0, "(0 <= x <= 1) Chance that any creeper spawned during a thunderstorm will be charged. Default is 1%.");
         Properties.add(config, Properties.STATS, "enderman_griefing", true, "(True/false) If true, endermen will pick up blocks and place them around randomly, as in vanilla. Default is true.");
         Properties.add(config, Properties.STATS, "hostile_cavespiders", 1.0, 0.0, 1.0, "(0 <= x <= 1) Chance that a cave spider will spawn aggressive in daylight. Default is 100%.");

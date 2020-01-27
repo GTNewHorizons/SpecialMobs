@@ -7,11 +7,14 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySmallFireball;
+import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
@@ -19,7 +22,7 @@ import toast.specialMobs.entity.SpecialMobData;
 public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
     /// Useful properties for this class.
     //private static final double HOSTILE_CHANCE = Properties.getDouble(Properties.STATS, "hostile_pigzombies");
-
+	public double BLAZE_SNOWBALL_HITS = Properties.getDouble( Properties.STATS, "blaze_snowball_hits"); // Can be overwritten by custom blazes to make them more/less snowball sensitive
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation("textures/entity/blaze.png") };
 
     /// This mob's special mob data.
@@ -32,6 +35,17 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
     /// The ticks between each shot in a burst.
 	public short fireballBurstDelay;
 
+    public static Class<?> EntityFrostShardClass = null;
+
+    // This unnatural act is to allow us to intercept Thaumcraft frost shards and apply bonus damage
+    {
+	  	try {
+	  		EntityFrostShardClass = Class.forName((String)"thaumcraft.common.entities.projectile.EntityFrostShard");
+		} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+		}
+    }
+  
     public Entity_SpecialBlaze(World world) {
         super(world);
         this.getSpecialData().isImmuneToFire = this.isImmuneToFire;
@@ -200,6 +214,23 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
         this.isImmuneToFire = this.getSpecialData().isImmuneToFire;
     }
 
+    /// Called when the entity is attacked.
+    @Override
+    public boolean attackEntityFrom(DamageSource damageSource, float damage) {
+        if (damageSource.getSourceOfDamage() instanceof EntitySnowball) {
+        	// Snowballs are super-effective. Only takes 4 hits to kill them
+            damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) - 1, damage);
+        } else if (EntityFrostShardClass.isInstance(damageSource.getSourceOfDamage())) {
+        	// Frost Shards are super-super-effective. Should take only 3 hits to kill them.
+        	damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) + 2, damage);
+        }
+        if (damageSource.isFireDamage()) {
+        	// What are you, stupid?
+        	damage = 0;
+        }
+        return super.attackEntityFrom(damageSource, damage);
+    }
+    
     /// Called when this entity is killed.
     @Override
     protected void dropFewItems(boolean hit, int looting) {

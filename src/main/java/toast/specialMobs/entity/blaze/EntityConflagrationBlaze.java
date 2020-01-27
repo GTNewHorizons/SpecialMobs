@@ -12,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.MobHelper;
+import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.SpecialMobData;
 
@@ -28,12 +29,17 @@ public class EntityConflagrationBlaze extends Entity_SpecialBlaze
         super(world);
         this.getSpecialData().setTextures(EntityConflagrationBlaze.TEXTURES);
         this.experienceValue += 4;
+        this.BLAZE_SNOWBALL_HITS = Properties.getDouble( Properties.STATS, "conflagration_snowball_hits");
     }
 
     /// Called when the entity is attacked.
     @Override
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
-        if (!damageSource.isFireDamage() && !damageSource.isExplosion() && !damageSource.isMagicDamage() && !DamageSource.drown.damageType.equals(damageSource.damageType) && !(damageSource.getSourceOfDamage() instanceof EntitySnowball)) {
+
+        if (damageSource.getSourceOfDamage() instanceof EntitySnowball) {
+        	// Snowballs are super-super-effective. Only takes 2 hits to kill them
+            return super.attackEntityFrom(damageSource, damage);
+        } else if (!damageSource.isFireDamage() && !damageSource.isExplosion() && !damageSource.isMagicDamage() && !DamageSource.drown.damageType.equals(damageSource.damageType) && !(damageSource.getSourceOfDamage() instanceof EntitySnowball)) {
             damage = Math.min(MobHelper.isCritical(damageSource) ? 2.0F : 1.0F, damage);
         	if (!this.worldObj.isRemote && this.feedingLevel < 7) {
 	            this.setFeedingLevel(this.feedingLevel + 1, true);
