@@ -85,6 +85,9 @@ public class EntityVampirePigZombie extends Entity_SpecialPigZombie
                         if (tinkerTag.hasKey("Head") && tinkerTag.getInteger("Head") == 0) /// Has a wooden head.
                             return true;
                     }
+                    if (heldItem.getItem() == Items.stick) {
+                    	return true;
+                    }
                 }
             }
         }
