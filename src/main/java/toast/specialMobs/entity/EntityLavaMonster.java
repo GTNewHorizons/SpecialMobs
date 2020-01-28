@@ -12,6 +12,7 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.init.Blocks;
@@ -144,9 +145,23 @@ public class EntityLavaMonster extends EntityMob {
     /// Called when the entity is attacked.
     @Override
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
-        if (damageSource.getSourceOfDamage() instanceof EntitySnowball) {
-        	// Snowballs are super-effective. Only takes 3 hits to kill them
+        if ( (damageSource.getSourceOfDamage() instanceof EntitySnowball) 
+           || Properties.EntityFrostShardClass.isInstance(damageSource.getSourceOfDamage()) 
+           || Properties.EntityIceArrow.isInstance(damageSource.getSourceOfDamage()) )
+        {
+        	// Snowballs and other frost damage sources are super-effective. Only takes 3 hits to kill them
             damage = Math.max(this.getMaxHealth()/2 - 1, damage);
+        }
+        if( damageSource.getSourceOfDamage() instanceof EntityPlayer ) {
+    		Item weapon = ((EntityPlayer) damageSource.getSourceOfDamage()).getCurrentEquippedItem().getItem();
+       		if (Properties.ItemTFIceSword.isInstance(weapon)) {
+       			// Frost sword also super effective.
+                damage = Math.max(this.getMaxHealth()/2 - 1, damage);
+        	}
+        }
+        if (damageSource.isFireDamage()) {
+        	// What are you, stupid?
+        	damage = 0;
         }
         return super.attackEntityFrom(damageSource, damage);
     }

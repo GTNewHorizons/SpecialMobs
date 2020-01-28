@@ -8,6 +8,7 @@ import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.entity.projectile.EntitySnowball;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -35,17 +36,6 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
     /// The ticks between each shot in a burst.
 	public short fireballBurstDelay;
 
-    public static Class<?> EntityFrostShardClass = null;
-
-    // This unnatural act is to allow us to intercept Thaumcraft frost shards and apply bonus damage
-    {
-	  	try {
-	  		EntityFrostShardClass = Class.forName((String)"thaumcraft.common.entities.projectile.EntityFrostShard");
-		} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-		}
-    }
-  
     public Entity_SpecialBlaze(World world) {
         super(world);
         this.getSpecialData().isImmuneToFire = this.isImmuneToFire;
@@ -220,9 +210,18 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
         if (damageSource.getSourceOfDamage() instanceof EntitySnowball) {
         	// Snowballs are super-effective. Only takes 4 hits to kill them
             damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) - 1, damage);
-        } else if (EntityFrostShardClass.isInstance(damageSource.getSourceOfDamage())) {
-        	// Frost Shards are super-super-effective. Should take only 3 hits to kill them.
+        } else if (Properties.EntityFrostShardClass.isInstance(damageSource.getSourceOfDamage()) 
+        		|| Properties.EntityIceArrow.isInstance(damageSource.getSourceOfDamage()) ) {
+        	// Frost-based weapons are super-super-effective. Should take only 3 hits to kill them.
         	damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) + 2, damage);
+        }
+        if( damageSource.getSourceOfDamage() instanceof EntityPlayer ) {
+    		Item weapon = ((EntityPlayer) damageSource.getSourceOfDamage()).getCurrentEquippedItem().getItem();
+    		
+    		if (Properties.ItemTFIceSword.isInstance(weapon)) {
+            	// Frost sword also super effective.
+                damage = Math.max(this.getMaxHealth()/2 - 1, damage);
+    		}
         }
         if (damageSource.isFireDamage()) {
         	// What are you, stupid?

@@ -36,10 +36,25 @@ public abstract class Properties {
     /// Set of dimension ids that special mobs should not spawn in.
     private static final HashSet<Integer> dimensionBlacklist = new HashSet<Integer>();
 
+    public static Class<?> EntityFrostShardClass = null; // Thaumcraft frost focus
+    public static Class<?> EntityIceArrow = null;        // Twilight forest ice arrow
+    public static Class<?> ItemTFIceSword = null;        // Twilight Forest ice sword
+    public static Class<?> ItemTFIceBomb = null;         // Twilight Forest ice bomb. 
+
+    
     static {
         for (int i = Properties.monsterWeights.length; i-- > 0;) {
             Properties.monsterWeights[i] = new int[_SpecialMobs.MONSTER_TYPES[i].length + 1];
         }
+        // This unnatural act is to allow us to intercept various frost based damage sources
+	  	try {
+	  		EntityFrostShardClass = Class.forName((String)"thaumcraft.common.entities.projectile.EntityFrostShard");
+	  		EntityIceArrow = Class.forName((String)"twilightforest.entity.EntityIceArrow");
+	  		ItemTFIceSword = Class.forName((String)"twilightforest.item.ItemTFIceSword");
+	  		ItemTFIceBomb = Class.forName((String)"twilightforest.item.ItemTFIceBomb");
+		} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+		}
     }
 
     /// Initializes these properties.
