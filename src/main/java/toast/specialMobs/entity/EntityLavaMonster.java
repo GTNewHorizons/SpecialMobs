@@ -144,6 +144,7 @@ public class EntityLavaMonster extends EntityMob {
 
     /// Called when the entity is attacked.
     @Override
+    //TODO Fix this so it uses same mechanism as vampire/unholy ghast etc.
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
         if ( (damageSource.getSourceOfDamage() instanceof EntitySnowball) 
            || Properties.EntityFrostShardClass.isInstance(damageSource.getSourceOfDamage()) 
@@ -151,16 +152,18 @@ public class EntityLavaMonster extends EntityMob {
         {
         	// Snowballs and other frost damage sources are super-effective. Only takes 3 hits to kill them
             damage = Math.max(this.getMaxHealth()/2 - 1, damage);
+            // Super effective message
         }
         if( damageSource.getSourceOfDamage() instanceof EntityPlayer ) {
     		Item weapon = ((EntityPlayer) damageSource.getSourceOfDamage()).getCurrentEquippedItem().getItem();
        		if (Properties.ItemTFIceSword.isInstance(weapon)) {
        			// Frost sword also super effective.
                 damage = Math.max(this.getMaxHealth()/2 - 1, damage);
+                // Super effective message
         	}
         }
         if (damageSource.isFireDamage()) {
-        	// What are you, stupid?
+        	// What are you, stupid? message
         	damage = 0;
         }
         return super.attackEntityFrom(damageSource, damage);

@@ -47,14 +47,28 @@ public class EntityVampirePigZombie extends Entity_SpecialPigZombie
     /// Damages this entity from the damageSource by the given amount. Returns true if this entity is damaged.
     @Override
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
-    	float damageLimit = MobHelper.isCritical(damageSource) ? 1.0F : 0.5F;
-        if (damage > damageLimit && !this.isDamageSourceEffective(damageSource)) {
-            damage = damageLimit;
+        if (!this.isDamageSourceEffective(damageSource)) {
+        	// Maximum damage is 1/20th of mob health, 1/10th if a critical hit
+        	damage = Math.min(MobHelper.isCritical(damageSource) ? this.getMaxHealth()/10 : this.getMaxHealth()/20, damage); 
+            if (damageSource.isProjectile()) {
+            	// Projectiles do half damage
+            	damage = damage/2;
+            	// Ineffective projectile message
+            } else
+            {
+            	// Ineffective weapon message
+            }
+            // At minimum do .5 to 1 point of damage
+            damage = Math.max(damage, MobHelper.isCritical(damageSource) ? 1.0F : 0.5F);
+        } else { 
+        	// This is a super effective damage source, can kill in two hits.
+        	damage = Math.max(damage, this.getMaxHealth()/2 + 1);
         }
         return super.attackEntityFrom(damageSource, damage);
     }
 
-    /// Returns true if the given damage source can harm this ghast.
+    // Returns true if the given damage source can harm this mob.
+    // TODO Add vanilla stick as damage source.  Destroy stick or not?
     public boolean isDamageSourceEffective(DamageSource damageSource) {
         if (damageSource != null) {
             if (damageSource.canHarmInCreative())
