@@ -15,6 +15,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
@@ -210,10 +211,12 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
         if (damageSource.getSourceOfDamage() instanceof EntitySnowball) {
         	// Snowballs are super-effective. Only takes 4 hits to kill them
             damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) - 1, damage);
+            sendChatSnark(this, damageSource, this.rand, false);
         } else if (Properties.EntityFrostShardClass.isInstance(damageSource.getSourceOfDamage()) 
         		|| Properties.EntityIceArrow.isInstance(damageSource.getSourceOfDamage()) ) {
         	// Frost-based weapons are super-super-effective. Should take only 3 hits to kill them.
         	damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) + 2, damage);
+            sendChatSnark(this, damageSource, this.rand, false);
         }
         if( damageSource.getSourceOfDamage() instanceof EntityPlayer ) {
     		Item weapon = ((EntityPlayer) damageSource.getSourceOfDamage()).getCurrentEquippedItem().getItem();
@@ -221,10 +224,12 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
     		if (Properties.ItemTFIceSword.isInstance(weapon)) {
             	// Frost sword also super effective.
                 damage = Math.max(this.getMaxHealth()/2 - 1, damage);
+                sendChatSnark(this, damageSource, this.rand, false);
     		}
         }
         if (damageSource.isFireDamage()) {
         	// What are you, stupid?
+            sendChatSnark(this, damageSource, this.rand, true);
         	damage = 0;
         }
         return super.attackEntityFrom(damageSource, damage);

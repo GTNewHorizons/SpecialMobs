@@ -40,6 +40,7 @@ public abstract class Properties {
     public static Class<?> EntityIceArrow = null;        // Twilight forest ice arrow
     public static Class<?> ItemTFIceSword = null;        // Twilight Forest ice sword
     public static Class<?> ItemTFIceBomb = null;         // Twilight Forest ice bomb. 
+    public static Class<?> ItemTFIronwoodSword = null;   // Twilight Forest ironwood sword
 
     
     static {
@@ -52,6 +53,7 @@ public abstract class Properties {
 	  		EntityIceArrow = Class.forName((String)"twilightforest.entity.EntityIceArrow");
 	  		ItemTFIceSword = Class.forName((String)"twilightforest.item.ItemTFIceSword");
 	  		ItemTFIceBomb = Class.forName((String)"twilightforest.item.ItemTFIceBomb");
+	  		ItemTFIronwoodSword = Class.forName((String)"twilightforest.item.ItemTFIronwoodSword");
 		} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 		}
@@ -107,7 +109,9 @@ public abstract class Properties {
         
         Properties.add(config, Properties.GENERAL, "random_scaling", 0.3, "The maximum magnitude for random size scaling (scaling * 50% = max difference %). Setting this to 0 disables random size scaling. Default is +/-15%");
         Properties.add(config, Properties.GENERAL, "spawn_eggs", false, "If true, the game will attempt to make a spawn egg for each special mob. Be warned, this will eat up " + mobsAdded + " global entity ids. Default is false.");
-
+        Properties.add(config, Properties.GENERAL, "chat_enabled", true, "Enable snark chat from mobs");
+        Properties.add(config, Properties.GENERAL, "chat_range", 10, 2, 30, "Sets the chat range for snarky/super messages");
+        
         Properties.add(config, Properties.STATS, "baby_skeleton_chance", 0.05, 0.0, 1.0, "(0 <= x <= 1) Chance that a skeleton will spawn as a baby. Default is 5%.");
         Properties.add(config, Properties.STATS, "blaze_snowball_hits",  4, 2, 10, "How many snowballs it takes to kill a blaze(does not account for cooldown or regen)");
         Properties.add(config, Properties.STATS, "bow_chance_pigzombie", 0.25, 0.0, 1.0, "(0 <= x <= 1) Chance that a zombie pigman will spawn with a bow, if possible. Default is 25%.");

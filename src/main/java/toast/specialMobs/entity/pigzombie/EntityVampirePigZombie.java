@@ -14,9 +14,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.EnchantmentSpecial;
 import toast.specialMobs.MobHelper;
+import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 
 public class EntityVampirePigZombie extends Entity_SpecialPigZombie
@@ -53,22 +55,19 @@ public class EntityVampirePigZombie extends Entity_SpecialPigZombie
             if (damageSource.isProjectile()) {
             	// Projectiles do half damage
             	damage = damage/2;
-            	// Ineffective projectile message
-            } else
-            {
-            	// Ineffective weapon message
             }
             // At minimum do .5 to 1 point of damage
             damage = Math.max(damage, MobHelper.isCritical(damageSource) ? 1.0F : 0.5F);
+            sendChatSnark(this, damageSource, this.rand, true);
         } else { 
         	// This is a super effective damage source, can kill in two hits.
         	damage = Math.max(damage, this.getMaxHealth()/2 + 1);
+            sendChatSnark(this, damageSource, this.rand, false);
         }
         return super.attackEntityFrom(damageSource, damage);
     }
 
     // Returns true if the given damage source can harm this mob.
-    // TODO Add vanilla stick as damage source.  Destroy stick or not?
     public boolean isDamageSourceEffective(DamageSource damageSource) {
         if (damageSource != null) {
             if (damageSource.canHarmInCreative())
@@ -86,6 +85,9 @@ public class EntityVampirePigZombie extends Entity_SpecialPigZombie
                             return true;
                     }
                     if (heldItem.getItem() == Items.stick) {
+                    	return true;
+                    }
+                    if (Properties.ItemTFIronwoodSword.isInstance(heldItem.getItem()) ) {
                     	return true;
                     }
                 }

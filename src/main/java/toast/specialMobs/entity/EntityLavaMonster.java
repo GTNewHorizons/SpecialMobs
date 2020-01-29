@@ -1,7 +1,10 @@
 package toast.specialMobs.entity;
 
+import java.util.Random;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -12,7 +15,6 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.init.Blocks;
@@ -20,14 +22,18 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import toast.specialMobs.Properties;
 import toast.specialMobs.entity.EntityAILavaMonsterAttack;
+import toast.specialMobs.entity.ISpecialMob;
 
-public class EntityLavaMonster extends EntityMob {
+public class EntityLavaMonster extends EntityMob implements ISpecialMob {
     /// Handy properties for this class.
     public static final double MAX_HEALTH = Properties.getDouble(Properties.LAVAMONSTER_GENERAL, "lavamonster_health");
     public static final int BASE_ARMOR = Properties.getInt(Properties.LAVAMONSTER_GENERAL, "lavamonster_armor");
@@ -144,31 +150,43 @@ public class EntityLavaMonster extends EntityMob {
 
     /// Called when the entity is attacked.
     @Override
-    //TODO Fix this so it uses same mechanism as vampire/unholy ghast etc.
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
-        if ( (damageSource.getSourceOfDamage() instanceof EntitySnowball) 
-           || Properties.EntityFrostShardClass.isInstance(damageSource.getSourceOfDamage()) 
-           || Properties.EntityIceArrow.isInstance(damageSource.getSourceOfDamage()) )
-        {
+    	if ( isDamageSourceEffective( damageSource ) ) {
         	// Snowballs and other frost damage sources are super-effective. Only takes 3 hits to kill them
             damage = Math.max(this.getMaxHealth()/2 - 1, damage);
             // Super effective message
-        }
-        if( damageSource.getSourceOfDamage() instanceof EntityPlayer ) {
-    		Item weapon = ((EntityPlayer) damageSource.getSourceOfDamage()).getCurrentEquippedItem().getItem();
-       		if (Properties.ItemTFIceSword.isInstance(weapon)) {
-       			// Frost sword also super effective.
-                damage = Math.max(this.getMaxHealth()/2 - 1, damage);
-                // Super effective message
-        	}
+            sendChatSnark(this, damageSource, this.rand, false);
         }
         if (damageSource.isFireDamage()) {
         	// What are you, stupid? message
+            sendChatSnark(this, damageSource, this.rand, true);
+
         	damage = 0;
         }
         return super.attackEntityFrom(damageSource, damage);
     }
 
+    public boolean isDamageSourceEffective(DamageSource damageSource) {
+        if (damageSource != null) {
+            if (damageSource.canHarmInCreative())
+                return true;
+            if ((damageSource.getSourceOfDamage() instanceof EntitySnowball) 
+              || Properties.EntityFrostShardClass.isInstance(damageSource.getSourceOfDamage()) 
+              || Properties.EntityIceArrow.isInstance(damageSource.getSourceOfDamage())) {
+                return true;
+            }
+            Entity attacker = damageSource.getEntity();
+            if (attacker instanceof EntityLivingBase) {
+                ItemStack heldItem = ((EntityLivingBase)attacker).getHeldItem();
+                if (heldItem != null) {
+                    if (Properties.ItemTFIceSword.isInstance(heldItem.getItem()) ) {
+                    	return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }    
     /// The id of the item this mob drops. 
     @Override
     protected Item getDropItem() {
@@ -304,4 +322,12 @@ public class EntityLavaMonster extends EntityMob {
     public float getEntityBrightness(float f) {
         return 1.0F;
     }
+    
+   public SpecialMobData getSpecialData() {
+	   return null;
+   }
+
+   public void adjustEntityAttributes() {
+	   return;
+   }
 }

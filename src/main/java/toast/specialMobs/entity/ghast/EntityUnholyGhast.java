@@ -54,15 +54,14 @@ public class EntityUnholyGhast extends EntityMeleeGhast
 	        	// Projectiles do half damage
 	        	damage = damage/2;
 	        	// Ineffective projectile message
-	        } else
-	        {
-	        	// Ineffective weapon message
 	        }
 	        // At minimum do .5 to 1 point of damage
 	        damage = Math.max(damage, MobHelper.isCritical(damageSource) ? 1.0F : 0.5F);
+            sendChatSnark(this, damageSource, this.rand, true);
 	    } else { 
 	    	// This is a super effective damage source, can kill in two hits.
 	    	damage = Math.max(damage, this.getMaxHealth()/2 + 1);
+            sendChatSnark(this, damageSource, this.rand, false);
 	    }
         return super.attackEntityFrom(damageSource, damage);
     }
