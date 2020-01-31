@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import toast.specialMobs.Properties;
 
 import java.util.ArrayList;
@@ -21,16 +22,6 @@ public interface ISpecialMob
 {
 	public static final int CHAT_ENABLED = Properties.getInt(Properties.GENERAL, "chat_enabled");
 	public static final int CHAT_RANGE = Properties.getInt(Properties.GENERAL, "chat_range");
-	// Snark is for using the wrong weapon
-	public ChatComponentText chatSnark[] = {new ChatComponentText(EnumChatFormatting.DARK_RED + "You might want to get a bigger boat."),
-			                                new ChatComponentText(EnumChatFormatting.DARK_RED + "Well that didn't seem to do much."),
-			                                new ChatComponentText(EnumChatFormatting.DARK_RED + "What were you thinking?") 
-	}; 
-	// Super is for using the right weapon
-	public ChatComponentText chatSuper[] = {new ChatComponentText(EnumChatFormatting.BLUE + "That was super-effective!"),
-        									new ChatComponentText(EnumChatFormatting.BLUE + "Wow, that's going to leave a mark!"),
-        									new ChatComponentText(EnumChatFormatting.BLUE + "You are going to brag to all your friends about this!") 
-	}; 
     /**
      * @return this mob's special data
      */
@@ -41,13 +32,31 @@ public interface ISpecialMob
      */
     public void adjustEntityAttributes();
     
+    static void loadChat( String localName, ArrayList<ChatComponentText> chatSnark, ArrayList<ChatComponentText> chatSuper)
+    {
+    	int count;
+    	
+    	//Read snark count
+    	count = Integer.parseInt(StatCollector.translateToLocal( localName + ".snark.count"));
+    	//Loop through filling up with snark
+    	for(;count>0;count--) {
+    		chatSnark.add( new ChatComponentText(EnumChatFormatting.DARK_RED + StatCollector.translateToLocal( localName + ".snark." + Integer.toString(count)) ));
+    	}
+    	
+    	//Read super count
+    	count = Integer.parseInt(StatCollector.translateToLocal( localName + ".super.count"));
+    	//Loop through filling up with snark
+    	for(;count>0;count--) {
+    		chatSuper.add( new ChatComponentText(EnumChatFormatting.BLUE + StatCollector.translateToLocal( localName + ".super." + Integer.toString(count)) ));
+    	}
+    }
     /**
      * Called to output a snarky/good job chat message
      * damageSource - what caused the damage. If possible, determine if a player did it to send them a message.
      *                If not, try and send a message to all entities in the configurable area.
      * isSnark - Use the Snark or Super chat list                	
      */
-    default void sendChatSnark(EntityLiving target, DamageSource damageSource, Random rand, boolean isSnark) {
+    default void sendChatSnark(EntityLiving target, DamageSource damageSource, Random rand, ArrayList<ChatComponentText> chat) {
     	if( damageSource.damageType.matches("generic")) { // Skip on generic damage sources
     		return;
     	}
@@ -73,17 +82,11 @@ public interface ISpecialMob
     		}
     	}
     	// Now output the stuffs;
-    	ChatComponentText chatOutput[];
-    	if (isSnark) {
-    		chatOutput = chatSnark;
-    	} else {
-    		chatOutput = chatSuper;
-    	}
     	
-    	int messageId = rand.nextInt( chatOutput.length );
+    	int messageId = rand.nextInt( chat.size() );
     	
     	for( EntityPlayer listeningPlayer : chatTargets ) {
-    		listeningPlayer.addChatMessage( chatOutput[messageId]);
+    		listeningPlayer.addChatMessage( chat.get(messageId));
     	}
     		
     	return;

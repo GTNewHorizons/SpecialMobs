@@ -1,5 +1,7 @@
 package toast.specialMobs.entity;
 
+import java.util.ArrayList;
+
 import java.util.Random;
 
 import net.minecraft.block.material.Material;
@@ -25,7 +27,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -44,6 +48,11 @@ public class EntityLavaMonster extends EntityMob implements ISpecialMob {
     public static final int HEAL_TIME = Properties.getInt(Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_time");
     public static final double HEAL_PERCENT = Properties.getDouble(Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_percent");
     public static final double HEAL_MAX = Properties.getDouble(Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_max");
+    
+	// Snark is for using the wrong weapon
+	public static ArrayList<ChatComponentText> chatSnark = new ArrayList<ChatComponentText>(); 
+	// Super is for using the right weapon
+	public static ArrayList<ChatComponentText> chatSuper = new ArrayList<ChatComponentText>(); 
 
     /// Ticks until the next attack phase change.
     public int attackDelay = 0;
@@ -54,6 +63,11 @@ public class EntityLavaMonster extends EntityMob implements ISpecialMob {
     /// The current texture index.
     private byte textureIndex = 0;
 
+    static {
+    	// Load up chat
+    	ISpecialMob.loadChat( "entity.SpecialMobs.LavaMonster", chatSnark, chatSuper);
+    }
+    
     public EntityLavaMonster(World world) {
         super(world);
         this.setSize(0.8F, 2.2F);
@@ -155,11 +169,11 @@ public class EntityLavaMonster extends EntityMob implements ISpecialMob {
         	// Snowballs and other frost damage sources are super-effective. Only takes 3 hits to kill them
             damage = Math.max(this.getMaxHealth()/2 - 1, damage);
             // Super effective message
-            sendChatSnark(this, damageSource, this.rand, false);
+            sendChatSnark(this, damageSource, this.rand, chatSuper);
         }
         if (damageSource.isFireDamage()) {
         	// What are you, stupid? message
-            sendChatSnark(this, damageSource, this.rand, true);
+            sendChatSnark(this, damageSource, this.rand, chatSnark);
 
         	damage = 0;
         }

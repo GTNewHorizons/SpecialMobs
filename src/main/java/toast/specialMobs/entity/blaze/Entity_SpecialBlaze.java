@@ -1,5 +1,7 @@
 package toast.specialMobs.entity.blaze;
 
+import java.util.ArrayList;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
@@ -12,6 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -36,7 +39,15 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
 	public short fireballBurstCount;
     /// The ticks between each shot in a burst.
 	public short fireballBurstDelay;
+	// Snark is for using the wrong weapon
+	public static ArrayList<ChatComponentText> chatSnark = new ArrayList<ChatComponentText>(); 
+	// Super is for using the right weapon
+	public static ArrayList<ChatComponentText> chatSuper = new ArrayList<ChatComponentText>(); 
 
+    static {
+    	// Load up chat
+    	ISpecialMob.loadChat( "entity.SpecialMobs.SpecialBlaze", chatSnark, chatSuper);
+    }
     public Entity_SpecialBlaze(World world) {
         super(world);
         this.getSpecialData().isImmuneToFire = this.isImmuneToFire;
@@ -211,12 +222,12 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
         if (damageSource.getSourceOfDamage() instanceof EntitySnowball) {
         	// Snowballs are super-effective. Only takes 4 hits to kill them
             damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) - 1, damage);
-            sendChatSnark(this, damageSource, this.rand, false);
+            sendChatSnark(this, damageSource, this.rand, chatSuper);
         } else if (Properties.EntityFrostShardClass.isInstance(damageSource.getSourceOfDamage()) 
         		|| Properties.EntityIceArrow.isInstance(damageSource.getSourceOfDamage()) ) {
         	// Frost-based weapons are super-super-effective. Should take only 3 hits to kill them.
         	damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) + 2, damage);
-            sendChatSnark(this, damageSource, this.rand, false);
+            sendChatSnark(this, damageSource, this.rand, chatSuper);
         }
         if( damageSource.getSourceOfDamage() instanceof EntityPlayer ) {
     		Item weapon = ((EntityPlayer) damageSource.getSourceOfDamage()).getCurrentEquippedItem().getItem();
@@ -224,12 +235,12 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
     		if (Properties.ItemTFIceSword.isInstance(weapon)) {
             	// Frost sword also super effective.
                 damage = Math.max(this.getMaxHealth()/2 - 1, damage);
-                sendChatSnark(this, damageSource, this.rand, false);
+                sendChatSnark(this, damageSource, this.rand, chatSuper);
     		}
         }
         if (damageSource.isFireDamage()) {
         	// What are you, stupid?
-            sendChatSnark(this, damageSource, this.rand, true);
+            sendChatSnark(this, damageSource, this.rand, chatSnark);
         	damage = 0;
         }
         return super.attackEntityFrom(damageSource, damage);

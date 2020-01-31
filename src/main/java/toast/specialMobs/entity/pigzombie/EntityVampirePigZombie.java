@@ -1,5 +1,7 @@
 package toast.specialMobs.entity.pigzombie;
 
+import java.util.ArrayList;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -20,9 +23,20 @@ import toast.specialMobs.EnchantmentSpecial;
 import toast.specialMobs.MobHelper;
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
+import toast.specialMobs.entity.ISpecialMob;
 
 public class EntityVampirePigZombie extends Entity_SpecialPigZombie
 {
+	// Snark is for using the wrong weapon
+	public static ArrayList<ChatComponentText> chatSnark = new ArrayList<ChatComponentText>(); 
+	// Super is for using the right weapon
+	public static ArrayList<ChatComponentText> chatSuper = new ArrayList<ChatComponentText>(); 
+
+    static {
+    	// Load up chat
+    	ISpecialMob.loadChat( "entity.SpecialMobs.VampirePigZombie", chatSnark, chatSuper);
+    }
+    
     public static final ResourceLocation[] TEXTURES1 = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "pigzombie/vampire.png")
     };
@@ -58,11 +72,11 @@ public class EntityVampirePigZombie extends Entity_SpecialPigZombie
             }
             // At minimum do .5 to 1 point of damage
             damage = Math.max(damage, MobHelper.isCritical(damageSource) ? 1.0F : 0.5F);
-            sendChatSnark(this, damageSource, this.rand, true);
+            sendChatSnark(this, damageSource, this.rand, chatSnark);
         } else { 
         	// This is a super effective damage source, can kill in two hits.
         	damage = Math.max(damage, this.getMaxHealth()/2 + 1);
-            sendChatSnark(this, damageSource, this.rand, false);
+            sendChatSnark(this, damageSource, this.rand, chatSuper);
         }
         return super.attackEntityFrom(damageSource, damage);
     }

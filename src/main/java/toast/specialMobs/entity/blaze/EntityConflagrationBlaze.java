@@ -46,7 +46,6 @@ public class EntityConflagrationBlaze extends Entity_SpecialBlaze
             }
             // At minimum do .5 to 1 point of damage
             damage = Math.max(damage, MobHelper.isCritical(damageSource) ? 1.0F : 0.5F);
-            sendChatSnark(this, damageSource, this.rand, true);
 
         	if (!this.worldObj.isRemote && this.feedingLevel < 7) {
 	            this.setFeedingLevel(this.feedingLevel + 1, true);
@@ -60,11 +59,6 @@ public class EntityConflagrationBlaze extends Entity_SpecialBlaze
 				}
         	}
         }
-        if (damageSource.isFireDamage()) {
-        	// What are you, stupid? message
-            sendChatSnark(this, damageSource, this.rand, true);
-        	damage = 0;
-        }        
         // "Extra Effective" attack sources are handled in the super class.
     	return super.attackEntityFrom(damageSource, damage);
     }
