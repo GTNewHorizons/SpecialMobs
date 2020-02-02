@@ -41,7 +41,7 @@ public abstract class Properties {
     public static Class<?> ItemTFIceSword = null;        // Twilight Forest ice sword
     public static Class<?> ItemTFIceBomb = null;         // Twilight Forest ice bomb. 
     public static Class<?> ItemTFIronwoodSword = null;   // Twilight Forest ironwood sword
-
+    public static Class<?> trash = null;
     
     static {
         for (int i = Properties.monsterWeights.length; i-- > 0;) {
@@ -49,14 +49,39 @@ public abstract class Properties {
         }
         // This unnatural act is to allow us to intercept various frost based damage sources
 	  	try {
+	  		trash = Class.forName((String)"toast.specialMobs.Properties$ThrowawayClass");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	  	try {
 	  		EntityFrostShardClass = Class.forName((String)"thaumcraft.common.entities.projectile.EntityFrostShard");
+		} catch (ClassNotFoundException e) {
+  			EntityFrostShardClass = trash;
+		}
+	  	try {
 	  		EntityIceArrow = Class.forName((String)"twilightforest.entity.EntityIceArrow");
+		} catch (ClassNotFoundException e) {
+  			EntityIceArrow = trash;
+		}
+	  	try {
 	  		ItemTFIceSword = Class.forName((String)"twilightforest.item.ItemTFIceSword");
+		} catch (ClassNotFoundException e) {
+  			ItemTFIceSword = trash;
+		}
+	  	try {
 	  		ItemTFIceBomb = Class.forName((String)"twilightforest.item.ItemTFIceBomb");
+		} catch (ClassNotFoundException e) {
+  			ItemTFIceBomb = trash;
+		}
+	  	try {
 	  		ItemTFIronwoodSword = Class.forName((String)"twilightforest.item.ItemTFIronwoodSword");
 		} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+  			ItemTFIronwoodSword = trash;
 		}
+    }
+    
+    public static class ThrowawayClass {
+    	// This is a throwaway class to use when the Class.forName() functions fail.
     }
 
     /// Initializes these properties.
