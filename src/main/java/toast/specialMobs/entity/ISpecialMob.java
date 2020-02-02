@@ -60,7 +60,9 @@ public interface ISpecialMob
      * isSnark - Use the Snark or Super chat list                	
      */
     default void sendChatSnark(EntityLiving target, DamageSource damageSource, Random rand, ArrayList<ChatComponentText> chat) {
-    	if( damageSource.damageType.matches("generic")) { // Skip on generic damage sources
+        // Skip generic/falling/etc damage sources
+    	if( damageSource.damageType.matches("generic") || damageSource.damageType.matches("fall") || damageSource.damageType.matches("cactus") || damageSource.damageType.matches("drown") 
+    		|| damageSource.damageType.matches("inWall") ) {
     		return;
     	}
         if( FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT ) {
