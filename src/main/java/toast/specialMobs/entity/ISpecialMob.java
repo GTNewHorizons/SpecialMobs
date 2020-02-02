@@ -4,6 +4,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -71,12 +72,19 @@ public interface ISpecialMob
 	    		return;
 	    	}
     	}
+        // Ingnore damage caused by FakePlayers like diamond spikes or Killer Joes
         if( damageSource.getSourceOfDamage() instanceof FakePlayer ) {
         	return;
         }
+        // Ignore throwables from dispensers and the like
+        if( damageSource.getSourceOfDamage() instanceof EntityThrowable ) {
+        	if ( ((EntityThrowable)damageSource.getSourceOfDamage()).getThrower() == null ) {
+        		return;
+        	}
+        }
     	if( target.getHealth() != target.getMaxHealth()) { // We always display on the first hit
-    		//Only have a 1 in 12 chance of displaying a message after first shot
-    		if (rand.nextInt(12)!=0) {
+    		//Only have a 1 in 16 chance of displaying a message after first shot
+    		if (rand.nextInt(16)!=0) {
     			return;
     		}
     	}
