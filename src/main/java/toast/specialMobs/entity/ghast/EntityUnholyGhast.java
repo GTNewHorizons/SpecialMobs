@@ -97,6 +97,9 @@ public class EntityUnholyGhast extends EntityMeleeGhast
                         if (tinkerTag.hasKey("ModSmite") && tinkerTag.getIntArray("ModSmite")[0] > 0)
                             return true;
                     }
+                } else {
+                	//Attacking empty handed? You idiot.
+                	sendChatSnark(this, damageSource, this.rand, chatSnark);
                 }
             }
         }

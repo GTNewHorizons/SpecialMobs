@@ -104,6 +104,9 @@ public class EntityVampirePigZombie extends Entity_SpecialPigZombie
                     if (Properties.ItemTFIronwoodSword.isInstance(heldItem.getItem()) ) {
                     	return true;
                     }
+                } else {
+                	//Attacking empty handed? You idiot.
+                	sendChatSnark(this, damageSource, this.rand, chatSnark);
                 }
             }
         }
