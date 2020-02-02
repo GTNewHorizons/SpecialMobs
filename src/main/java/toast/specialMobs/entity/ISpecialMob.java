@@ -1,5 +1,8 @@
 package toast.specialMobs.entity;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
@@ -60,8 +63,10 @@ public interface ISpecialMob
     	if( damageSource.damageType.matches("generic")) { // Skip on generic damage sources
     		return;
     	}
-    	if (damageSource.getSourceOfDamage() instanceof EntityClientPlayerMP ) {
-    		return;
+        if( FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT ) {
+	    	if (damageSource.getSourceOfDamage() instanceof EntityClientPlayerMP ) {
+	    		return;
+	    	}
     	}
     	if( target.getHealth() != target.getMaxHealth()) { // We always display on the first hit
     		//Only have a 1 in 12 chance of displaying a message after first shot
