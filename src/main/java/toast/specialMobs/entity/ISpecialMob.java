@@ -11,6 +11,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.util.FakePlayer;
 import toast.specialMobs.Properties;
 
 import java.util.ArrayList;
@@ -70,6 +71,9 @@ public interface ISpecialMob
 	    		return;
 	    	}
     	}
+        if( damageSource.getSourceOfDamage() instanceof FakePlayer ) {
+        	return;
+        }
     	if( target.getHealth() != target.getMaxHealth()) { // We always display on the first hit
     		//Only have a 1 in 12 chance of displaying a message after first shot
     		if (rand.nextInt(12)!=0) {
