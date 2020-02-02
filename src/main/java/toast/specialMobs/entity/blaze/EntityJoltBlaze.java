@@ -50,7 +50,7 @@ public class EntityJoltBlaze extends Entity_SpecialBlaze
             double yI = this.posY;
             double zI = this.posZ;
 
-            for (int i = 0; i < 64; i++) {
+            for (int i = 0; i < 16; i++) {
 			    if (this.teleportRandomly()) {
 			    	if (damageSource instanceof EntityDamageSourceIndirect)
 			    		return true;
