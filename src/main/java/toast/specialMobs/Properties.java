@@ -156,7 +156,7 @@ public abstract class Properties {
         Properties.add(config, Properties.STATS, "villager_infection", 1.0, 0.0, 1.0, "(0 <= x <= 1) Chance that a villager will be infected when killed by a zombie. Default is 100%.");
         Properties.add(config, Properties.STATS, "xray_ghosts", false, "(True/false) If false, ghost spiders and faint ghasts will require line of sight to aggro, unlike their normal counterparts. Default is false.");
 
-        Properties.init(config, "monster", _SpecialMobs.MONSTER_KEY, _SpecialMobs.MONSTER_TYPES, Properties.monsterVanilla, Properties.monsterSpawn, Properties.monsterWeights);
+        Properties.initializeArrays(config, "monster", _SpecialMobs.MONSTER_KEY, _SpecialMobs.MONSTER_TYPES, Properties.monsterVanilla, Properties.monsterSpawn, Properties.monsterWeights);
 
         config.addCustomCategoryComment(Properties.ENCHANTS, "Info for all enchantments added by this mod. Set the id to -1 to disable any specific enchantment.");
         config.addCustomCategoryComment(Properties.SPAWNING, "Weighted chances for each additional spawn. Set the weight to 0 to disable the spawn.");
@@ -184,7 +184,7 @@ public abstract class Properties {
     }
 
     /// Initializes specific monster properties.
-    private static void init(Configuration config, String category, String[] key, String[][] types, boolean[] keyVanilla, boolean[] keyValues, int[][] typeWeights) {
+    private static void initializeArrays(Configuration config, String category, String[] key, String[][] types, boolean[] keyVanilla, boolean[] keyValues, int[][] typeWeights) {
         String pluralKey;
         String MOB_CATEGORY;
         for (int i = 0; i < key.length; i++) {
