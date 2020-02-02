@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -229,14 +230,19 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
         	damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) + 2, damage);
             sendChatSnark(this, damageSource, this.rand, chatSuper);
         }
-        if( damageSource.getSourceOfDamage() instanceof EntityPlayer ) {
-    		Item weapon = ((EntityPlayer) damageSource.getSourceOfDamage()).getCurrentEquippedItem().getItem();
-    		
-    		if (Properties.ItemTFIceSword.isInstance(weapon)) {
-            	// Frost sword also super effective.
-                damage = Math.max(this.getMaxHealth()/2 - 1, damage);
-                sendChatSnark(this, damageSource, this.rand, chatSuper);
-    		}
+        Entity attacker = damageSource.getEntity();
+        if (attacker instanceof EntityLivingBase) {
+            ItemStack heldItem = ((EntityLivingBase)attacker).getHeldItem();
+            if (heldItem != null) {
+                if (Properties.ItemTFIceSword.isInstance(heldItem.getItem()) ) {
+                	damage = (float)Math.max(this.getMaxHealth()/2 + 4, damage);
+                    sendChatSnark(this, damageSource, this.rand, chatSuper);
+                }
+            } else {
+            	//Attacking empty handed? You idiot.
+            	sendChatSnark(this, damageSource, this.rand, chatSnark);
+            }
+            	
         }
         if (damageSource.isFireDamage()) {
         	// What are you, stupid?
