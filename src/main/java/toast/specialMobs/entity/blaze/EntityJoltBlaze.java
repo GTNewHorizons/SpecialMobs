@@ -1,18 +1,13 @@
 package toast.specialMobs.entity.blaze;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
-import toast.specialMobs.EventHandler.DamageSourcePain;
 
 public class EntityJoltBlaze extends Entity_SpecialBlaze
 {
