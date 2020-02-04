@@ -13,6 +13,8 @@ import toast.specialMobs.entity.EntitySpecialFishHook;
 import toast.specialMobs.entity.EntitySpecialSpitball;
 import toast.specialMobs.entity.creeper.EntityEnderCreeper;
 import toast.specialMobs.entity.creeper.EntityFireCreeper;
+import toast.specialMobs.entity.SpawnLavaMonster;
+import toast.specialMobs.entity.EntityLavaMonster;
 import toast.specialMobs.entity.ghast.EntityMiniGhast;
 import toast.specialMobs.network.MessageExplosion;
 import toast.specialMobs.network.MessageTexture;
@@ -65,7 +67,7 @@ public class _SpecialMobs
 
     /** Monster "species" array. */
     public static final String[] MONSTER_KEY = {
-        "Blaze", "CaveSpider", "Creeper", "Enderman", "Ghast", /*"LavaSlime",*/ "PigZombie", "Silverfish", "Skeleton", "Slime", "Spider", "Witch", "Zombie"
+        "Blaze", "CaveSpider", "Creeper", "Enderman", "Ghast", "PigZombie", "Silverfish", "Skeleton", "Slime", "Spider", "Witch", "Zombie"
     };
     /** Monster "sub-species" array. First dimension is the MONSTER_KEY[]. */
     public static final String[][] MONSTER_TYPES = {
@@ -109,8 +111,6 @@ public class _SpecialMobs
 
     /** Monster "species" color array. Used for spawn eggs. */
     public static final int[] MONSTER_KEY_COLORS = {
-        /* Eventual
-        "Blaze", "CaveSpider", "Creeper", "Enderman", "Ghast", "LavaSlime" (0x340000, 0xfcfc00), "PigZombie", "Silverfish", "Skeleton", "Slime", "Spider", "Witch", "Zombie" */
         /*
         "Blaze",  "CaveSpider", "Creeper", "Enderman", "Ghast",  "PigZombie", "Silverfish", "Skeleton", "Slime",  "Spider", "Witch",  "Zombie" */
         0xf6b201, 0x0c424e,     0x0da70b,  0x161616,   0xf9f9f9, 0xea9393,    0x6e6e6e,     0xc1c1c1,   0x51a03e, 0x342d27, 0x340000, 0x00afaf
@@ -213,8 +213,6 @@ public class _SpecialMobs
                         { "deathenderchest", "teleport" },
                         // Ghast
                         { "fireballsexplode" },
-                        // LavaSlime
-                        //{ "slimy", "lavaswim" },
                         // PigZombie
                         { "lavaswim" },
                         // Silverfish
@@ -331,6 +329,24 @@ public class _SpecialMobs
         if (spawnWeight > 0) {
             EntityRegistry.addSpawn(EntityMiniGhast.class, spawnWeight, 1, 1, EnumCreatureType.monster, BiomeGenBase.ocean, BiomeGenBase.frozenOcean, BiomeGenBase.plains, BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.extremeHills, BiomeGenBase.extremeHillsEdge, BiomeGenBase.forest, BiomeGenBase.forestHills, BiomeGenBase.taiga, BiomeGenBase.taigaHills, BiomeGenBase.swampland, BiomeGenBase.river, BiomeGenBase.frozenRiver, BiomeGenBase.icePlains, BiomeGenBase.iceMountains, BiomeGenBase.beach, BiomeGenBase.jungle, BiomeGenBase.jungleHills);
         }
+        
+        // Register Lava Monster
+        EntityRegistry.registerModEntity(EntityLavaMonster.class, "LavaMonster", id++, this, 80, 3, true);
+        if (makeSpawnEggs) {
+	        eggId = EntityRegistry.findGlobalUniqueEntityId();
+	        try {
+	            Method method = EntityRegistry.class.getDeclaredMethod("validateAndClaimId", int.class);
+	            method.setAccessible(true);
+	            eggId = ((Integer) method.invoke(EntityRegistry.instance(), Integer.valueOf(eggId))).intValue();
+	        }
+	        catch (Exception ex) {
+	            _SpecialMobs.console("Error claiming spawn egg ID! Spawn egg will probably be overwritten. @" + ex.getClass().getName());
+	        }
+	        EntityList.IDtoClassMapping.put(Integer.valueOf(eggId), EntityLavaMonster.class);
+	        EntityList.entityEggs.put(Integer.valueOf(eggId), new EntityEggInfo(eggId, 0xff0000, 0xfcfc00));
+        }
+        new SpawnLavaMonster();
+        
     }
 
     /**

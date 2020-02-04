@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import toast.specialMobs.CommonProxy;
 import toast.specialMobs.entity.EntitySpecialFishHook;
 import toast.specialMobs.entity.EntitySpecialSpitball;
+import toast.specialMobs.entity.EntityLavaMonster;
 import toast.specialMobs.entity.blaze.Entity_SpecialBlaze;
 import toast.specialMobs.entity.cavespider.Entity_SpecialCaveSpider;
 import toast.specialMobs.entity.creeper.Entity_SpecialCreeper;
@@ -44,5 +45,6 @@ public class ClientProxy extends CommonProxy
 
         RenderingRegistry.registerEntityRenderingHandler(EntitySpecialFishHook.class, new RenderSpecialFishHook());
         RenderingRegistry.registerEntityRenderingHandler(EntitySpecialSpitball.class, new RenderSpecialSpitball());
+        RenderingRegistry.registerEntityRenderingHandler(EntityLavaMonster.class, new RenderLavaMonster());
     }
 }

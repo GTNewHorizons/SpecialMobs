@@ -1,5 +1,7 @@
 package toast.specialMobs.entity.ghast;
 
+import java.util.ArrayList;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -9,15 +11,27 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
+import toast.specialMobs.entity.ISpecialMob;
 
 public class EntityUnholyGhast extends EntityMeleeGhast
 {
+	// Snark is for using the wrong weapon
+	public static ArrayList<ChatComponentText> chatSnark = new ArrayList<ChatComponentText>(); 
+	// Super is for using the right weapon
+	public static ArrayList<ChatComponentText> chatSuper = new ArrayList<ChatComponentText>(); 
+
+    static {
+    	// Load up chat
+    	ISpecialMob.loadChat( "entity.SpecialMobs.UnholyGhast", chatSnark, chatSuper);
+    }
+    
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/unholy.png"),
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/unholy_shooting.png")
@@ -47,14 +61,26 @@ public class EntityUnholyGhast extends EntityMeleeGhast
     /// Damages this entity from the damageSource by the given amount. Returns true if this entity is damaged.
     @Override
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
-    	float damageLimit = MobHelper.isCritical(damageSource) ? 1.0F : 0.5F;
-        if (damage > damageLimit && !this.isDamageSourceEffective(damageSource)) {
-            damage = damageLimit;
-        }
+        if (!this.isDamageSourceEffective(damageSource)) {
+        	// Maximum damage is 1/20th of mob health, 1/10th if a critical hit
+	    	damage = Math.min(MobHelper.isCritical(damageSource) ? this.getMaxHealth()/10 : this.getMaxHealth()/20, damage); 
+	        if (damageSource.isProjectile()) {
+	        	// Projectiles do half damage
+	        	damage = damage/2;
+	        	// Ineffective projectile message
+	        }
+	        // At minimum do .5 to 1 point of damage
+	        damage = Math.max(damage, MobHelper.isCritical(damageSource) ? 1.0F : 0.5F);
+            sendChatSnark(this, damageSource, this.rand, chatSnark);
+	    } else { 
+	    	// This is a super effective damage source, can kill in two hits.
+	    	damage = Math.max(damage, this.getMaxHealth()/2 + 1);
+            sendChatSnark(this, damageSource, this.rand, chatSuper);
+	    }
         return super.attackEntityFrom(damageSource, damage);
     }
 
-    /// Returns true if the given damage source can harm this ghast.
+    // Returns true if the given damage source can harm this mob.
     public boolean isDamageSourceEffective(DamageSource damageSource) {
         if (damageSource != null) {
             if (damageSource.canHarmInCreative())
@@ -71,6 +97,9 @@ public class EntityUnholyGhast extends EntityMeleeGhast
                         if (tinkerTag.hasKey("ModSmite") && tinkerTag.getIntArray("ModSmite")[0] > 0)
                             return true;
                     }
+                } else {
+                	//Attacking empty handed? You idiot.
+                	sendChatSnark(this, damageSource, this.rand, chatSnark);
                 }
             }
         }

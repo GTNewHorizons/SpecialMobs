@@ -12,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.MobHelper;
+import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.SpecialMobData;
 
@@ -28,13 +29,24 @@ public class EntityConflagrationBlaze extends Entity_SpecialBlaze
         super(world);
         this.getSpecialData().setTextures(EntityConflagrationBlaze.TEXTURES);
         this.experienceValue += 4;
+        // For conflagration, cold attacks are extra effective, but other attacks are much weaker
+        this.BLAZE_SNOWBALL_HITS = Properties.getDouble( Properties.STATS, "conflagration_snowball_hits");
     }
 
     /// Called when the entity is attacked.
     @Override
+    //TODO Fix this so it uses same mechanism as vampire/unholy ghast etc.
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
         if (!damageSource.isFireDamage() && !damageSource.isExplosion() && !damageSource.isMagicDamage() && !DamageSource.drown.damageType.equals(damageSource.damageType) && !(damageSource.getSourceOfDamage() instanceof EntitySnowball)) {
-            damage = Math.min(MobHelper.isCritical(damageSource) ? 2.0F : 1.0F, damage);
+        	// Maximum damage is 1/20th of mob health, 1/10th if a critical hit
+        	damage = Math.min(MobHelper.isCritical(damageSource) ? this.getMaxHealth()/10 : this.getMaxHealth()/20, damage); 
+            if (damageSource.isProjectile()) {
+            	// Projectiles do half damage, so 1/20 or 1/40
+            	damage = damage/2;
+            }
+            // At minimum do .5 to 1 point of damage
+            damage = Math.max(damage, MobHelper.isCritical(damageSource) ? 1.0F : 0.5F);
+
         	if (!this.worldObj.isRemote && this.feedingLevel < 7) {
 	            this.setFeedingLevel(this.feedingLevel + 1, true);
 	            SpecialMobData data = this.getSpecialData();
@@ -47,6 +59,7 @@ public class EntityConflagrationBlaze extends Entity_SpecialBlaze
 				}
         	}
         }
+        // "Extra Effective" attack sources are handled in the super class.
     	return super.attackEntityFrom(damageSource, damage);
     }
 

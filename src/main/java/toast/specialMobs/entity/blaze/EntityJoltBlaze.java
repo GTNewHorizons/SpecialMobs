@@ -50,25 +50,28 @@ public class EntityJoltBlaze extends Entity_SpecialBlaze
             double yI = this.posY;
             double zI = this.posZ;
 
-            for (int i = 0; i < 64; i++) {
-			    if (this.teleportRandomly()) {
-			    	if (damageSource instanceof EntityDamageSourceIndirect)
-			    		return true;
-		    		boolean hit = super.attackEntityFrom(damageSource, damage);
+            for (int i = 0; i < 16; i++) {
+            	// Reworking Jolt logic.  
+            	// Jolt will take damage/5 & teleport if hit by indirect damage
+            	// Jolt will not teleport from other damage sources
+            	if (damageSource instanceof EntityDamageSourceIndirect) {
+            		damage = damage/5;
+            		this.teleportRandomly();
+            	}
+            	boolean hit = super.attackEntityFrom(damageSource, damage);
 
-			    	if (this.getHealth() > 0.0F) {
-			        	MobHelper.lightningExplode(this, xI, yI, zI, 0);
-			    	}
-			    	else {
-			    		this.setPosition(xI, yI, zI);
-			    	}
-			        return hit;
-			    }
+		    	if (this.getHealth() > 0.0F) {
+		        	MobHelper.lightningExplode(this, xI, yI, zI, 0);
+		    	}
+		    	else {
+		    		this.setPosition(xI, yI, zI);
+		    	}
+		        return hit;
 			}
 		}
         return super.attackEntityFrom(damageSource, damage);
     }
-
+    
     /// Teleports this enderman to a random nearby location. Returns true if this entity teleports.
     protected boolean teleportRandomly() {
         double x = this.posX + (this.rand.nextDouble() - 0.5) * 16.0;

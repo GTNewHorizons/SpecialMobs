@@ -1,5 +1,7 @@
 package toast.specialMobs.entity.blaze;
 
+import java.util.ArrayList;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
@@ -7,11 +9,18 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySmallFireball;
+import net.minecraft.entity.projectile.EntitySnowball;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
+import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
@@ -19,7 +28,7 @@ import toast.specialMobs.entity.SpecialMobData;
 public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
     /// Useful properties for this class.
     //private static final double HOSTILE_CHANCE = Properties.getDouble(Properties.STATS, "hostile_pigzombies");
-
+	public double BLAZE_SNOWBALL_HITS = Properties.getDouble( Properties.STATS, "blaze_snowball_hits"); // Can be overwritten by custom blazes to make them more/less snowball sensitive
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation("textures/entity/blaze.png") };
 
     /// This mob's special mob data.
@@ -31,7 +40,15 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
 	public short fireballBurstCount;
     /// The ticks between each shot in a burst.
 	public short fireballBurstDelay;
+	// Snark is for using the wrong weapon
+	public static ArrayList<ChatComponentText> chatSnark = new ArrayList<ChatComponentText>(); 
+	// Super is for using the right weapon
+	public static ArrayList<ChatComponentText> chatSuper = new ArrayList<ChatComponentText>(); 
 
+    static {
+    	// Load up chat
+    	ISpecialMob.loadChat( "entity.SpecialMobs.SpecialBlaze", chatSnark, chatSuper);
+    }
     public Entity_SpecialBlaze(World world) {
         super(world);
         this.getSpecialData().isImmuneToFire = this.isImmuneToFire;
@@ -150,6 +167,7 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
     }
 
     /// Called to attack the target.
+    /// Note that this does BOTH an attack with attackEntityAsMob, AND with onTypeAttack
     @Override
     public boolean attackEntityAsMob(Entity target) {
         if (super.attackEntityAsMob(target)) {
@@ -199,6 +217,41 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
         this.isImmuneToFire = this.getSpecialData().isImmuneToFire;
     }
 
+    /// Called when the entity is attacked.
+    @Override
+    public boolean attackEntityFrom(DamageSource damageSource, float damage) {
+        if (damageSource.getSourceOfDamage() instanceof EntitySnowball) {
+        	// Snowballs are super-effective. Only takes 4 hits to kill them
+            damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) - 1, damage);
+            sendChatSnark(this, damageSource, this.rand, chatSuper);
+        } else if (Properties.EntityFrostShardClass.isInstance(damageSource.getSourceOfDamage()) 
+        		|| Properties.EntityIceArrow.isInstance(damageSource.getSourceOfDamage()) ) {
+        	// Frost-based weapons are super-super-effective. Should take only 3 hits to kill them.
+        	damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) + 2, damage);
+            sendChatSnark(this, damageSource, this.rand, chatSuper);
+        }
+        Entity attacker = damageSource.getEntity();
+        if (attacker instanceof EntityLivingBase) {
+            ItemStack heldItem = ((EntityLivingBase)attacker).getHeldItem();
+            if (heldItem != null) {
+                if (Properties.ItemTFIceSword.isInstance(heldItem.getItem()) ) {
+                	damage = (float)Math.max(this.getMaxHealth()/2 + 4, damage);
+                    sendChatSnark(this, damageSource, this.rand, chatSuper);
+                }
+            } else {
+            	//Attacking empty handed? You idiot.
+            	sendChatSnark(this, damageSource, this.rand, chatSnark);
+            }
+            	
+        }
+        if (damageSource.isFireDamage()) {
+        	// What are you, stupid?
+            sendChatSnark(this, damageSource, this.rand, chatSnark);
+        	damage = 0;
+        }
+        return super.attackEntityFrom(damageSource, damage);
+    }
+    
     /// Called when this entity is killed.
     @Override
     protected void dropFewItems(boolean hit, int looting) {

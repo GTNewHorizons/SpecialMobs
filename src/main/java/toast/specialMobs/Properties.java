@@ -23,6 +23,8 @@ public abstract class Properties {
     public static final String SPAWNING = "_extra_spawning";
     public static final String GENERAL = "_general";
     public static final String STATS = "_mob_stats";
+    public static final String LAVAMONSTER_GENERAL = "lavamonster_general";
+    public static final String LAVAMONSTER_SPAWNING = "lavamonster_spawning";
 
     /// Property array, matched up to MONSTER_KEY[], vanilla monster species will only exist if the same index here is true.
     private static boolean[] monsterVanilla = new boolean[_SpecialMobs.MONSTER_KEY.length];
@@ -34,10 +36,52 @@ public abstract class Properties {
     /// Set of dimension ids that special mobs should not spawn in.
     private static final HashSet<Integer> dimensionBlacklist = new HashSet<Integer>();
 
+    public static Class<?> EntityFrostShardClass = null; // Thaumcraft frost focus
+    public static Class<?> EntityIceArrow = null;        // Twilight forest ice arrow
+    public static Class<?> ItemTFIceSword = null;        // Twilight Forest ice sword
+    public static Class<?> ItemTFIceBomb = null;         // Twilight Forest ice bomb. 
+    public static Class<?> ItemTFIronwoodSword = null;   // Twilight Forest ironwood sword
+    public static Class<?> trash = null;
+    
     static {
         for (int i = Properties.monsterWeights.length; i-- > 0;) {
             Properties.monsterWeights[i] = new int[_SpecialMobs.MONSTER_TYPES[i].length + 1];
         }
+        // This unnatural act is to allow us to intercept various frost based damage sources
+	  	try {
+	  		trash = Class.forName((String)"toast.specialMobs.Properties$ThrowawayClass");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	  	try {
+	  		EntityFrostShardClass = Class.forName((String)"thaumcraft.common.entities.projectile.EntityFrostShard");
+		} catch (ClassNotFoundException e) {
+  			EntityFrostShardClass = trash;
+		}
+	  	try {
+	  		EntityIceArrow = Class.forName((String)"twilightforest.entity.EntityIceArrow");
+		} catch (ClassNotFoundException e) {
+  			EntityIceArrow = trash;
+		}
+	  	try {
+	  		ItemTFIceSword = Class.forName((String)"twilightforest.item.ItemTFIceSword");
+		} catch (ClassNotFoundException e) {
+  			ItemTFIceSword = trash;
+		}
+	  	try {
+	  		ItemTFIceBomb = Class.forName((String)"twilightforest.item.ItemTFIceBomb");
+		} catch (ClassNotFoundException e) {
+  			ItemTFIceBomb = trash;
+		}
+	  	try {
+	  		ItemTFIronwoodSword = Class.forName((String)"twilightforest.item.ItemTFIronwoodSword");
+		} catch (ClassNotFoundException e) {
+  			ItemTFIronwoodSword = trash;
+		}
+    }
+    
+    public static class ThrowawayClass {
+    	// This is a throwaway class to use when the Class.forName() functions fail.
     }
 
     /// Initializes these properties.
@@ -49,8 +93,34 @@ public abstract class Properties {
 
         config.load();
 
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_animated_texture", true, "If true, lava monsters will have animated textures.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_armor", 0, "The amount of armor lava monsters have.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_health", 24.0, "Lava monsters' maximum health.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_cooldown", 60, "Ticks a monster must wait after attacking before it can start winding up again.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_shots", 3, "Number of fireballs shot with each attack.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_spacing", 6, "Ticks between each fireball shot in an attack.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_attack_windup", 60, "Ticks it takes before a monster can start an attack.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_fires", false, "Lava monsters on land cause fires. Enabling this makes it hard to get loot.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_basic_loot", false, "Lava monsters will only drop basic loot: coal and fire charges.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_time", 60, "Average ticks between heal attempts when the lava monster is standing in lava.");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_percent", .25, "Percent to heal when standing in lava");
+        Properties.add(config, Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_max", 12, "Maximum half-hearts to heal when standing in lava. Useful to keep infernals reasonable");
+
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_Nether_spawn", true, "If true, lava monsters will spawn in the Nether.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_depth_hazard", false, "If true, lava monsters will not spawn above layer 16.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_flowing_lava", false, "If true, lava monsters do not require a source block to spawn.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_shallow_lava", false, "If true, lava monsters will be able to spawn in lava one block deep.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_chance", 0.5, "The chance for a lava monster spawn attempt to be tried in a chunk. Might not find lava anyways.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_frequency", 79, "The number of ticks between each lava monster spawn attempt.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_max", 4, "The maximum number of lava monsters in the `area` in range of a player. Some could be further away.");
+        Properties.add(config, Properties.LAVAMONSTER_SPAWNING, "lavamonster_spawn_range", 5, "The radius of the `area` in chunks to spawn around the player. The area monsters can actually spawn is 1 less.");
+
+        config.addCustomCategoryComment(Properties.LAVAMONSTER_GENERAL, "General and/or miscellaneous options for Lava Monsters.");
+        config.addCustomCategoryComment(Properties.LAVAMONSTER_SPAWNING, "Options dictating the spawning algorithm for Lava Monsters.");
+        
         Properties.add(config, Properties.ENCHANTS, "pain_bow", 160);
         Properties.add(config, Properties.ENCHANTS, "pain_sword", 161);
+        Properties.add(config, Properties.ENCHANTS, "pain_damage",  1.34, "The amount of direct damage done by each level of the Pain enchant");
         Properties.add(config, Properties.ENCHANTS, "plague_bow", 162);
         Properties.add(config, Properties.ENCHANTS, "plague_sword", 163);
         Properties.add(config, Properties.ENCHANTS, "poison_bow", 164);
@@ -61,15 +131,19 @@ public abstract class Properties {
         Properties.add(config, Properties.SPAWNING, "overworld_ghast_mount", 1, 0, Integer.MAX_VALUE);
 
         Properties.loadIntSet(config, Properties.GENERAL, "dimension_blacklist", "", "Comma-separated list of each dimension to prevent this mod from replacing mobs in. Default is none.", Properties.dimensionBlacklist);
+        
         Properties.add(config, Properties.GENERAL, "random_scaling", 0.3, "The maximum magnitude for random size scaling (scaling * 50% = max difference %). Setting this to 0 disables random size scaling. Default is +/-15%");
         Properties.add(config, Properties.GENERAL, "spawn_eggs", false, "If true, the game will attempt to make a spawn egg for each special mob. Be warned, this will eat up " + mobsAdded + " global entity ids. Default is false.");
-        Properties.add(config, Properties.GENERAL, "trolling", true, "If false, trolling will be disabled. Default is true.");
-
+        Properties.add(config, Properties.GENERAL, "chat_enabled", true, "Enable snark chat from mobs");
+        Properties.add(config, Properties.GENERAL, "chat_range", 10, 2, 30, "Sets the chat range for snarky/super messages");
+        
         Properties.add(config, Properties.STATS, "baby_skeleton_chance", 0.05, 0.0, 1.0, "(0 <= x <= 1) Chance that a skeleton will spawn as a baby. Default is 5%.");
+        Properties.add(config, Properties.STATS, "blaze_snowball_hits",  4, 2, 10, "How many snowballs it takes to kill a blaze(does not account for cooldown or regen)");
         Properties.add(config, Properties.STATS, "bow_chance_pigzombie", 0.25, 0.0, 1.0, "(0 <= x <= 1) Chance that a zombie pigman will spawn with a bow, if possible. Default is 25%.");
         Properties.add(config, Properties.STATS, "bow_chance_skeleton", 0.95, 0.0, 1.0, "(0 <= x <= 1) Chance that a skeleton will spawn with a bow, if possible. Default is 95%.");
         Properties.add(config, Properties.STATS, "bow_chance_wither", 0.05, 0.0, 1.0, "(0 <= x <= 1) Chance that a wither skeleton will spawn with a bow, if possible. Default is 5%.");
         Properties.add(config, Properties.STATS, "bow_chance_zombie", 0.05, 0.0, 1.0, "(0 <= x <= 1) Chance that a zombie will spawn with a bow, if possible. Default is 5%.");
+        Properties.add(config, Properties.STATS, "conflagration_snowball_hits",  2, 2, 10, "How many snowballs it takes to kill a conflagration(does not account for cooldown or regen)");
         Properties.add(config, Properties.STATS, "creeper_charge_chance", 0.01, 0.0, 1.0, "(0 <= x <= 1) Chance that any creeper spawned during a thunderstorm will be charged. Default is 1%.");
         Properties.add(config, Properties.STATS, "enderman_griefing", true, "(True/false) If true, endermen will pick up blocks and place them around randomly, as in vanilla. Default is true.");
         Properties.add(config, Properties.STATS, "hostile_cavespiders", 1.0, 0.0, 1.0, "(0 <= x <= 1) Chance that a cave spider will spawn aggressive in daylight. Default is 100%.");
@@ -82,9 +156,9 @@ public abstract class Properties {
         Properties.add(config, Properties.STATS, "villager_infection", 1.0, 0.0, 1.0, "(0 <= x <= 1) Chance that a villager will be infected when killed by a zombie. Default is 100%.");
         Properties.add(config, Properties.STATS, "xray_ghosts", false, "(True/false) If false, ghost spiders and faint ghasts will require line of sight to aggro, unlike their normal counterparts. Default is false.");
 
-        Properties.init(config, "monster", _SpecialMobs.MONSTER_KEY, _SpecialMobs.MONSTER_TYPES, Properties.monsterVanilla, Properties.monsterSpawn, Properties.monsterWeights);
+        Properties.initializeArrays(config, "monster", _SpecialMobs.MONSTER_KEY, _SpecialMobs.MONSTER_TYPES, Properties.monsterVanilla, Properties.monsterSpawn, Properties.monsterWeights);
 
-        config.addCustomCategoryComment(Properties.ENCHANTS, "Ids for all enchantments added by this mod. Set the id to -1 to disable any specific enchantment.");
+        config.addCustomCategoryComment(Properties.ENCHANTS, "Info for all enchantments added by this mod. Set the id to -1 to disable any specific enchantment.");
         config.addCustomCategoryComment(Properties.SPAWNING, "Weighted chances for each additional spawn. Set the weight to 0 to disable the spawn.");
         config.addCustomCategoryComment(Properties.GENERAL, "Spawn rates for each mob type and miscellaneous options.");
         config.addCustomCategoryComment(Properties.STATS, "Additional options for mobs\' stats, such as the chance for the mob to have a bow or to be unusually hostile.");
@@ -110,7 +184,7 @@ public abstract class Properties {
     }
 
     /// Initializes specific monster properties.
-    private static void init(Configuration config, String category, String[] key, String[][] types, boolean[] keyVanilla, boolean[] keyValues, int[][] typeWeights) {
+    private static void initializeArrays(Configuration config, String category, String[] key, String[][] types, boolean[] keyVanilla, boolean[] keyValues, int[][] typeWeights) {
         String pluralKey;
         String MOB_CATEGORY;
         for (int i = 0; i < key.length; i++) {
@@ -235,7 +309,7 @@ public abstract class Properties {
             return ((Number) property).intValue();
         if (property instanceof Boolean)
             return ((Boolean) property).booleanValue() ? 1 : 0;
-        Properties.debugException("Tried to get int for invalid property! @" + property.getClass().getName());
+        Properties.debugException("Tried to get int for invalid property! @" + property == null ? "(null)" : property.getClass().getName());
         return 0;
     }
 
