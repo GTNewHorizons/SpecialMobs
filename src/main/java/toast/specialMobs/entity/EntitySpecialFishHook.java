@@ -17,9 +17,6 @@ import toast.specialMobs.Properties;
 
 public class EntitySpecialFishHook extends Entity {
 
-    /// Useful properties for this class.
-    private static final boolean TROLLING = Properties.getBoolean(Properties.GENERAL, "trolling");
-
     // The data watcher key for the angler id.
     public static final byte DW_ANGLER_ID = 24;
 
