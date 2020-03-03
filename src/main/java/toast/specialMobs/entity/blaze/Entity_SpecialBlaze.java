@@ -225,7 +225,8 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
             damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) - 1, damage);
             sendChatSnark(this, damageSource, this.rand, chatSuper);
         } else if (Properties.EntityFrostShardClass.isInstance(damageSource.getSourceOfDamage()) 
-        		|| Properties.EntityIceArrow.isInstance(damageSource.getSourceOfDamage()) ) {
+        		|| Properties.EntityIceArrow.isInstance(damageSource.getSourceOfDamage())
+        		|| "frost".equals(damageSource.getDamageType())) {
         	// Frost-based weapons are super-super-effective. Should take only 3 hits to kill them.
         	damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) + 2, damage);
             sendChatSnark(this, damageSource, this.rand, chatSuper);
