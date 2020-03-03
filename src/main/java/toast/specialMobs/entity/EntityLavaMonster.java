@@ -198,6 +198,9 @@ public class EntityLavaMonster extends EntityMob implements ISpecialMob {
                     }
                 }
             }
+            if ( "frost".equals(damageSource.getDamageType()) ) {
+            	return true;
+            }
         }
         return false;
     }    
