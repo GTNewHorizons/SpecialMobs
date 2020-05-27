@@ -90,7 +90,7 @@ public interface ISpecialMob
     	}
     	ArrayList<EntityPlayer> chatTargets = new ArrayList<EntityPlayer>();
     	//Determine if damageSource is a player
-    	if (damageSource.getSourceOfDamage() instanceof EntityPlayer) {
+    	if (damageSource.getEntity() instanceof EntityPlayer) {
     		chatTargets.add( (EntityPlayer) damageSource.getEntity() );
     	} else { // Could not find source entity from damageSource, have to just search locally and broadcast
     		ArrayList<Entity> nearby = new ArrayList<Entity>( target.worldObj.getEntitiesWithinAABBExcludingEntity(target, target.boundingBox.expand(CHAT_RANGE, CHAT_RANGE, CHAT_RANGE)));
