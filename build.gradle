@@ -38,6 +38,10 @@ archivesBaseName = "SpecialMobs"
 minecraft {
     version = "${config.forge.version}-${config.minecraft.version}"
     runDir = "eclipse"
+
+    replaceIn "src/main/java/toast/specialMobs/_SpecialMobs.java"
+    replace "GRADLETOKEN_VERSION", ((String) project.version).split("-")[1]
+
 }
 
 dependencies {}
