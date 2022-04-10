@@ -27,7 +27,7 @@ public class RenderSpecialZombie extends RenderZombie
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
         if (entity instanceof INinja && ((INinja) entity).getHidingBlock() != null)
-			return TextureMap.locationBlocksTexture;
+            return TextureMap.locationBlocksTexture;
 
         if (!(entity instanceof EntityPigZombie) && ((EntityZombie)entity).isVillager())
             return ((ISpecialMob)entity).getSpecialData().getTexture(1);
@@ -46,15 +46,15 @@ public class RenderSpecialZombie extends RenderZombie
     @Override
     public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTick) {
         if (entity instanceof INinja) {
-        	Block block = ((INinja) entity).getHidingBlock();
-        	if (block != null) {
+            Block block = ((INinja) entity).getHidingBlock();
+            if (block != null) {
                 GL11.glPushMatrix();
                 GL11.glTranslatef((float) x, (float) y + 0.5F, (float) z);
                 this.bindEntityTexture(entity);
                 ClientProxy.blockRenderer.renderBlockAsItem(block, ((INinja) entity).getHidingData(), 1.0F);
                 GL11.glPopMatrix();
-				return;
-        	}
+                return;
+            }
         }
         super.doRender(entity, x, y, z, yaw, partialTick);
     }

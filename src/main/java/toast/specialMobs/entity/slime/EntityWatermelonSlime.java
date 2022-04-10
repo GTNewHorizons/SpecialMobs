@@ -26,24 +26,24 @@ public class EntityWatermelonSlime extends Entity_SpecialSlime
 
     /// Gets the additional experience this slime type gives.
     @Override
-	protected int getTypeXp() {
-    	return 2;
+    protected int getTypeXp() {
+        return 2;
     }
 
     /// Overridden to modify inherited attribites, except for health.
     @Override
-	protected void adjustTypeAttributes() {
-    	this.getSpecialData().addAttribute(SharedMonsterAttributes.attackDamage, 2.0);
+    protected void adjustTypeAttributes() {
+        this.getSpecialData().addAttribute(SharedMonsterAttributes.attackDamage, 2.0);
     }
     /// Overridden to modify inherited max health.
     @Override
-	protected void adjustHealthAttribute() {
-    	this.getSpecialData().addAttribute(SharedMonsterAttributes.maxHealth, 8.0);
+    protected void adjustHealthAttribute() {
+        this.getSpecialData().addAttribute(SharedMonsterAttributes.maxHealth, 8.0);
     }
 
     /// Called when this slime jumps, returns true if it successfully jumps.
     @Override
-	protected boolean jumpByType(EntityPlayer target) {
+    protected boolean jumpByType(EntityPlayer target) {
         if (target != null) {
             float distance = (float) this.getDistanceSqToEntity(target);
             if (distance < 16.0F) {
@@ -58,13 +58,13 @@ public class EntityWatermelonSlime extends Entity_SpecialSlime
                 return true;
             }
         }
-    	return super.jumpByType(target);
+        return super.jumpByType(target);
     }
 
     /// Overridden to modify attack effects.
     @Override
-	protected void onTypeAttack(Entity target) {
-    	target.addVelocity(-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * 0.8F, 0.1, MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * 0.8F);
+    protected void onTypeAttack(Entity target) {
+        target.addVelocity(-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * 0.8F, 0.1, MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * 0.8F);
         this.motionX *= -0.4;
         this.motionZ *= -0.4;
     }
@@ -74,15 +74,15 @@ public class EntityWatermelonSlime extends Entity_SpecialSlime
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (this.getSlimeSize() == 1) {
-	        for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
-	            this.dropItem(Items.melon, 1);
-	        }
-	        if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-	            this.entityDropItem(new ItemStack(Items.dye, 1, this.rand.nextBoolean() ? 9 : 10), 0.0F);
-	        }
-	        if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-	            this.dropItem(Items.speckled_melon, 1);
-	        }
+            for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
+                this.dropItem(Items.melon, 1);
+            }
+            if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
+                this.entityDropItem(new ItemStack(Items.dye, 1, this.rand.nextBoolean() ? 9 : 10), 0.0F);
+            }
+            if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
+                this.dropItem(Items.speckled_melon, 1);
+            }
         }
     }
 
@@ -90,10 +90,10 @@ public class EntityWatermelonSlime extends Entity_SpecialSlime
     @Override
     protected void dropRareDrop(int superRare) {
         if (this.getSlimeSize() == 1) {
-	        ItemStack itemStack = new ItemStack(Items.potionitem, 1, 8206);
-	        EffectHelper.setItemName(itemStack, "Potion of Resistance", 0xf);
-	        EffectHelper.addPotionEffect(itemStack, Potion.resistance, 3600 / (superRare + 1), superRare);
-	        this.entityDropItem(itemStack, 0.0F);
+            ItemStack itemStack = new ItemStack(Items.potionitem, 1, 8206);
+            EffectHelper.setItemName(itemStack, "Potion of Resistance", 0xf);
+            EffectHelper.addPotionEffect(itemStack, Potion.resistance, 3600 / (superRare + 1), superRare);
+            this.entityDropItem(itemStack, 0.0F);
         }
     }
 }

@@ -23,13 +23,13 @@ public class EntityGrapeSlime extends Entity_SpecialSlime
 
     /// Gets the additional experience this slime type gives.
     @Override
-	protected int getTypeXp() {
-    	return 2;
+    protected int getTypeXp() {
+        return 2;
     }
 
     /// Called when this slime jumps, returns true if it successfully jumps.
     @Override
-	protected boolean jumpByType(EntityPlayer target) {
+    protected boolean jumpByType(EntityPlayer target) {
         if (target != null) {
             float distance = (float) this.getDistanceSqToEntity(target);
             if (distance > 36.0F && distance < 144.0F) {
@@ -43,7 +43,7 @@ public class EntityGrapeSlime extends Entity_SpecialSlime
                 return true;
             }
         }
-    	return super.jumpByType(target);
+        return super.jumpByType(target);
     }
 
     /// Called when this entity is killed.
@@ -51,12 +51,12 @@ public class EntityGrapeSlime extends Entity_SpecialSlime
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (this.getSlimeSize() == 1) {
-	        for (int i = this.rand.nextInt(2) + 1; i-- > 0;) {
-	            this.dropItem(Items.slime_ball, 1);
-	        }
-	        if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-	            this.entityDropItem(new ItemStack(Items.dye, 1, 5), 0.0F);
-	        }
+            for (int i = this.rand.nextInt(2) + 1; i-- > 0;) {
+                this.dropItem(Items.slime_ball, 1);
+            }
+            if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
+                this.entityDropItem(new ItemStack(Items.dye, 1, 5), 0.0F);
+            }
         }
     }
 
@@ -64,10 +64,10 @@ public class EntityGrapeSlime extends Entity_SpecialSlime
     @Override
     protected void dropRareDrop(int superRare) {
         if (this.getSlimeSize() == 1) {
-	        ItemStack itemStack = new ItemStack(Items.potionitem, 1, 8193);
-	        EffectHelper.setItemName(itemStack, "Potion of Jumping", 0xf);
-	        EffectHelper.addPotionEffect(itemStack, Potion.jump, 600, 9);
-	        this.entityDropItem(itemStack, 0.0F);
+            ItemStack itemStack = new ItemStack(Items.potionitem, 1, 8193);
+            EffectHelper.setItemName(itemStack, "Potion of Jumping", 0xf);
+            EffectHelper.addPotionEffect(itemStack, Potion.jump, 600, 9);
+            this.entityDropItem(itemStack, 0.0F);
         }
     }
 }

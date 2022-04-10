@@ -55,43 +55,43 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
 
     // Gets whether the ninja should not move.
     @Override
-	public boolean getFrozen() {
+    public boolean getFrozen() {
         return this.dataWatcher.getWatchableObjectByte(EntityNinjaSkeleton.DW_FROZEN) != 0;
     }
     // Sets the ninja as an immovable object.
     @Override
-	public void setFrozen(boolean frozen) {
-    	if (frozen != this.getFrozen()) {
-			this.dataWatcher.updateObject(EntityNinjaSkeleton.DW_FROZEN, Byte.valueOf((byte) (frozen ? 1 : 0)));
-	        if (frozen) {
-	            this.posX = Math.floor(this.posX) + 0.5;
-	            this.posY = Math.floor(this.posY);
-	            this.posZ = Math.floor(this.posZ) + 0.5;
-	        }
-		}
+    public void setFrozen(boolean frozen) {
+        if (frozen != this.getFrozen()) {
+            this.dataWatcher.updateObject(EntityNinjaSkeleton.DW_FROZEN, Byte.valueOf((byte) (frozen ? 1 : 0)));
+            if (frozen) {
+                this.posX = Math.floor(this.posX) + 0.5;
+                this.posY = Math.floor(this.posY);
+                this.posZ = Math.floor(this.posZ) + 0.5;
+            }
+        }
     }
 
     // Gets the block being hidden as, or null if not hiding.
     @Override
-	public Block getHidingBlock() {
-    	if (this.isEntityAlive()) {
-	        int id = this.dataWatcher.getWatchableObjectInt(EntityNinjaSkeleton.DW_HIDING_BLOCK);
-	        if (id > 0) {
-	        	Block block = Block.getBlockById(id);
-	        	if (block != Blocks.air)
-					return block;
-	        }
-    	}
+    public Block getHidingBlock() {
+        if (this.isEntityAlive()) {
+            int id = this.dataWatcher.getWatchableObjectInt(EntityNinjaSkeleton.DW_HIDING_BLOCK);
+            if (id > 0) {
+                Block block = Block.getBlockById(id);
+                if (block != Blocks.air)
+                    return block;
+            }
+        }
         return null;
     }
     // Gets the metadata of the block being hidden as, if any.
     @Override
-	public int getHidingData() {
+    public int getHidingData() {
         return this.dataWatcher.getWatchableObjectByte(EntityNinjaSkeleton.DW_HIDING_DATA);
     }
     // Sets the block being hidden as, set to null or air to cancel hiding.
     @Override
-	public void setHidingBlock(Block block, int data) {
+    public void setHidingBlock(Block block, int data) {
         int id;
         if (block == null) {
             id = 0;
@@ -100,15 +100,15 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
             id = Block.getIdFromBlock(block);
         }
         if (id != this.dataWatcher.getWatchableObjectInt(EntityNinjaSkeleton.DW_HIDING_BLOCK)) {
-        	if (id == 0) {
-	            this.worldObj.playSoundAtEntity(this, "mob.zombie.infect", 1.0F, 0.5F);
-	            this.worldObj.setEntityState(this, EntityNinjaSkeleton.HU_REVEAL_FX);
-        	}
+            if (id == 0) {
+                this.worldObj.playSoundAtEntity(this, "mob.zombie.infect", 1.0F, 0.5F);
+                this.worldObj.setEntityState(this, EntityNinjaSkeleton.HU_REVEAL_FX);
+            }
             this.dataWatcher.updateObject(EntityNinjaSkeleton.DW_HIDING_BLOCK, Integer.valueOf(id));
         }
         if (data != this.getHidingData()) {
-			this.dataWatcher.updateObject(EntityNinjaSkeleton.DW_HIDING_DATA, Byte.valueOf((byte) data));
-		}
+            this.dataWatcher.updateObject(EntityNinjaSkeleton.DW_HIDING_DATA, Byte.valueOf((byte) data));
+        }
         this.canHide = false;
     }
 
@@ -125,30 +125,30 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
         if (this.rand.nextBoolean()) {
             ItemStack sword = new ItemStack(Items.iron_sword);
             try {
-            	EffectHelper.enchantItem(this.rand, sword, 30);
+                EffectHelper.enchantItem(this.rand, sword, 30);
             }
             catch (Exception ex) {
-            	ex.printStackTrace();
+                ex.printStackTrace();
             }
             EffectHelper.setItemName(sword, "Katana");
-			this.setCurrentItemOrArmor(0, sword);
-		}
+            this.setCurrentItemOrArmor(0, sword);
+        }
         this.setCanPickUpLoot(true);
     }
 
     /// Called each tick while this entity is alive.
     @Override
     public void onLivingUpdate() {
-    	if (!this.worldObj.isRemote) {
-	    	if (this.canHide) {
-	    		this.setHiding();
-	    	}
-	    	else {
-	    		if (this.onGround && (this.getEntityToAttack() == null || this.getEntityToAttack() instanceof EntityPlayer && ((EntityPlayer) this.getEntityToAttack()).capabilities.isCreativeMode) && this.getHidingBlock() == null) {
-					this.canHide = true;
-				}
-	    	}
-    	}
+        if (!this.worldObj.isRemote) {
+            if (this.canHide) {
+                this.setHiding();
+            }
+            else {
+                if (this.onGround && (this.getEntityToAttack() == null || this.getEntityToAttack() instanceof EntityPlayer && ((EntityPlayer) this.getEntityToAttack()).capabilities.isCreativeMode) && this.getHidingBlock() == null) {
+                    this.canHide = true;
+                }
+            }
+        }
 
         super.onLivingUpdate();
     }
@@ -205,7 +205,7 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
 
     /// Returns true if this entity should push and be pushed by other entities when colliding.
     @Override
-	public boolean canBePushed() {
+    public boolean canBePushed() {
         return !this.getFrozen();
     }
 
@@ -226,17 +226,17 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
     protected void dropRareDrop(int superRare) {
         ItemStack drop = new ItemStack(Items.iron_sword);
         try {
-        	EffectHelper.enchantItem(this.rand, drop, 30);
-	        if (EnchantmentSpecial.painSword != null) {
-	        	EffectHelper.overrideEnchantment(drop, EnchantmentSpecial.painSword, 2);
-	        }
-	        else {
-	        	EffectHelper.overrideEnchantment(drop, Enchantment.sharpness, 2);
-	        }
-        	EffectHelper.overrideEnchantment(drop, Enchantment.unbreaking, 5);
+            EffectHelper.enchantItem(this.rand, drop, 30);
+            if (EnchantmentSpecial.painSword != null) {
+                EffectHelper.overrideEnchantment(drop, EnchantmentSpecial.painSword, 2);
+            }
+            else {
+                EffectHelper.overrideEnchantment(drop, Enchantment.sharpness, 2);
+            }
+            EffectHelper.overrideEnchantment(drop, Enchantment.unbreaking, 5);
         }
         catch (Exception ex) {
-        	ex.printStackTrace();
+            ex.printStackTrace();
         }
         EffectHelper.setItemName(drop, "Kusanagi-no-Tsurugi", 0xd);
         this.entityDropItem(drop, 0.0F);
@@ -244,7 +244,7 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
 
     @Override
     public void handleHealthUpdate(byte b) {
-    	if (b == EntityNinjaSkeleton.HU_REVEAL_FX) {
+        if (b == EntityNinjaSkeleton.HU_REVEAL_FX) {
             this.spawnExplosionParticle();
         }
         else {
@@ -258,12 +258,12 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
         super.writeEntityToNBT(tag);
         Block hidingBlock = this.getHidingBlock();
         if (hidingBlock != null) {
-	        tag.setString("HidingBlock", Block.blockRegistry.getNameForObject(hidingBlock));
-	        tag.setByte("HidingData", (byte) (this.getHidingData() & 0xf));
+            tag.setString("HidingBlock", Block.blockRegistry.getNameForObject(hidingBlock));
+            tag.setByte("HidingData", (byte) (this.getHidingData() & 0xf));
         }
         else {
-	        tag.setString("HidingBlock", "\f");
-	        tag.setByte("HidingData", (byte) 0);
+            tag.setString("HidingBlock", "\f");
+            tag.setByte("HidingData", (byte) 0);
         }
     }
 
@@ -272,126 +272,126 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
     public void readEntityFromNBT(NBTTagCompound tag) {
         super.readEntityFromNBT(tag);
         if (tag.hasKey("HidingBlock")) {
-        	String hidingBlock = tag.getString("HidingBlock");
-        	if (hidingBlock.equals("\f")) {
-        		this.setHidingBlock(null, 0);
-        	}
-        	else {
-        		this.setHidingBlock(Block.getBlockFromName(hidingBlock), tag.getByte("HidingData"));
-        	}
+            String hidingBlock = tag.getString("HidingBlock");
+            if (hidingBlock.equals("\f")) {
+                this.setHidingBlock(null, 0);
+            }
+            else {
+                this.setHidingBlock(Block.getBlockFromName(hidingBlock), tag.getByte("HidingData"));
+            }
         }
     }
 
     /// Randomly picks a block to hide as.
     public void setHiding() {
-		switch (this.rand.nextInt(100)) {
-			case 0:
-				this.setHidingBlock(Blocks.chest, this.rand.nextInt(4) + 2);
-				return;
-			case 1:
-				this.setHidingBlock(Blocks.log, 0);
-				return;
-			case 2:
-				this.setHidingBlock(Blocks.sponge, 0);
-				return;
-			case 3:
-				this.setHidingBlock(Blocks.deadbush, 0);
-				return;
-			case 4:
-				this.setHidingBlock(Blocks.leaves, 0);
-				return;
-		}
+        switch (this.rand.nextInt(100)) {
+            case 0:
+                this.setHidingBlock(Blocks.chest, this.rand.nextInt(4) + 2);
+                return;
+            case 1:
+                this.setHidingBlock(Blocks.log, 0);
+                return;
+            case 2:
+                this.setHidingBlock(Blocks.sponge, 0);
+                return;
+            case 3:
+                this.setHidingBlock(Blocks.deadbush, 0);
+                return;
+            case 4:
+                this.setHidingBlock(Blocks.leaves, 0);
+                return;
+        }
 
-    	Block hidingBlock;
-    	int hidingData;
-    	int x, y, z;
+        Block hidingBlock;
+        int hidingData;
+        int x, y, z;
 
-		x = (int) Math.floor(this.posX);
-		y = (int) Math.floor(this.posY) - 1;
-		z = (int) Math.floor(this.posZ);
-		hidingBlock = this.worldObj.getBlock(x, y, z);
-		if (hidingBlock == Blocks.air) {
-			// Do nothing
-		}
-		else if (hidingBlock == Blocks.stone) {
-			switch (this.rand.nextInt(32)) {
-				case 0:
-					this.setHidingBlock(hidingBlock, 0);
-					return;
-				case 1:
-					this.setHidingBlock(Blocks.gravel, 0);
-					return;
-				case 2:
-					this.setHidingBlock(Blocks.coal_ore, 0);
-					return;
-				case 3:
-					this.setHidingBlock(Blocks.iron_ore, 0);
-					return;
-				case 4:
-					this.setHidingBlock(Blocks.lapis_ore, 0);
-					return;
-				case 5:
-					this.setHidingBlock(Blocks.gold_ore, 0);
-					return;
-				case 6:
-					this.setHidingBlock(Blocks.redstone_ore, 0);
-					return;
-				case 7:
-					this.setHidingBlock(Blocks.diamond_ore, 0);
-					return;
-				case 8:
-					this.setHidingBlock(Blocks.emerald_ore, 0);
-					return;
-			}
-		}
-		else if (hidingBlock == Blocks.grass) {
-			switch (this.rand.nextInt(10)) {
-				case 0:
-					this.setHidingBlock(hidingBlock, 0);
-					return;
-				case 1:
-					this.setHidingBlock(Blocks.log, this.rand.nextInt(4));
-					return;
-				case 2:
-					this.setHidingBlock(Blocks.pumpkin, this.rand.nextInt(4));
-					return;
-				case 3:
-					this.setHidingBlock(Blocks.melon_block, 0);
-					return;
-				case 4:
-					this.setHidingBlock(Blocks.tallgrass, this.rand.nextInt(2) + 1);
-					return;
-				case 5:
-					this.setHidingBlock(Blocks.leaves, this.rand.nextInt(4));
-					return;
-			}
-		}
-		else if (hidingBlock == Blocks.sand) {
-			switch (this.rand.nextInt(6)) {
-				case 0:
-					this.setHidingBlock(hidingBlock, 0);
-					return;
-				case 1:
-					this.setHidingBlock(Blocks.cactus, 0);
-					return;
-				case 2:
-					this.setHidingBlock(Blocks.deadbush, 0);
-					return;
-			}
-		}
+        x = (int) Math.floor(this.posX);
+        y = (int) Math.floor(this.posY) - 1;
+        z = (int) Math.floor(this.posZ);
+        hidingBlock = this.worldObj.getBlock(x, y, z);
+        if (hidingBlock == Blocks.air) {
+            // Do nothing
+        }
+        else if (hidingBlock == Blocks.stone) {
+            switch (this.rand.nextInt(32)) {
+                case 0:
+                    this.setHidingBlock(hidingBlock, 0);
+                    return;
+                case 1:
+                    this.setHidingBlock(Blocks.gravel, 0);
+                    return;
+                case 2:
+                    this.setHidingBlock(Blocks.coal_ore, 0);
+                    return;
+                case 3:
+                    this.setHidingBlock(Blocks.iron_ore, 0);
+                    return;
+                case 4:
+                    this.setHidingBlock(Blocks.lapis_ore, 0);
+                    return;
+                case 5:
+                    this.setHidingBlock(Blocks.gold_ore, 0);
+                    return;
+                case 6:
+                    this.setHidingBlock(Blocks.redstone_ore, 0);
+                    return;
+                case 7:
+                    this.setHidingBlock(Blocks.diamond_ore, 0);
+                    return;
+                case 8:
+                    this.setHidingBlock(Blocks.emerald_ore, 0);
+                    return;
+            }
+        }
+        else if (hidingBlock == Blocks.grass) {
+            switch (this.rand.nextInt(10)) {
+                case 0:
+                    this.setHidingBlock(hidingBlock, 0);
+                    return;
+                case 1:
+                    this.setHidingBlock(Blocks.log, this.rand.nextInt(4));
+                    return;
+                case 2:
+                    this.setHidingBlock(Blocks.pumpkin, this.rand.nextInt(4));
+                    return;
+                case 3:
+                    this.setHidingBlock(Blocks.melon_block, 0);
+                    return;
+                case 4:
+                    this.setHidingBlock(Blocks.tallgrass, this.rand.nextInt(2) + 1);
+                    return;
+                case 5:
+                    this.setHidingBlock(Blocks.leaves, this.rand.nextInt(4));
+                    return;
+            }
+        }
+        else if (hidingBlock == Blocks.sand) {
+            switch (this.rand.nextInt(6)) {
+                case 0:
+                    this.setHidingBlock(hidingBlock, 0);
+                    return;
+                case 1:
+                    this.setHidingBlock(Blocks.cactus, 0);
+                    return;
+                case 2:
+                    this.setHidingBlock(Blocks.deadbush, 0);
+                    return;
+            }
+        }
 
-		for (int i = 16; i-- > 0;) {
-			x = (int) Math.floor(this.posX) + this.rand.nextInt(17) - 8;
-			y = (int) Math.floor(this.posY) + this.rand.nextInt(4) - 2;
-			z = (int) Math.floor(this.posZ) + this.rand.nextInt(17) - 8;
-			hidingBlock = this.worldObj.getBlock(x, y, z);
-			hidingData = this.worldObj.getBlockMetadata(x, y, z);
-			if (hidingBlock != Blocks.air && !(hidingBlock instanceof BlockLiquid)) {
-				this.setHidingBlock(hidingBlock, hidingData);
-				return;
-			}
-		}
+        for (int i = 16; i-- > 0;) {
+            x = (int) Math.floor(this.posX) + this.rand.nextInt(17) - 8;
+            y = (int) Math.floor(this.posY) + this.rand.nextInt(4) - 2;
+            z = (int) Math.floor(this.posZ) + this.rand.nextInt(17) - 8;
+            hidingBlock = this.worldObj.getBlock(x, y, z);
+            hidingData = this.worldObj.getBlockMetadata(x, y, z);
+            if (hidingBlock != Blocks.air && !(hidingBlock instanceof BlockLiquid)) {
+                this.setHidingBlock(hidingBlock, hidingData);
+                return;
+            }
+        }
 
-		this.setHidingBlock(Blocks.log, 0);
+        this.setHidingBlock(Blocks.log, 0);
     }
 }

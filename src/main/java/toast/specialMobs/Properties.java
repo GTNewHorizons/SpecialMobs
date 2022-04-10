@@ -48,45 +48,45 @@ public abstract class Properties {
             Properties.monsterWeights[i] = new int[_SpecialMobs.MONSTER_TYPES[i].length + 1];
         }
         // This unnatural act is to allow us to intercept various frost based damage sources
-	  	try {
-	  		trash = Class.forName((String)"toast.specialMobs.Properties$ThrowawayClass");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	  	try {
-	  		EntityFrostShardClass = Class.forName((String)"thaumcraft.common.entities.projectile.EntityFrostShard");
-		} catch (ClassNotFoundException e) {
-  			EntityFrostShardClass = trash;
-		}
-	  	try {
-	  		EntityIceArrow = Class.forName((String)"twilightforest.entity.EntityIceArrow");
-		} catch (ClassNotFoundException e) {
-  			EntityIceArrow = trash;
-		}
-	  	try {
-	  		ItemTFIceSword = Class.forName((String)"twilightforest.item.ItemTFIceSword");
-		} catch (ClassNotFoundException e) {
-  			ItemTFIceSword = trash;
-		}
-	  	try {
-	  		ItemTFIceBomb = Class.forName((String)"twilightforest.item.ItemTFIceBomb");
-		} catch (ClassNotFoundException e) {
-  			ItemTFIceBomb = trash;
-		}
-	  	try {
-	  		ItemTFIronwoodSword = Class.forName((String)"twilightforest.item.ItemTFIronwoodSword");
-		} catch (ClassNotFoundException e) {
-  			ItemTFIronwoodSword = trash;
-		}
+          try {
+              trash = Class.forName((String)"toast.specialMobs.Properties$ThrowawayClass");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+          try {
+              EntityFrostShardClass = Class.forName((String)"thaumcraft.common.entities.projectile.EntityFrostShard");
+        } catch (ClassNotFoundException e) {
+              EntityFrostShardClass = trash;
+        }
+          try {
+              EntityIceArrow = Class.forName((String)"twilightforest.entity.EntityIceArrow");
+        } catch (ClassNotFoundException e) {
+              EntityIceArrow = trash;
+        }
+          try {
+              ItemTFIceSword = Class.forName((String)"twilightforest.item.ItemTFIceSword");
+        } catch (ClassNotFoundException e) {
+              ItemTFIceSword = trash;
+        }
+          try {
+              ItemTFIceBomb = Class.forName((String)"twilightforest.item.ItemTFIceBomb");
+        } catch (ClassNotFoundException e) {
+              ItemTFIceBomb = trash;
+        }
+          try {
+              ItemTFIronwoodSword = Class.forName((String)"twilightforest.item.ItemTFIronwoodSword");
+        } catch (ClassNotFoundException e) {
+              ItemTFIronwoodSword = trash;
+        }
     }
     
     public static class ThrowawayClass {
-    	// This is a throwaway class to use when the Class.forName() functions fail.
+        // This is a throwaway class to use when the Class.forName() functions fail.
     }
 
     /// Initializes these properties.
     public static void init(Configuration config) {
-    	int mobsAdded = _SpecialMobs.MONSTER_KEY.length;
+        int mobsAdded = _SpecialMobs.MONSTER_KEY.length;
         for (int i = 0; i < _SpecialMobs.MONSTER_KEY.length; i++) {
             mobsAdded += _SpecialMobs.MONSTER_TYPES[i].length;
         }
@@ -168,18 +168,18 @@ public abstract class Properties {
 
     /// Initializes an integer hash set property.
     private static void loadIntSet(Configuration config, String category, String field, String defaultValue, String comment, HashSet<Integer> intSet) {
-    	intSet.clear();
+        intSet.clear();
         String[] intArray = { config.get(category, field, defaultValue, comment).getString() };
         if (!intArray[0].trim().isEmpty()) {
-	        intArray = intArray[0].split(",");
-	        for (int i = 0; i < intArray.length; i++) {
-	        	try {
-	        		intSet.add(Integer.parseInt(intArray[i].trim()));
-	        	}
-	        	catch (Exception ex) {
-	        		throw new RuntimeException("Invalid dimension blacklist entry: " + intArray[i].trim(), ex);
-	        	}
-	        }
+            intArray = intArray[0].split(",");
+            for (int i = 0; i < intArray.length; i++) {
+                try {
+                    intSet.add(Integer.parseInt(intArray[i].trim()));
+                }
+                catch (Exception ex) {
+                    throw new RuntimeException("Invalid dimension blacklist entry: " + intArray[i].trim(), ex);
+                }
+            }
         }
     }
 

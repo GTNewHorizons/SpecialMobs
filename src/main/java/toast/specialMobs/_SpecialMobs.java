@@ -72,7 +72,7 @@ public class _SpecialMobs
     /** Monster "sub-species" array. First dimension is the MONSTER_KEY[]. */
     public static final String[][] MONSTER_TYPES = {
         { // Blaze
-        	"Cinder", "Conflagration", "Ember", "Hellfire", "Inferno", "Jolt", "Smolder", "Wildfire"
+            "Cinder", "Conflagration", "Ember", "Hellfire", "Inferno", "Jolt", "Smolder", "Wildfire"
         },
         { // CaveSpider
             "Baby", "Flying", "Mother", "Tough", "Web", "Witch"
@@ -96,13 +96,13 @@ public class _SpecialMobs
             "Brutish", "Fire", "Gatling", "Giant", "Ninja", "Poison", "Sniper", "Spitfire", "Thief"
         },
         { // Slime
-        	"Blackberry", "Blueberry", "Caramel", "Grape", "Lemon", "Strawberry", "Watermelon"
+            "Blackberry", "Blueberry", "Caramel", "Grape", "Lemon", "Strawberry", "Watermelon"
         },
         { // Spider
             "Baby", "Desert", "Flying", "Ghost", "Giant", "Hungry", "Mother", "Pale", "Poison", "Small", "Tough", "Web", "Witch"
         },
         { // Witch
-        	"Domination", "Rage", "Shadows", "Undead", "Wilds", "Wind"
+            "Domination", "Rage", "Shadows", "Undead", "Wilds", "Wind"
         },
         { // Zombie
             "Brutish", "Fire", "Fishing", "Giant", "Hungry", "Plague"
@@ -158,8 +158,8 @@ public class _SpecialMobs
             0xffc0cb, 0xe6ddac, 0x6388b2, 0x82c873, 0xa80e0e, 0x799c65, 0xb300b3, 0xded4c6, 0x0c424e, 0xa80e0e, 0x8ea80e, 0xe7e7e7, 0xdd0e0e
         },
         { /* Witch (0x51a03e)
-        	"Domination", "Rage",   "Shadows", "Undead", "Wilds",  "Wind" */
-        	0xfff87e,     0x932423, 0x000000,  0x799c65, 0xa80e0e, 0x6388b2
+            "Domination", "Rage",   "Shadows", "Undead", "Wilds",  "Wind" */
+            0xfff87e,     0x932423, 0x000000,  0x799c65, 0xa80e0e, 0x6388b2
         },
         { /* Zombie (0x799c65)
             "Brutish", "Fire",   "Fishing", "Giant",  "Hungry", "Plague" */
@@ -170,7 +170,7 @@ public class _SpecialMobs
     /** Registers the entities in this mod and adds mob spawns. */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void registerMobs() {
-    	DataWatcherHelper.init();
+        DataWatcherHelper.init();
 
         int id = 0; // Mod-specific mob id
 
@@ -314,7 +314,7 @@ public class _SpecialMobs
 
         //EntityRegistry.registerModEntity(EntitySpecialFireball.class, "SMFireball", id++, this, 64, 10, true);
 
-    	DataWatcherHelper.verify();
+        DataWatcherHelper.verify();
 
         // Register extra mob spawns
         int spawnWeight;
@@ -334,17 +334,17 @@ public class _SpecialMobs
         // Register Lava Monster
         EntityRegistry.registerModEntity(EntityLavaMonster.class, "LavaMonster", id++, this, 80, 3, true);
         if (makeSpawnEggs) {
-	        eggId = EntityRegistry.findGlobalUniqueEntityId();
-	        try {
-	            Method method = EntityRegistry.class.getDeclaredMethod("validateAndClaimId", int.class);
-	            method.setAccessible(true);
-	            eggId = ((Integer) method.invoke(EntityRegistry.instance(), Integer.valueOf(eggId))).intValue();
-	        }
-	        catch (Exception ex) {
-	            _SpecialMobs.console("Error claiming spawn egg ID! Spawn egg will probably be overwritten. @" + ex.getClass().getName());
-	        }
-	        EntityList.IDtoClassMapping.put(Integer.valueOf(eggId), EntityLavaMonster.class);
-	        EntityList.entityEggs.put(Integer.valueOf(eggId), new EntityEggInfo(eggId, 0xff0000, 0xfcfc00));
+            eggId = EntityRegistry.findGlobalUniqueEntityId();
+            try {
+                Method method = EntityRegistry.class.getDeclaredMethod("validateAndClaimId", int.class);
+                method.setAccessible(true);
+                eggId = ((Integer) method.invoke(EntityRegistry.instance(), Integer.valueOf(eggId))).intValue();
+            }
+            catch (Exception ex) {
+                _SpecialMobs.console("Error claiming spawn egg ID! Spawn egg will probably be overwritten. @" + ex.getClass().getName());
+            }
+            EntityList.IDtoClassMapping.put(Integer.valueOf(eggId), EntityLavaMonster.class);
+            EntityList.entityEggs.put(Integer.valueOf(eggId), new EntityEggInfo(eggId, 0xff0000, 0xfcfc00));
         }
         new SpawnLavaMonster();
         
@@ -422,7 +422,7 @@ public class _SpecialMobs
     /*
     // Separates the mobType from mob, returns String[] { mobType, mob }.
     @Deprecated
-	public static String[] parseName(String mobName) {
+    public static String[] parseName(String mobName) {
         char[] chars = mobName.toCharArray();
         boolean[] breaks = new boolean[chars.length];
         String[] parts = new String[chars.length];
@@ -454,8 +454,8 @@ public class _SpecialMobs
             }
             mob = mob + parts[i];
         }
-		return new String[] { mobType, mob };
-	}
+        return new String[] { mobType, mob };
+    }
      */
 
     /**

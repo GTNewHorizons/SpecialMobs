@@ -91,11 +91,11 @@ public class Entity_SpecialPigZombie extends EntityPigZombie implements ISpecial
             float tension = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
             if (this.rand.nextFloat() < 0.25F * tension) {
                 try {
-                	EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
+                    EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
                 }
                 catch (Exception ex) {
-                	_SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
-                	ex.printStackTrace();
+                    _SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
+                    ex.printStackTrace();
                 }
             }
             this.setCurrentItemOrArmor(0, itemStack);
@@ -114,7 +114,7 @@ public class Entity_SpecialPigZombie extends EntityPigZombie implements ISpecial
     /// Called to update this entity's AI.
     @Override
     protected void updateEntityActionState() {
-    	this.seesTarget = false;
+        this.seesTarget = false;
         super.updateEntityActionState();
         if (!this.seesTarget) {
             this.sightDelay = 20;
@@ -148,7 +148,7 @@ public class Entity_SpecialPigZombie extends EntityPigZombie implements ISpecial
     /// Called each tick this entity's attack target can be seen.
     @Override
     protected void attackEntity(Entity target, float distance) {
-    	this.seesTarget = true;
+        this.seesTarget = true;
         IAttributeInstance attribute = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
         boolean stopped = attribute.getModifier(Entity_SpecialPigZombie.stopModifierUUID) != null;
         if (this.willShootBow() && this.getHeldItem() != null && this.getHeldItem().getItem() instanceof ItemBow) {
@@ -238,7 +238,7 @@ public class Entity_SpecialPigZombie extends EntityPigZombie implements ISpecial
         super.writeEntityToNBT(tag);
         NBTTagCompound saveTag = SpecialMobData.getSaveLocation(tag);
         if (this.isHostile) {
-        	saveTag.setBoolean("SMAnger", true);
+            saveTag.setBoolean("SMAnger", true);
         }
 
         this.getSpecialData().isImmuneToFire = this.isImmuneToFire;

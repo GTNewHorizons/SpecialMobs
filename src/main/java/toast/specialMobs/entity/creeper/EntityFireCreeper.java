@@ -29,7 +29,7 @@ public class EntityFireCreeper extends Entity_SpecialCreeper {
         this.worldObj.newExplosion(this, this.posX, this.posY, this.posZ, power, true, griefing);
 
         if (powered) {
-        	if (this.worldObj.getWorldInfo().isRaining()) {
+            if (this.worldObj.getWorldInfo().isRaining()) {
                 this.worldObj.getWorldInfo().setRainTime(0);
                 this.worldObj.getWorldInfo().setRaining(false);
             }

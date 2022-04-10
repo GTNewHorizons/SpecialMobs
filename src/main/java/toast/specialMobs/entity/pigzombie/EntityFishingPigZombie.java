@@ -13,7 +13,7 @@ import toast.specialMobs.entity.IAngler;
 
 public class EntityFishingPigZombie extends Entity_SpecialPigZombie implements IAngler
 {
-	/// The position of hasFishingRod within the data watcher.
+    /// The position of hasFishingRod within the data watcher.
     private static final byte DW_FISHING_ROD = DataWatcherHelper.instance.PIG_ZOMBIE_FISHING.nextKey();
 
     /// Ticks until this fishing zombie can cast its lure again.
@@ -44,11 +44,11 @@ public class EntityFishingPigZombie extends Entity_SpecialPigZombie implements I
         float tension = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
         if (this.rand.nextFloat() < 0.25F * tension) {
             try {
-            	EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
+                EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
             }
             catch (Exception ex) {
-            	_SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
-            	ex.printStackTrace();
+                _SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
+                ex.printStackTrace();
             }
         }
         this.setCurrentItemOrArmor(0, itemStack);

@@ -54,9 +54,9 @@ public class SpawnLavaMonster {
     /// Spawns lava monsters in the world. Returns the number spawned for debugging purposes.
     @SuppressWarnings("unchecked")
     private int performSpawning(WorldServer world) {
-    	if( world.playerEntities.size() == 0) { // No player entities in this world, don't spawn.
-    		return 0;
-    	}
+        if( world.playerEntities.size() == 0) { // No player entities in this world, don't spawn.
+            return 0;
+        }
         if (!SpawnLavaMonster.NETHER_SPAWN && world.provider.isHellWorld || (++this.spawnTime < SpawnLavaMonster.SPAWN_FREQUENCY))
             return 0;
 
@@ -69,8 +69,8 @@ public class SpawnLavaMonster {
             byte spawnRange = (byte) (SPAWN_RANGE&0xff); /// In chunks.
             for (int x = -spawnRange; x <= spawnRange; x++) {
                 for (int z = -spawnRange; z <= spawnRange; z++) {
-                	// Best guess, this stuff is trying to mark chunks on the edge of the spawn range.
-                	// And if a chunk is already marked, it then clears it.  This prevents spawns far away from players that won't get seen etc anyways.
+                    // Best guess, this stuff is trying to mark chunks on the edge of the spawn range.
+                    // And if a chunk is already marked, it then clears it.  This prevents spawns far away from players that won't get seen etc anyways.
                     boolean isEdge = x == -spawnRange || x == spawnRange || z == -spawnRange || z == spawnRange;
                     ChunkCoordIntPair chunkCoord = new ChunkCoordIntPair(x + chunkX, z + chunkZ);
                     if (!isEdge) {
@@ -90,25 +90,25 @@ public class SpawnLavaMonster {
         // Since it only checks here for SPAWN_MAX, it's possible there could be more than SPAWN_MAX lava monsters in the world.
         int countInWorld = world.countEntities(EntityLavaMonster.class);
         int maxAllowedInWorld = SpawnLavaMonster.SPAWN_MAX * this.eligibleChunksForSpawning.size() / adjustTotalChunks;
-    	_SpecialMobs.debugConsole("Lava monster count " + countInWorld + "  Max allowed " + maxAllowedInWorld);
+        _SpecialMobs.debugConsole("Lava monster count " + countInWorld + "  Max allowed " + maxAllowedInWorld);
         if ( countInWorld < maxAllowedInWorld ) {
             ArrayList<ChunkCoordIntPair> chunks = new ArrayList<>(this.eligibleChunksForSpawning.keySet());
             Collections.shuffle(chunks);
             chunkIterator: for (ChunkCoordIntPair chunkCoord : chunks) {
-            	if (numberSpawned >= (maxAllowedInWorld - countInWorld)) {
-            		break;
-            	}
+                if (numberSpawned >= (maxAllowedInWorld - countInWorld)) {
+                    break;
+                }
                 if (!this.eligibleChunksForSpawning.get(chunkCoord).booleanValue()) { // Don't spawn lava monsters on the chunks furthest from the player. Keeps them a little close and keeps a buffer distance
                     ChunkPosition chunkPos = this.getRandomSpawningPointInChunk(world, chunkCoord.chunkXPos, chunkCoord.chunkZPos);
                     int x = chunkPos.chunkPosX;
                     int y = chunkPos.chunkPosY;
                     int z = chunkPos.chunkPosZ;
-                	// Decide to skip spawning something in this chunk
-                	if ((SPAWN_CHANCE*100) < world.rand.nextInt(100)) {
-                		// _SpecialMobs.debugConsole("Skipping chunk X " + x + "  Z " + z);
-                		continue;
-                	}
-                	if (world.isBlockNormalCubeDefault(x, y, z, true)) {
+                    // Decide to skip spawning something in this chunk
+                    if ((SPAWN_CHANCE*100) < world.rand.nextInt(100)) {
+                        // _SpecialMobs.debugConsole("Skipping chunk X " + x + "  Z " + z);
+                        continue;
+                    }
+                    if (world.isBlockNormalCubeDefault(x, y, z, true)) {
                         continue;
                     }
                     byte groupRadius = 6;
@@ -173,7 +173,7 @@ public class SpawnLavaMonster {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onServerTick(TickEvent.WorldTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {
-        	if (event.world instanceof WorldServer) {
+            if (event.world instanceof WorldServer) {
                 this.performSpawning((WorldServer) event.world);
             }
         }

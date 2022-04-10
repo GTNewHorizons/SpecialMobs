@@ -25,7 +25,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ClientProxy extends CommonProxy
 {
     // Helps this class render blocks.
-	public static final RenderBlocks blockRenderer = new RenderBlocks();
+    public static final RenderBlocks blockRenderer = new RenderBlocks();
 
     /// Registers render files if this is the client side.
     @Override

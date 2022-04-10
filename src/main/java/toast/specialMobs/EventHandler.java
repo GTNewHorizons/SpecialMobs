@@ -98,9 +98,9 @@ public class EventHandler
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onLivingHurt(LivingHurtEvent event) {
         if (event.source != null) {
-        	if (event.source.getEntity() instanceof EntitySmolderBlaze) {
-        		event.entityLiving.addPotionEffect(new PotionEffect(Potion.blindness.id, 80));
-        	}
+            if (event.source.getEntity() instanceof EntitySmolderBlaze) {
+                event.entityLiving.addPotionEffect(new PotionEffect(Potion.blindness.id, 80));
+            }
 
             Entity attacker = null;
             attacker = event.source.getSourceOfDamage();
@@ -167,26 +167,12 @@ public class EventHandler
      */
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onLivingDeath(LivingDeathEvent event) {
-    	if (event.entityLiving.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD && !(event.entityLiving instanceof EntitySkeleton) && event.entityLiving.getRNG().nextInt(6) != 0) {
-    		for (Object entity : event.entityLiving.worldObj.getEntitiesWithinAABBExcludingEntity(event.entityLiving, event.entityLiving.boundingBox.expand(16.0, 8.0, 16.0))) {
-    			if (entity instanceof EntityUndeadWitch) {
-    				((EntityUndeadWitch) entity).skeletonCount++;
-    			}
-    		}
-    	}
+        if (event.entityLiving.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD && !(event.entityLiving instanceof EntitySkeleton) && event.entityLiving.getRNG().nextInt(6) != 0) {
+            for (Object entity : event.entityLiving.worldObj.getEntitiesWithinAABBExcludingEntity(event.entityLiving, event.entityLiving.boundingBox.expand(16.0, 8.0, 16.0))) {
+                if (entity instanceof EntityUndeadWitch) {
+                    ((EntityUndeadWitch) entity).skeletonCount++;
+                }
+            }
+        }
     }
-    
-    public static class DamageSourcePain extends DamageSource {
-        public DamageSourcePain() {
-            super("pain");
-            setDamageAllowedInCreativeMode();
-            setDamageBypassesArmor();
-            setDamageIsAbsolute();
-        }
-
-        @Override
-        public IChatComponent func_151519_b(EntityLivingBase aTarget) {
-            return new ChatComponentText(EnumChatFormatting.RED + aTarget.getCommandSenderName() + EnumChatFormatting.WHITE + " writhed in pain");
-        }
-    }    
 }

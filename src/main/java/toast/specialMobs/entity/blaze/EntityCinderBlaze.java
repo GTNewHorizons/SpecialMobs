@@ -23,7 +23,7 @@ public class EntityCinderBlaze extends Entity_SpecialBlaze
 
     /// Overridden to modify attack effects.
     @Override
-	protected void onTypeAttack(Entity target) {
-    	target.setFire(4);
+    protected void onTypeAttack(Entity target) {
+        target.setFire(4);
     }
 }

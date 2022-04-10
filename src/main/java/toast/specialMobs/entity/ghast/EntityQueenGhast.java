@@ -86,7 +86,7 @@ public class EntityQueenGhast extends Entity_SpecialGhast
                 this.worldObj.spawnEntityInWorld(baby);
             }
             if (baby != null) {
-            	this.worldObj.playSoundAtEntity(baby, "random.pop", 1.0F, 2.0F / (this.rand.nextFloat() * 0.4F + 0.8F));
+                this.worldObj.playSoundAtEntity(baby, "random.pop", 1.0F, 2.0F / (this.rand.nextFloat() * 0.4F + 0.8F));
                 baby.spawnExplosionParticle();
             }
         }

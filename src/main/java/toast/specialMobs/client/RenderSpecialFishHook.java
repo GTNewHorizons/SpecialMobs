@@ -53,10 +53,10 @@ public class RenderSpecialFishHook extends Render
             float swing = MathHelper.sin(MathHelper.sqrt_float(entity.angler.getSwingProgress(partialTicks)) * (float)Math.PI);
             Vec3 vec;
             if (entity.angler instanceof EntitySilverfish) {
-            	vec = Vec3.createVectorHelper(0.0, -0.2, 0.8);
+                vec = Vec3.createVectorHelper(0.0, -0.2, 0.8);
             }
             else {
-            	vec = Vec3.createVectorHelper(-0.5, 0.03, 0.8);
+                vec = Vec3.createVectorHelper(-0.5, 0.03, 0.8);
             }
             vec.rotateAroundX(-(entity.angler.prevRotationPitch + (entity.angler.rotationPitch - entity.angler.prevRotationPitch) * partialTicks) * (float)Math.PI / 180.0F);
             vec.rotateAroundY(-(entity.angler.prevRotationYaw + (entity.angler.rotationYaw - entity.angler.prevRotationYaw) * partialTicks) * (float)Math.PI / 180.0F);

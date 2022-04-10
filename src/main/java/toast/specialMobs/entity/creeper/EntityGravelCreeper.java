@@ -24,7 +24,7 @@ public class EntityGravelCreeper extends Entity_SpecialCreeper {
         float power = (powered ? this.explosionRadius * 2.0F : this.explosionRadius) / 2.0F;
         this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, power, griefing);
         if (griefing) {
-        	MobHelper.gravelExplode(this, power);
+            MobHelper.gravelExplode(this, power);
         }
     }
 

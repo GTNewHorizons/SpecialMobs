@@ -52,16 +52,16 @@ public class EntityHungrySpider extends Entity_SpecialSpider
     @Override
     public void onTypeAttack(Entity target) {
         if (target instanceof EntityPlayer) {
-    		ItemStack drop = MobHelper.removeRandomItem((EntityPlayer) target);
-    		if (drop != null) {
-		    	if (this.canPickUpLoot()) {
-					this.setCurrentItemOrArmor(0, drop);
-				}
-		    	else {
-					this.entityDropItem(drop, 0.0F);
-	                this.worldObj.playSoundAtEntity(this, "random.burp", 0.5F, this.rand.nextFloat() * 0.1F + 0.9F);
-				}
-        	}
+            ItemStack drop = MobHelper.removeRandomItem((EntityPlayer) target);
+            if (drop != null) {
+                if (this.canPickUpLoot()) {
+                    this.setCurrentItemOrArmor(0, drop);
+                }
+                else {
+                    this.entityDropItem(drop, 0.0F);
+                    this.worldObj.playSoundAtEntity(this, "random.burp", 0.5F, this.rand.nextFloat() * 0.1F + 0.9F);
+                }
+            }
         }
     }
 
@@ -69,8 +69,8 @@ public class EntityHungrySpider extends Entity_SpecialSpider
     @Override
     public void setCurrentItemOrArmor(int slot, ItemStack itemStack) {
         if (this.worldObj.isRemote)
-        	return;
-		if (itemStack != null && this.gainedHealth < 64) {
+            return;
+        if (itemStack != null && this.gainedHealth < 64) {
             this.gainedHealth++;
             float maxHealth = this.getMaxHealth();
             this.getSpecialData().addAttribute(SharedMonsterAttributes.maxHealth, 4.0);
@@ -81,19 +81,19 @@ public class EntityHungrySpider extends Entity_SpecialSpider
             }
             this.setFeedingLevel(this.feedingLevel + 1, true);
         }
-		if (this.gainedHealth >= 64) {
-			this.setCanPickUpLoot(false);
-		}
+        if (this.gainedHealth >= 64) {
+            this.setCanPickUpLoot(false);
+        }
 
-		if (itemStack != null) {
-	        if (itemStack.getItem() instanceof ItemFood) {
-	            this.heal(((ItemFood) itemStack.getItem()).func_150905_g(itemStack));
-	        }
-	        else {
-	            this.stomach.add(itemStack);
-	        }
-	        this.worldObj.playSoundAtEntity(this, "random.burp", 0.5F, this.rand.nextFloat() * 0.1F + 0.9F);
-		}
+        if (itemStack != null) {
+            if (itemStack.getItem() instanceof ItemFood) {
+                this.heal(((ItemFood) itemStack.getItem()).func_150905_g(itemStack));
+            }
+            else {
+                this.stomach.add(itemStack);
+            }
+            this.worldObj.playSoundAtEntity(this, "random.burp", 0.5F, this.rand.nextFloat() * 0.1F + 0.9F);
+        }
     }
 
     /// Called when this entity is killed.

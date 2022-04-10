@@ -22,13 +22,13 @@ public class EntityStrawberrySlime extends Entity_SpecialSlime
 
     /// Gets the additional experience this slime type gives.
     @Override
-	protected int getTypeXp() {
-    	return 1;
+    protected int getTypeXp() {
+        return 1;
     }
 
     /// Overridden to modify attack effects.
     @Override
-	protected void onTypeAttack(Entity target) {
+    protected void onTypeAttack(Entity target) {
         target.setFire(this.getSlimeSize() * 4);
     }
 
@@ -37,12 +37,12 @@ public class EntityStrawberrySlime extends Entity_SpecialSlime
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (this.getSlimeSize() == 1) {
-	        for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-	            this.dropItem(Items.fire_charge, 1);
-	        }
-	        if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-	            this.entityDropItem(new ItemStack(Items.dye, 1, 1), 0.0F);
-	        }
+            for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
+                this.dropItem(Items.fire_charge, 1);
+            }
+            if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
+                this.entityDropItem(new ItemStack(Items.dye, 1, 1), 0.0F);
+            }
         }
     }
 
@@ -50,7 +50,7 @@ public class EntityStrawberrySlime extends Entity_SpecialSlime
     @Override
     protected void dropRareDrop(int superRare) {
         if (this.getSlimeSize() == 1) {
-			this.entityDropItem(new ItemStack(Items.potionitem, 1, superRare > 0 ? 8259 : 8195), 0.0F);
-		}
+            this.entityDropItem(new ItemStack(Items.potionitem, 1, superRare > 0 ? 8259 : 8195), 0.0F);
+        }
     }
 }

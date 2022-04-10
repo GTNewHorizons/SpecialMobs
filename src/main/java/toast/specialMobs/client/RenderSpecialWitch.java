@@ -46,15 +46,15 @@ public class RenderSpecialWitch extends RenderWitch
     }
 
     @Override
-	public void doRender(EntityWitch witch, double x, double y, double z, float time, float partialTick) {
-		ItemStack held = witch.getHeldItem();
-		// Set rotateNose
-		this.witchModel.field_82900_g = held != null && held.getItem() instanceof ItemPotion;
+    public void doRender(EntityWitch witch, double x, double y, double z, float time, float partialTick) {
+        ItemStack held = witch.getHeldItem();
+        // Set rotateNose
+        this.witchModel.field_82900_g = held != null && held.getItem() instanceof ItemPotion;
         super.doRender(witch, x, y, z, time, partialTick);
     }
 
     @Override
-	protected void renderEquippedItems(EntityWitch witch, float partialTick) {
+    protected void renderEquippedItems(EntityWitch witch, float partialTick) {
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         ItemStack itemstack = witch.getHeldItem();
 
@@ -63,23 +63,23 @@ public class RenderSpecialWitch extends RenderWitch
             float scale;
 
             if (this.mainModel.isChild) {
-            	scale = 0.5F;
+                scale = 0.5F;
                 GL11.glTranslatef(0.0F, 0.625F, 0.0F);
                 GL11.glRotatef(-20.0F, -1.0F, 0.0F, 0.0F);
                 GL11.glScalef(scale, scale, scale);
             }
 
             if (!this.witchModel.field_82900_g) {
-            	this.witchModel.villagerNose.rotateAngleX = -0.9F;
-            	this.witchModel.villagerNose.offsetZ = -0.09375F;
-            	this.witchModel.villagerNose.offsetY = 0.1875F;
+                this.witchModel.villagerNose.rotateAngleX = -0.9F;
+                this.witchModel.villagerNose.offsetZ = -0.09375F;
+                this.witchModel.villagerNose.offsetY = 0.1875F;
             }
-			this.witchModel.villagerNose.postRender(0.0625F);
+            this.witchModel.villagerNose.postRender(0.0625F);
             GL11.glTranslatef(-0.0625F, 0.53125F, 0.21875F);
 
 
             if (itemstack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(itemstack.getItem()).getRenderType())) {
-            	scale = 0.5F;
+                scale = 0.5F;
                 GL11.glTranslatef(0.0F, 0.1875F, -0.3125F);
                 scale *= 0.75F;
                 GL11.glRotatef(20.0F, 1.0F, 0.0F, 0.0F);
@@ -87,7 +87,7 @@ public class RenderSpecialWitch extends RenderWitch
                 GL11.glScalef(scale, -scale, scale);
             }
             else if (itemstack.getItem() == Items.bow) {
-            	scale = 0.625F;
+                scale = 0.625F;
                 GL11.glTranslatef(0.0F, 0.125F, 0.3125F);
                 GL11.glRotatef(-20.0F, 0.0F, 1.0F, 0.0F);
                 GL11.glScalef(scale, -scale, scale);
@@ -95,7 +95,7 @@ public class RenderSpecialWitch extends RenderWitch
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
             }
             else if (itemstack.getItem().isFull3D()) {
-            	scale = 0.625F;
+                scale = 0.625F;
 
                 if (itemstack.getItem().shouldRotateAroundWhenRendering()) {
                     GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
@@ -108,7 +108,7 @@ public class RenderSpecialWitch extends RenderWitch
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
             }
             else {
-            	scale = 0.375F;
+                scale = 0.375F;
                 GL11.glTranslatef(0.25F, 0.1875F, -0.1875F);
                 GL11.glScalef(scale, scale, scale);
                 GL11.glRotatef(60.0F, 0.0F, 0.0F, 1.0F);

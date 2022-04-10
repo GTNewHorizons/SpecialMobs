@@ -64,9 +64,9 @@ public class EntitySpitfireSkeleton extends Entity_SpecialSkeleton {
         this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1009, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
         EntitySmallFireball fireball;
         for (int i = 0; i < 4; i++) {
-	        fireball = new EntitySmallFireball(this.worldObj, this, dX + this.rand.nextGaussian() * spread, dY, dZ + this.rand.nextGaussian() * spread);
-	        fireball.posY = this.posY + this.height / 2.0F + 0.5;
-	        this.worldObj.spawnEntityInWorld(fireball);
+            fireball = new EntitySmallFireball(this.worldObj, this, dX + this.rand.nextGaussian() * spread, dY, dZ + this.rand.nextGaussian() * spread);
+            fireball.posY = this.posY + this.height / 2.0F + 0.5;
+            this.worldObj.spawnEntityInWorld(fireball);
         }
     }
 

@@ -101,11 +101,11 @@ public class Entity_SpecialZombie extends EntityZombie implements ISpecialMob, I
             float tension = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
             if (this.rand.nextFloat() < 0.25F * tension) {
                 try {
-                	EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
+                    EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
                 }
                 catch (Exception ex) {
-                	_SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
-                	ex.printStackTrace();
+                    _SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
+                    ex.printStackTrace();
                 }
             }
             this.setCurrentItemOrArmor(0, itemStack);

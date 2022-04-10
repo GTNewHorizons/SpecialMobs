@@ -139,12 +139,12 @@ public abstract class MobHelper
                     if (dist <= radius) {
                         if (dist > radius - 1) {
                             if (Blocks.cobblestone.canPlaceBlockAt(exploder.worldObj, bX + x, bY + y, bZ + z)) {
-                            	if (exploder.worldObj.rand.nextFloat() < 0.25F) {
-                            		exploder.worldObj.setBlock(bX + x, bY + y, bZ + z, Blocks.monster_egg, 1, 2);
-                            	}
-                            	else {
-                            		exploder.worldObj.setBlock(bX + x, bY + y, bZ + z, Blocks.cobblestone, 0, 2);
-                            	}
+                                if (exploder.worldObj.rand.nextFloat() < 0.25F) {
+                                    exploder.worldObj.setBlock(bX + x, bY + y, bZ + z, Blocks.monster_egg, 1, 2);
+                                }
+                                else {
+                                    exploder.worldObj.setBlock(bX + x, bY + y, bZ + z, Blocks.cobblestone, 0, 2);
+                                }
                             }
                         }
                         else if (Blocks.water.canPlaceBlockAt(exploder.worldObj, bX + x, bY + y, bZ + z)) {
@@ -158,31 +158,31 @@ public abstract class MobHelper
 
     // Causes a creeper explosion that shoots out falling gravel.
     public static void gravelExplode(Entity exploder, float power) {
-    	power += 4.0F;
+        power += 4.0F;
         int count = (int) Math.ceil(power * power * 3.5F);
         EntityFallingBlock gravel;
         float speed;
         float pitch, yaw;
         for (int i = 0; i < count; i++) {
-        	gravel = new EntityFallingBlock(exploder.worldObj, exploder.posX, exploder.posY + exploder.height / 2.0F, exploder.posZ, Blocks.gravel);
-        	gravel.field_145812_b = 1; // time alive, if it starts at 0, the entity will normally die instantly
-        	gravel.field_145813_c = false; // drop item if can't place
-        	gravel.func_145806_a(true); // setHurtEntities
-        	gravel.fallDistance = 3.0F;
+            gravel = new EntityFallingBlock(exploder.worldObj, exploder.posX, exploder.posY + exploder.height / 2.0F, exploder.posZ, Blocks.gravel);
+            gravel.field_145812_b = 1; // time alive, if it starts at 0, the entity will normally die instantly
+            gravel.field_145813_c = false; // drop item if can't place
+            gravel.func_145806_a(true); // setHurtEntities
+            gravel.fallDistance = 3.0F;
 
-        	speed = (power * 0.7F + exploder.worldObj.rand.nextFloat() * power) / 20.0F;
-        	pitch = exploder.worldObj.rand.nextFloat() * (float) Math.PI;
-        	yaw = exploder.worldObj.rand.nextFloat() * 2.0F * (float) Math.PI;
-        	gravel.motionX = MathHelper.cos(yaw) * speed;
-        	gravel.motionY = MathHelper.sin(pitch) * (power + exploder.worldObj.rand.nextFloat() * power) / 18.0F;
-        	gravel.motionZ = MathHelper.sin(yaw) * speed;
+            speed = (power * 0.7F + exploder.worldObj.rand.nextFloat() * power) / 20.0F;
+            pitch = exploder.worldObj.rand.nextFloat() * (float) Math.PI;
+            yaw = exploder.worldObj.rand.nextFloat() * 2.0F * (float) Math.PI;
+            gravel.motionX = MathHelper.cos(yaw) * speed;
+            gravel.motionY = MathHelper.sin(pitch) * (power + exploder.worldObj.rand.nextFloat() * power) / 18.0F;
+            gravel.motionZ = MathHelper.sin(yaw) * speed;
             exploder.worldObj.spawnEntityInWorld(gravel);
         }
     }
 
     // Causes a creeper explosion that spawns lightning.
     public static void lightningExplode(Entity exploder, int radius) {
-    	MobHelper.lightningExplode(exploder, exploder.posX, exploder.posY, exploder.posZ, radius);
+        MobHelper.lightningExplode(exploder, exploder.posX, exploder.posY, exploder.posZ, radius);
     }
     public static void lightningExplode(Entity exploder, double posX, double posY, double posZ, int radius) {
         radius /= 3;
@@ -227,9 +227,9 @@ public abstract class MobHelper
 
     // Returns true if the damage from a source is a critical hit.
     public static boolean isCritical(DamageSource damageSource) {
-    	if (damageSource.getSourceOfDamage() instanceof EntityArrow)
-    		return ((EntityArrow) damageSource.getSourceOfDamage()).getIsCritical();
-    	return damageSource.getEntity() != null && !damageSource.getEntity().isInWater() && damageSource.getEntity().fallDistance > 0.0F;
+        if (damageSource.getSourceOfDamage() instanceof EntityArrow)
+            return ((EntityArrow) damageSource.getSourceOfDamage()).getIsCritical();
+        return damageSource.getEntity() != null && !damageSource.getEntity().isInWater() && damageSource.getEntity().fallDistance > 0.0F;
     }
 
     // Returns true if the entity can be replaced by a special version.

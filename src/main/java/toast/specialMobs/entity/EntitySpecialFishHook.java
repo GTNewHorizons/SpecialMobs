@@ -112,17 +112,17 @@ public class EntitySpecialFishHook extends Entity {
         this.lastTickPosZ = this.posZ;
         super.onUpdate();
         if (!this.worldObj.isRemote) {
-	        if (this.angler == null || this.angler.isDead || this.getDistanceSqToEntity(this.angler) > 1024.0) {
-	            this.setDead();
-	        }
-	        Vec3 posVec = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-	        Vec3 motionVec = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-	        MovingObjectPosition object = this.worldObj.rayTraceBlocks(posVec, motionVec);
-	        posVec = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-	        motionVec = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-	        if (object != null) {
-	            motionVec = Vec3.createVectorHelper(object.hitVec.xCoord, object.hitVec.yCoord, object.hitVec.zCoord);
-	        }
+            if (this.angler == null || this.angler.isDead || this.getDistanceSqToEntity(this.angler) > 1024.0) {
+                this.setDead();
+            }
+            Vec3 posVec = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+            Vec3 motionVec = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+            MovingObjectPosition object = this.worldObj.rayTraceBlocks(posVec, motionVec);
+            posVec = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+            motionVec = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+            if (object != null) {
+                motionVec = Vec3.createVectorHelper(object.hitVec.xCoord, object.hitVec.yCoord, object.hitVec.zCoord);
+            }
             Entity entityHit = null;
             List<?> entitiesInPath = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0, 1.0, 1.0));
             double d = Double.POSITIVE_INFINITY;
@@ -143,15 +143,15 @@ public class EntitySpecialFishHook extends Entity {
             if (entityHit != null) {
                 object = new MovingObjectPosition(entityHit);
             }
-	        if (object != null) {
-	            this.onImpact(object);
-	        }
+            if (object != null) {
+                this.onImpact(object);
+            }
         }
         else if (this.angler == null) {
-        	Entity entity = this.worldObj.getEntityByID(this.getAnglerId());
-        	if (entity instanceof EntityLiving) {
-        		this.angler = (EntityLiving) entity;
-        	}
+            Entity entity = this.worldObj.getEntityByID(this.getAnglerId());
+            if (entity instanceof EntityLiving) {
+                this.angler = (EntityLiving) entity;
+            }
         }
         this.posX += this.motionX;
         this.posY += this.motionY;
@@ -224,10 +224,10 @@ public class EntitySpecialFishHook extends Entity {
 
     @Override
     public void writeEntityToNBT(NBTTagCompound tag) {
-    	// Nothing to save
+        // Nothing to save
     }
     @Override
     public void readEntityFromNBT(NBTTagCompound tag) {
-    	// Nothing to load
+        // Nothing to load
     }
 }

@@ -140,10 +140,10 @@ public class Entity_SpecialCreeper extends EntityCreeper implements ISpecialMob 
             this.lastActiveTime = this.timeSinceIgnited;
             int creeperState = this.getCreeperState();
             if (creeperState > 0) {
-            	if (this.timeSinceIgnited == 0) {
-            		this.playSound("creeper.primed", 1.0F, 0.5F);
-            	}
-            	this.onExplodingUpdate();
+                if (this.timeSinceIgnited == 0) {
+                    this.playSound("creeper.primed", 1.0F, 0.5F);
+                }
+                this.onExplodingUpdate();
             }
             this.timeSinceIgnited += creeperState;
             if (this.timeSinceIgnited < 0) {
@@ -163,7 +163,7 @@ public class Entity_SpecialCreeper extends EntityCreeper implements ISpecialMob 
 
     /** Called each tick while this creeper is exploding. */
     public void onExplodingUpdate() {
-    	// To be overridden
+        // To be overridden
     }
 
     // The explosion caused by this creeper.

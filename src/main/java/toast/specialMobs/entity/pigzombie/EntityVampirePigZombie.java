@@ -27,14 +27,14 @@ import toast.specialMobs.entity.ISpecialMob;
 
 public class EntityVampirePigZombie extends Entity_SpecialPigZombie
 {
-	// Snark is for using the wrong weapon
-	public static ArrayList<ChatComponentText> chatSnark = new ArrayList<ChatComponentText>(); 
-	// Super is for using the right weapon
-	public static ArrayList<ChatComponentText> chatSuper = new ArrayList<ChatComponentText>(); 
+    // Snark is for using the wrong weapon
+    public static ArrayList<ChatComponentText> chatSnark = new ArrayList<ChatComponentText>(); 
+    // Super is for using the right weapon
+    public static ArrayList<ChatComponentText> chatSuper = new ArrayList<ChatComponentText>(); 
 
     static {
-    	// Load up chat
-    	ISpecialMob.loadChat( "entity.SpecialMobs.VampirePigZombie", chatSnark, chatSuper);
+        // Load up chat
+        ISpecialMob.loadChat( "entity.SpecialMobs.VampirePigZombie", chatSnark, chatSuper);
     }
     
     public static final ResourceLocation[] TEXTURES1 = new ResourceLocation[] {
@@ -64,18 +64,18 @@ public class EntityVampirePigZombie extends Entity_SpecialPigZombie
     @Override
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
         if (!this.isDamageSourceEffective(damageSource)) {
-        	// Maximum damage is 1/20th of mob health, 1/10th if a critical hit
-        	damage = Math.min(MobHelper.isCritical(damageSource) ? this.getMaxHealth()/10 : this.getMaxHealth()/20, damage); 
+            // Maximum damage is 1/20th of mob health, 1/10th if a critical hit
+            damage = Math.min(MobHelper.isCritical(damageSource) ? this.getMaxHealth()/10 : this.getMaxHealth()/20, damage); 
             if (damageSource.isProjectile()) {
-            	// Projectiles do half damage
-            	damage = damage/2;
+                // Projectiles do half damage
+                damage = damage/2;
             }
             // At minimum do .5 to 1 point of damage
             damage = Math.max(damage, MobHelper.isCritical(damageSource) ? 1.0F : 0.5F);
             sendChatSnark(this, damageSource, this.rand, chatSnark);
         } else { 
-        	// This is a super effective damage source, can kill in two hits.
-        	damage = Math.max(damage, this.getMaxHealth()/2 + 1);
+            // This is a super effective damage source, can kill in two hits.
+            damage = Math.max(damage, this.getMaxHealth()/2 + 1);
             sendChatSnark(this, damageSource, this.rand, chatSuper);
         }
         return super.attackEntityFrom(damageSource, damage);
@@ -99,14 +99,14 @@ public class EntityVampirePigZombie extends Entity_SpecialPigZombie
                             return true;
                     }
                     if (heldItem.getItem() == Items.stick) {
-                    	return true;
+                        return true;
                     }
                     if (Properties.ItemTFIronwoodSword.isInstance(heldItem.getItem()) ) {
-                    	return true;
+                        return true;
                     }
                 } else {
-                	//Attacking empty handed? You idiot.
-                	sendChatSnark(this, damageSource, this.rand, chatSnark);
+                    //Attacking empty handed? You idiot.
+                    sendChatSnark(this, damageSource, this.rand, chatSnark);
                 }
             }
         }

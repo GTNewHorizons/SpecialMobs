@@ -107,7 +107,7 @@ public class EntityJoltBlaze extends Entity_SpecialBlaze
             this.worldObj.spawnParticle("smoke", dX, dY, dZ, vX, vY, vZ);
         }
         if (strikeDestination) {
-        	MobHelper.lightningExplode(this, 0);
+            MobHelper.lightningExplode(this, 0);
         }
         return true;
     }
