@@ -17,7 +17,7 @@ import net.minecraftforge.common.config.Configuration;
  */
 public abstract class Properties {
     /// Mapping of all properties in the mod to their values.
-    private static final HashMap<String, Object> map = new HashMap();
+    private static final HashMap<String, Object> map = new HashMap<>();
     /// Common category names.
     public static final String ENCHANTS = "_enchants";
     public static final String SPAWNING = "_extra_spawning";

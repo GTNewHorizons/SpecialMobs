@@ -168,6 +168,7 @@ public class _SpecialMobs
     };
 
     /** Registers the entities in this mod and adds mob spawns. */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private void registerMobs() {
     	DataWatcherHelper.init();
 
@@ -192,7 +193,7 @@ public class _SpecialMobs
         Method advGeneticsAddAbility = null;
         String[][] advGeneticsAbilities = null;
         try {
-            Class regHelper = Class.forName("com.advGenetics.API.RegistrationHelper");
+            Class<?> regHelper = Class.forName("com.advGenetics.API.RegistrationHelper");
             _SpecialMobs.console("Detected Advanced Genetics API, attempting to register mobs to it...");
             try {
                 advGeneticsAddAbility = regHelper.getDeclaredMethod("addEntityToAbility", String.class, Class.class);

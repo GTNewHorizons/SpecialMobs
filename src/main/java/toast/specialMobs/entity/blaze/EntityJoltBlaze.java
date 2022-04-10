@@ -45,30 +45,28 @@ public class EntityJoltBlaze extends Entity_SpecialBlaze
     /// Damages this entity from the damageSource by the given amount. Returns true if this entity is damaged.
     @Override
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
-    	if (!this.worldObj.isRemote && !DamageSource.drown.damageType.equals(damageSource.damageType)) {
+        if (!this.worldObj.isRemote && !DamageSource.drown.damageType.equals(damageSource.damageType)) {
             double xI = this.posX;
             double yI = this.posY;
             double zI = this.posZ;
+            
+            // Reworking Jolt logic.  
+            // Jolt will take damage/5 & teleport if hit by indirect damage
+            // Jolt will not teleport from other damage sources
+            if (damageSource instanceof EntityDamageSourceIndirect) {
+                damage = damage/5;
+                this.teleportRandomly();
+            }
+            boolean hit = super.attackEntityFrom(damageSource, damage);
 
-            for (int i = 0; i < 16; i++) {
-            	// Reworking Jolt logic.  
-            	// Jolt will take damage/5 & teleport if hit by indirect damage
-            	// Jolt will not teleport from other damage sources
-            	if (damageSource instanceof EntityDamageSourceIndirect) {
-            		damage = damage/5;
-            		this.teleportRandomly();
-            	}
-            	boolean hit = super.attackEntityFrom(damageSource, damage);
-
-		    	if (this.getHealth() > 0.0F) {
-		        	MobHelper.lightningExplode(this, xI, yI, zI, 0);
-		    	}
-		    	else {
-		    		this.setPosition(xI, yI, zI);
-		    	}
-		        return hit;
-			}
-		}
+            if (this.getHealth() > 0.0F) {
+                MobHelper.lightningExplode(this, xI, yI, zI, 0);
+            }
+            else {
+                this.setPosition(xI, yI, zI);
+            }
+            return hit;
+        }
         return super.attackEntityFrom(damageSource, damage);
     }
     

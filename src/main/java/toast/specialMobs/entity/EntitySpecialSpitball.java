@@ -109,7 +109,7 @@ public class EntitySpecialSpitball extends Entity
 	            motionVec = Vec3.createVectorHelper(object.hitVec.xCoord, object.hitVec.yCoord, object.hitVec.zCoord);
 	        }
             Entity entityHit = null;
-            List entitiesInPath = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0, 1.0, 1.0));
+            List<?> entitiesInPath = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0, 1.0, 1.0));
             double d = Double.POSITIVE_INFINITY;
             for (int i = 0; i < entitiesInPath.size(); i++) {
                 Entity entityInPath = (Entity)entitiesInPath.get(i);

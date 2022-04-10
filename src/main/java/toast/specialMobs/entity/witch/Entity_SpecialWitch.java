@@ -193,6 +193,7 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
     }
 
     /// Called each tick while this entity is alive.
+    @SuppressWarnings("unchecked")
     @Override
     public void onLivingUpdate() {
     	this.fakeNoItem = true;

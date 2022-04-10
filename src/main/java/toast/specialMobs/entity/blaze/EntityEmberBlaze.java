@@ -4,10 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import toast.specialMobs._SpecialMobs;
@@ -17,6 +14,8 @@ public class EntityEmberBlaze extends Entity_SpecialBlaze
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/ember.png")
     };
+    
+    public static DamageSource cookedSource = new DamageSource("cooked").setDamageAllowedInCreativeMode().setDamageBypassesArmor().setDamageIsAbsolute();
 
     public EntityEmberBlaze(World world) {
         super(world);
@@ -52,24 +51,9 @@ public class EntityEmberBlaze extends Entity_SpecialBlaze
     
     /// Overridden to modify attack effects.
     @Override
-	protected void onTypeAttack(Entity target) {
-    	if (target instanceof EntityLivingBase) {
-    		DamageSource g = new DamageSourceEmber();
-            target.attackEntityFrom(g, 4.0F);
-    	}
-    }
-
-    public static class DamageSourceEmber extends DamageSource {
-        public DamageSourceEmber() {
-            super("cooked");
-            setDamageAllowedInCreativeMode();
-            setDamageBypassesArmor();
-            setDamageIsAbsolute();
-        }
-
-        @Override
-        public IChatComponent func_151519_b(EntityLivingBase aTarget) {
-            return new ChatComponentText(EnumChatFormatting.RED + aTarget.getCommandSenderName() + EnumChatFormatting.WHITE + " cooked from the inside out");
+    protected void onTypeAttack(Entity target) {
+        if (target instanceof EntityLivingBase) {
+            target.attackEntityFrom(cookedSource, 4.0F);
         }
     }
 }

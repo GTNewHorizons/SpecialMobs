@@ -32,20 +32,20 @@ public abstract class MobHelper
 {
     // Clears all melee attack AIs.
     public static void clearMeleeAttackAI(EntityLiving entity) {
-        for (EntityAITaskEntry entry : (EntityAITaskEntry[])entity.tasks.taskEntries.toArray(new EntityAITaskEntry[0])) if (entry.action.getClass().equals(EntityAIAttackOnCollide.class)) {
+        for (EntityAITaskEntry entry : (EntityAITaskEntry[]) entity.tasks.taskEntries.toArray()) if (entry.action.getClass().equals(EntityAIAttackOnCollide.class)) {
             entity.tasks.removeTask(entry.action);
         }
     }
     // Clears all ranged attack AIs.
     public static void clearRangedAttackAI(EntityLiving entity) {
-        for (EntityAITaskEntry entry : (EntityAITaskEntry[])entity.tasks.taskEntries.toArray(new EntityAITaskEntry[0])) if (entry.action.getClass().equals(EntityAIArrowAttack.class)) {
+        for (EntityAITaskEntry entry : (EntityAITaskEntry[]) entity.tasks.taskEntries.toArray()) if (entry.action.getClass().equals(EntityAIArrowAttack.class)) {
             entity.tasks.removeTask(entry.action);
         }
     }
 
     // Returns true if the mob has a recognized ranged attack AI.
     public static boolean hasRangedAttack(EntityLiving entity) {
-        for (EntityAITaskEntry entry : (EntityAITaskEntry[])entity.tasks.taskEntries.toArray(new EntityAITaskEntry[0])) if (entry.action instanceof EntityAIArrowAttack)
+        for (EntityAITaskEntry entry : (EntityAITaskEntry[]) entity.tasks.taskEntries.toArray()) if (entry.action instanceof EntityAIArrowAttack)
             return true;
         return entity instanceof Entity_SpecialPigZombie && ((Entity_SpecialPigZombie)entity).willShootBow() && entity.getHeldItem() != null && entity.getHeldItem().getItem() instanceof ItemBow;
     }
@@ -74,6 +74,7 @@ public abstract class MobHelper
     }
 
     // Causes a creeper explosion that places dirt instead of destroying blocks.
+    @SuppressWarnings("unchecked")
     public static void darkExplode(Entity exploder, int radius) {
         Explosion explosion = new Explosion(exploder.worldObj, exploder, exploder.posX, exploder.posY, exploder.posZ, radius);
         float blastPower = explosion.explosionSize * (0.7F + exploder.worldObj.rand.nextFloat() * 0.6F);
@@ -102,14 +103,6 @@ public abstract class MobHelper
         }
         explosion.affectedBlockPositions.addAll(affectedBlocks);
         explosion.doExplosionB(false);
-        /*
-		System.out.println(String.format("[%s] ========= darkExplode() called  ===========", _SpecialMobs.MODID));
-		System.out.println(String.format("[%s] Dimension: %d ", _SpecialMobs.MODID, exploder.dimension));
-		System.out.println(String.format("[%s] EntityClass: %s ", _SpecialMobs.MODID, exploder.getClass().getName()));
-		System.out.println(String.format("[%s] Radius: %d ", _SpecialMobs.MODID, radius));
-		System.out.println(String.format("[%s] AffectedBlocks count: %d ", _SpecialMobs.MODID, affectedBlocks.size()));
-		System.out.println(String.format("[%s] =======================================", _SpecialMobs.MODID));
-        */
         _SpecialMobs.CHANNEL.sendToDimension(new MessageExplosion(explosion), exploder.dimension);
     }
 
@@ -198,13 +191,6 @@ public abstract class MobHelper
                 exploder.worldObj.spawnEntityInWorld(new EntityLightningBolt(exploder.worldObj, posX + x, posY, posZ + z));
             }
         }
-        /*
-		System.out.println(String.format("[%s] ========= lightningExplode() called  ===========", _SpecialMobs.MODID));
-		System.out.println(String.format("[%s] Dimension: %d ", _SpecialMobs.MODID, exploder.dimension));
-		System.out.println(String.format("[%s] EntityClass: %s ", _SpecialMobs.MODID, exploder.getClass().getName()));
-		System.out.println(String.format("[%s] Radius: %d ", _SpecialMobs.MODID, radius));
-		System.out.println(String.format("[%s] =======================================", _SpecialMobs.MODID));
-        */
         _SpecialMobs.CHANNEL.sendToDimension(new MessageExplosion(posX, posY, posZ, radius, "lightning"), exploder.dimension);
     }
 

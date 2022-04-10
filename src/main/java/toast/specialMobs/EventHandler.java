@@ -10,11 +10,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSourceIndirect;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -30,8 +26,10 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EventHandler
 {
-	public static final double PAIN_DAMAGE = Properties.getDouble(Properties.ENCHANTS, "pain_damage");
-	
+    public static final double PAIN_DAMAGE = Properties.getDouble(Properties.ENCHANTS, "pain_damage");
+    
+    public static DamageSource painSource = new DamageSource("pain").setDamageAllowedInCreativeMode().setDamageBypassesArmor().setDamageIsAbsolute();
+    
     public EventHandler() {
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -140,9 +138,8 @@ public class EventHandler
             }
 
             if (pain > 0) {
-                DamageSource g = new DamageSourcePain();
                 event.entityLiving.hurtResistantTime /= 4; // Reduce time damage protection
-                event.entityLiving.attackEntityFrom(g, (float)(pain * PAIN_DAMAGE));
+                event.entityLiving.attackEntityFrom(painSource, (float)(pain * PAIN_DAMAGE));
                 //event.entityLiving.setHealth(event.entityLiving.getHealth() - pain); Remove this call, it's bad. x)
             }
             if (plague > 0) {
