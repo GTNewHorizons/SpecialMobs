@@ -87,6 +87,7 @@ public class EntityDominationWitch extends Entity_SpecialWitch
     }
     
     /// Overridden to modify attack effects.
+    @SuppressWarnings("unchecked")
     @Override
 	protected void onTypeAttack(Entity target) {
     	if (target instanceof EntityLivingBase) {

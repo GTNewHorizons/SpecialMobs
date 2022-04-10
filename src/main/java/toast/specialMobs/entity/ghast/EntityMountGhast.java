@@ -47,7 +47,7 @@ public class EntityMountGhast extends Entity_SpecialGhast
             this.targetedRider = null;
         }
         else if (this.targetedEntity == null && (this.targetedRider == null || this.targetedRider.ridingEntity != null || !this.targetedRider.isEntityAlive()) && this.rand.nextInt(100) == 0) {
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(100.0, 100.0, 100.0));
+            List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(100.0, 100.0, 100.0));
             double closestDistance = Double.POSITIVE_INFINITY;
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i) instanceof EntityLiving) {

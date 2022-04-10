@@ -52,6 +52,7 @@ public class SpawnLavaMonster {
     }
 
     /// Spawns lava monsters in the world. Returns the number spawned for debugging purposes.
+    @SuppressWarnings("unchecked")
     private int performSpawning(WorldServer world) {
     	if( world.playerEntities.size() == 0) { // No player entities in this world, don't spawn.
     		return 0;
@@ -91,7 +92,7 @@ public class SpawnLavaMonster {
         int maxAllowedInWorld = SpawnLavaMonster.SPAWN_MAX * this.eligibleChunksForSpawning.size() / adjustTotalChunks;
     	_SpecialMobs.debugConsole("Lava monster count " + countInWorld + "  Max allowed " + maxAllowedInWorld);
         if ( countInWorld < maxAllowedInWorld ) {
-            ArrayList<ChunkCoordIntPair> chunks = new ArrayList(this.eligibleChunksForSpawning.keySet());
+            ArrayList<ChunkCoordIntPair> chunks = new ArrayList<>(this.eligibleChunksForSpawning.keySet());
             Collections.shuffle(chunks);
             chunkIterator: for (ChunkCoordIntPair chunkCoord : chunks) {
             	if (numberSpawned >= (maxAllowedInWorld - countInWorld)) {

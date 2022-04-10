@@ -25,8 +25,8 @@ import java.util.Random;
  */
 public interface ISpecialMob
 {
-	public static final int CHAT_ENABLED = Properties.getInt(Properties.GENERAL, "chat_enabled");
-	public static final int CHAT_RANGE = Properties.getInt(Properties.GENERAL, "chat_range");
+    public static final boolean CHAT_ENABLED = Properties.getBoolean(Properties.GENERAL, "chat_enabled");
+    public static final int CHAT_RANGE = Properties.getInt(Properties.GENERAL, "chat_range");
     /**
      * @return this mob's special data
      */
@@ -61,12 +61,13 @@ public interface ISpecialMob
      *                If not, try and send a message to all entities in the configurable area.
      * isSnark - Use the Snark or Super chat list                	
      */
+    @SuppressWarnings("unchecked")
     default void sendChatSnark(EntityLiving target, DamageSource damageSource, Random rand, ArrayList<ChatComponentText> chat) {
         // Skip generic/falling/etc damage sources
-    	if( damageSource.damageType.matches("generic") || damageSource.damageType.matches("fall") || damageSource.damageType.matches("cactus") || damageSource.damageType.matches("drown") 
-    		|| damageSource.damageType.matches("inWall") ) {
-    		return;
-    	}
+        if( CHAT_ENABLED || damageSource.damageType.matches("generic") || damageSource.damageType.matches("fall") || damageSource.damageType.matches("cactus") || damageSource.damageType.matches("drown") 
+            || damageSource.damageType.matches("inWall") ) {
+            return;
+        }
         if( FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT ) {
 	    	if (damageSource.getSourceOfDamage() instanceof EntityClientPlayerMP ) {
 	    		return;

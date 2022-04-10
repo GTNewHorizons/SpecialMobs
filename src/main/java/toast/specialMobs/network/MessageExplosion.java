@@ -1,10 +1,5 @@
 package toast.specialMobs.network;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
-import java.lang.management.MemoryUsage;
-
-import toast.specialMobs._SpecialMobs;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -62,8 +57,6 @@ public class MessageExplosion implements IMessage {
 
     // Array of affected block relative coords. Only used for NORMAL type explosions.
     public byte[][] affectedBlocks;
-
-    private static final int MEGABYTE = (1024*1024);
     
     public MessageExplosion() {
     }
@@ -113,50 +106,27 @@ public class MessageExplosion implements IMessage {
      */
     @Override
     public void fromBytes(ByteBuf buf) {
-    	MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
-    	int count = 0;
-		try {
-			this.type = ExplosionType.getType(buf.readByte());
-			this.size = buf.readFloat();
-			this.posX = buf.readDouble();
-			this.posY = buf.readDouble();
-			this.posZ = buf.readDouble();
+        int count = 0;
+        try {
+            this.type = ExplosionType.getType(buf.readByte());
+            this.size = buf.readFloat();
+            this.posX = buf.readDouble();
+            this.posY = buf.readDouble();
+            this.posZ = buf.readDouble();
 
-			if (this.type == ExplosionType.NORMAL) {
-				count = buf.readInt();
-				this.affectedBlocks = new byte[count][];
-				for (int i = 0; i < count; i++) {
-					this.affectedBlocks[i] = new byte[] {
-							buf.readByte(), buf.readByte(), buf.readByte()
-					};
-				}
-			}
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-			/*
-			System.out.println(String.format("[%s] ========= fromBytes() crash ===========", _SpecialMobs.MODID));
-			System.out.println(String.format("[%s] count: %d ", _SpecialMobs.MODID, count));
-			System.out.println(String.format("[%s] type: %s ", _SpecialMobs.MODID, type.toString()));
-			System.out.println(String.format("[%s] size: %f", _SpecialMobs.MODID, size));
-			System.out.println(String.format("[%s] X / Y / Z: %f / %f / %f ", _SpecialMobs.MODID, posX, posY, posZ));
-			System.out.println(String.format("[%s] =======================================", _SpecialMobs.MODID));
-			*/
-	    } catch (OutOfMemoryError e) {
-	    	/*
-			System.out.println(String.format("[%s] ========= fromBytes() crash ===========", _SpecialMobs.MODID));
-			System.out.println(String.format("[%s] count: %d ", _SpecialMobs.MODID, count));
-			System.out.println(String.format("[%s] type: %s ", _SpecialMobs.MODID, type.toString()));
-			System.out.println(String.format("[%s] size: %f", _SpecialMobs.MODID, size));
-			System.out.println(String.format("[%s] X / Y / Z: %f / %f / %f ", _SpecialMobs.MODID, posX, posY, posZ));
-			System.out.println(String.format("[%s] =======================================", _SpecialMobs.MODID));
-	    	
-	        MemoryUsage heapUsage = memoryBean.getHeapMemoryUsage();
-	        long maxMemory = heapUsage.getMax() / MEGABYTE;
-	        long usedMemory = heapUsage.getUsed() / MEGABYTE;
-	        System.out.println("Memory Use :" + usedMemory + "M/" + maxMemory + "M");
-	        */
-	    }
+            if (this.type == ExplosionType.NORMAL) {
+                count = buf.readInt();
+                this.affectedBlocks = new byte[count][];
+                for (int i = 0; i < count; i++) {
+                    this.affectedBlocks[i] = new byte[] {
+                            buf.readByte(), buf.readByte(), buf.readByte()
+                    };
+                }
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     /*

@@ -88,7 +88,7 @@ public class EntityGhostSpider extends Entity_SpecialSpider
             }
         }
         if (y < 0.0 && !shouldFall) {
-            List list = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(x, y, z));
+            List<?> list = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(x, y, z));
             for (int i = 0; i < list.size(); ++i) {
                 y = ((AxisAlignedBB)list.get(i)).calculateYOffset(this.boundingBox, y);
             }

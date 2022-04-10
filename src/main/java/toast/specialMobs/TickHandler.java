@@ -11,7 +11,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 public class TickHandler
 {
     // Stack of entities that need to be spawned.
-    public static ArrayDeque<ReplacementEntry> entityStack = new ArrayDeque();
+    public static ArrayDeque<ReplacementEntry> entityStack = new ArrayDeque<>();
 
     public TickHandler() {
         FMLCommonHandler.instance().bus().register(this);

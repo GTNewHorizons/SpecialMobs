@@ -2,7 +2,6 @@ package toast.specialMobs.entity;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
-import toast.specialMobs.entity.EntityLavaMonster;
 import toast.specialMobs.Properties;
 
 public class EntityAILavaMonsterAttack extends EntityAIBase

@@ -40,7 +40,7 @@ public class EntityGravityCreeper extends Entity_SpecialCreeper {
         	float radius = powered ? this.explosionRadius * 3.0F : this.explosionRadius * 1.5F;
             Entity entityHit;
             double vX, vZ, v;
-            List entitiesInRange = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(radius * 2.0, radius * 2.0, radius * 2.0));
+            List<?> entitiesInRange = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(radius * 2.0, radius * 2.0, radius * 2.0));
             for (int i = 0; i < entitiesInRange.size(); i++) {
             	entityHit = (Entity) entitiesInRange.get(i);
                 if (this.getDistanceSqToEntity(entityHit) <= radius * radius) {
