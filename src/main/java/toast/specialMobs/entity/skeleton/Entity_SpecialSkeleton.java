@@ -108,17 +108,17 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
             this.setChild(true);
         }
         if (this.getSkeletonType() == 1) {
-        	this.isImmuneToFire = true;
+            this.isImmuneToFire = true;
             if (this.rand.nextDouble() < Entity_SpecialSkeleton.BOW_CHANCE_WITHER) {
                 ItemStack itemStack = new ItemStack(Items.bow);
                 float tension = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
                 if (this.rand.nextFloat() < 0.25F * tension) {
                     try {
-                    	EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
+                        EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
                     }
                     catch (Exception ex) {
-                    	_SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
-                    	ex.printStackTrace();
+                        _SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
+                        ex.printStackTrace();
                     }
                 }
                 this.setCurrentItemOrArmor(0, itemStack);
@@ -130,11 +130,11 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
                 float tension = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
                 if (this.rand.nextFloat() < 0.25F * tension) {
                     try {
-                    	EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
+                        EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
                     }
                     catch (Exception ex) {
-                    	_SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
-                    	ex.printStackTrace();
+                        _SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
+                        ex.printStackTrace();
                     }
                 }
                 this.setCurrentItemOrArmor(0, itemStack);
@@ -216,7 +216,7 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
 
     /// Sets the width and height of the entity.
     @Override
-	protected void setSize(float width, float height) {
+    protected void setSize(float width, float height) {
         boolean alreadyScaled = this.adultWidth > 0.0F && this.adultHeight > 0.0F;
         this.adultWidth = width;
         this.adultHeight = height;
@@ -228,10 +228,10 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
 
     /// Updates the entity size scaled by the normal adult size.
     protected void updateScale() {
-    	this.updateScale(this.isChild());
+        this.updateScale(this.isChild());
     }
     protected void updateScale(boolean isChild) {
-    	float scale = !this.worldObj.isRemote && this.isChild() ? 0.5F : 1.0F;
+        float scale = !this.worldObj.isRemote && this.isChild() ? 0.5F : 1.0F;
         super.setSize(this.adultWidth * scale, this.adultHeight * scale);
     }
 

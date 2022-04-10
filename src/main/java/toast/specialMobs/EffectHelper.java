@@ -259,11 +259,11 @@ public abstract class EffectHelper
         if (level <= 0 || itemStack == null || !itemStack.isItemEnchantable())
             return false;
         try {
-        	EnchantmentHelper.addRandomEnchantment(random, itemStack, level);
+            EnchantmentHelper.addRandomEnchantment(random, itemStack, level);
         }
         catch (Exception ex) {
-        	_SpecialMobs.console("Error applying enchantments! item:" + itemStack.toString());
-        	ex.printStackTrace();
+            _SpecialMobs.console("Error applying enchantments! item:" + itemStack.toString());
+            ex.printStackTrace();
         }
         return true;
     }

@@ -111,7 +111,7 @@ public class Entity_SpecialSpider extends EntitySpider implements ISpecialMob, I
     /// Called to update this entity's AI.
     @Override
     protected void updateEntityActionState() {
-    	this.seesTarget = false;
+        this.seesTarget = false;
         super.updateEntityActionState();
         if (!this.seesTarget) {
             this.sightDelay = 20;
@@ -138,7 +138,7 @@ public class Entity_SpecialSpider extends EntitySpider implements ISpecialMob, I
     /// Called each tick this entity's attack target can be seen.
     @Override
     protected void attackEntity(Entity target, float distance) {
-    	this.seesTarget = true;
+        this.seesTarget = true;
         IAttributeInstance attribute = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
         boolean stopped = attribute.getModifier(Entity_SpecialSpider.stopModifierUUID) != null;
         if (this.getSpecialData().arrowRange > 0.0F) {
@@ -229,7 +229,7 @@ public class Entity_SpecialSpider extends EntitySpider implements ISpecialMob, I
         super.writeEntityToNBT(tag);
         NBTTagCompound saveTag = SpecialMobData.getSaveLocation(tag);
         if (this.isHostile) {
-        	saveTag.setBoolean("SMAnger", true);
+            saveTag.setBoolean("SMAnger", true);
         }
 
         this.getSpecialData().isImmuneToFire = this.isImmuneToFire;

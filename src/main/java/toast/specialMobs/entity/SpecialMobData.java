@@ -30,23 +30,23 @@ public class SpecialMobData
     /** The index for the scale variable in the data watcher. */
     private static final byte SCALE = DataWatcherHelper.instance.GENERIC.nextKey();
 
-	/** Called to force static fields to be initialized. */
-	public static void init() {
-		// Do nothing
-	}
+    /** Called to force static fields to be initialized. */
+    public static void init() {
+        // Do nothing
+    }
 
     /** @param tag The mob's base nbt tag
      * @return The nbt tag to save special mob data to. */
     public static NBTTagCompound getSaveLocation(NBTTagCompound tag) {
-    	if (!tag.hasKey("ForgeData")) {
-    		tag.setTag("ForgeData", new NBTTagCompound());
-    	}
-    	tag = tag.getCompoundTag("ForgeData");
+        if (!tag.hasKey("ForgeData")) {
+            tag.setTag("ForgeData", new NBTTagCompound());
+        }
+        tag = tag.getCompoundTag("ForgeData");
 
-    	if (!tag.hasKey("SMData")) {
-    		tag.setTag("SMData", new NBTTagCompound());
-    	}
-    	return tag.getCompoundTag("SMData");
+        if (!tag.hasKey("SMData")) {
+            tag.setTag("SMData", new NBTTagCompound());
+        }
+        return tag.getCompoundTag("SMData");
     }
 
     /** The entity this data is for. */
@@ -116,11 +116,11 @@ public class SpecialMobData
 
     /** Called each tick for every living special mob. */
     public void onUpdate() {
-    	// Send texture to client, if needed.
-    	if (this.updateTextures && !this.theEntity.worldObj.isRemote && this.theEntity.ticksExisted > 1) {
-    		this.updateTextures = false;
+        // Send texture to client, if needed.
+        if (this.updateTextures && !this.theEntity.worldObj.isRemote && this.theEntity.ticksExisted > 1) {
+            this.updateTextures = false;
             _SpecialMobs.CHANNEL.sendToDimension(new MessageTexture(this.theEntity), this.theEntity.dimension);
-    	}
+        }
 
         // Update natural regen, if needed.
         if (this.healTimeMax > 0 && ++this.healTime >= this.healTimeMax) {
@@ -226,24 +226,24 @@ public class SpecialMobData
      * @param tex The new texture(s) to load for the entity. Called when loaded from NBT or packet.
      */
     public void loadTextures(String... tex) {
-    	try {
-	    	ResourceLocation[] newTextures = new ResourceLocation[this.textures.length];
-	        for (int i = newTextures.length; i-- > 0;) {
-	            if (!this.textures[i].toString().equals(tex[i])) {
-	            	this.updateTextures = true;
-	            	newTextures[i] = new ResourceLocation(tex[i]);
-	            }
-	            else {
-	            	newTextures[i] = this.textures[i];
-	            }
-	        }
-	        if (this.updateTextures) {
-				this.setTextures(newTextures);
-			}
-    	}
-    	catch (Exception ex) {
-    		_SpecialMobs.console("Failed to load textures!");
-    	}
+        try {
+            ResourceLocation[] newTextures = new ResourceLocation[this.textures.length];
+            for (int i = newTextures.length; i-- > 0;) {
+                if (!this.textures[i].toString().equals(tex[i])) {
+                    this.updateTextures = true;
+                    newTextures[i] = new ResourceLocation(tex[i]);
+                }
+                else {
+                    newTextures[i] = this.textures[i];
+                }
+            }
+            if (this.updateTextures) {
+                this.setTextures(newTextures);
+            }
+        }
+        catch (Exception ex) {
+            _SpecialMobs.console("Failed to load textures!");
+        }
     }
 
     /**
@@ -343,15 +343,15 @@ public class SpecialMobData
         }
         if (tag.hasKey("SMTex")) {
             try {
-            	NBTTagList textureTag = tag.getTagList("SMTex", new NBTTagString().getId());
-            	String[] newTextures = new String[this.textures.length];
-	            for (int i = newTextures.length; i-- > 0;) {
-	                newTextures[i] = textureTag.getStringTagAt(i);
-	            }
-	            this.loadTextures(newTextures);
+                NBTTagList textureTag = tag.getTagList("SMTex", new NBTTagString().getId());
+                String[] newTextures = new String[this.textures.length];
+                for (int i = newTextures.length; i-- > 0;) {
+                    newTextures[i] = textureTag.getStringTagAt(i);
+                }
+                this.loadTextures(newTextures);
             }
             catch (Exception ex) {
-            	_SpecialMobs.console("Failed to load textures from NBT! " + this.theEntity.toString());
+                _SpecialMobs.console("Failed to load textures from NBT! " + this.theEntity.toString());
             }
         }
 

@@ -134,26 +134,26 @@ public class MessageExplosion implements IMessage {
      */
     @Override
     public void toBytes(ByteBuf buf) {
-		try {
-			buf.writeByte(this.type.getId());
-			buf.writeFloat(this.size);
-			buf.writeDouble(this.posX);
-			buf.writeDouble(this.posY);
-			buf.writeDouble(this.posZ);
+        try {
+            buf.writeByte(this.type.getId());
+            buf.writeFloat(this.size);
+            buf.writeDouble(this.posX);
+            buf.writeDouble(this.posY);
+            buf.writeDouble(this.posZ);
 
-			if (this.type == ExplosionType.NORMAL) {
-				int count = this.affectedBlocks.length;
-				buf.writeInt(count);
-				for (int i = 0; i < count; i++) {
-					for (int d = 0; d < 3; d++) {
-						buf.writeByte(this.affectedBlocks[i][d]);
-					}
-				}
-			}
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
+            if (this.type == ExplosionType.NORMAL) {
+                int count = this.affectedBlocks.length;
+                buf.writeInt(count);
+                for (int i = 0; i < count; i++) {
+                    for (int d = 0; d < 3; d++) {
+                        buf.writeByte(this.affectedBlocks[i][d]);
+                    }
+                }
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public static class Handler implements IMessageHandler<MessageExplosion, IMessage> {
@@ -163,56 +163,55 @@ public class MessageExplosion implements IMessage {
          */
         @Override
         public IMessage onMessage(MessageExplosion message, MessageContext ctx) {
-        	try
-        	{
-	            World world = FMLClientHandler.instance().getWorldClient();
-	            if (message.type == ExplosionType.LIGHTNING) {
-	                if (message.size < 0.0F) {
-	                    message.size = 0.0F;
-	                }
-	                for (float x = -message.size; x <= message.size; x++) {
-	                    for (float z = -message.size; z <= message.size; z++) {
-	                        world.spawnEntityInWorld(new EntityLightningBolt(world, message.posX + x, message.posY, message.posZ + z));
-	                    }
-	                }
-	            }
-	            else {
-	                if (message.type == ExplosionType.NORMAL && message.size >= 2.0F) {
-	                    world.spawnParticle("hugeexplosion", message.posX, message.posY, message.posZ, 1.0, 0.0, 0.0);
-	                }
-	                else {
-	                    world.spawnParticle("largeexplode", message.posX, message.posY, message.posZ, 1.0, 0.0, 0.0);
-	                }
-	
-	                if (message.type == ExplosionType.NORMAL && message.affectedBlocks != null) {
-	                    int count = message.affectedBlocks.length;
-	                    double[] relPos;
-	                    double fxPosX, fxPosY, fxPosZ;
-	                    for (int i = 0; i < count; i++) {
-	                        relPos = new double[3];
-	                        for (int d = 0; d < 3; d++) {
-	                            relPos[d] = message.affectedBlocks[i][d] + world.rand.nextFloat();
-	                        }
-	                        fxPosX = relPos[0] + message.posX;
-	                        fxPosY = relPos[1] + message.posY;
-	                        fxPosZ = relPos[2] + message.posZ;
-	                        double velo = Math.sqrt(relPos[0] * relPos[0] + relPos[1] * relPos[1] + relPos[2] * relPos[2]);
-	                        double mult = 0.5 / (velo / message.size + 0.1) * (world.rand.nextFloat() * world.rand.nextFloat() + 0.3F) / velo;
-	                        for (int d = 0; d < 3; d++) {
-	                            relPos[d] *= mult;
-	                        }
-	                        world.spawnParticle("explode", (fxPosX + message.posX) / 2.0, (fxPosY + message.posY) / 2.0, (fxPosZ + message.posZ) / 2.0, relPos[0], relPos[1], relPos[2]);
-	                        world.spawnParticle("smoke", fxPosX, fxPosY, fxPosZ, relPos[0], relPos[1], relPos[2]);
-	                    }
-	                }
-	            }
-        	}
-        	catch (Exception ex)
-        	{
-        		//System.out.println(String.format("[%s] ====== SM|EX->onMessage() crash ========", _SpecialMobs.MODID));
-        		ex.printStackTrace();
-        	}
-        	return null;
+            try
+            {
+                World world = FMLClientHandler.instance().getWorldClient();
+                if (message.type == ExplosionType.LIGHTNING) {
+                    if (message.size < 0.0F) {
+                        message.size = 0.0F;
+                    }
+                    for (float x = -message.size; x <= message.size; x++) {
+                        for (float z = -message.size; z <= message.size; z++) {
+                            world.spawnEntityInWorld(new EntityLightningBolt(world, message.posX + x, message.posY, message.posZ + z));
+                        }
+                    }
+                }
+                else {
+                    if (message.type == ExplosionType.NORMAL && message.size >= 2.0F) {
+                        world.spawnParticle("hugeexplosion", message.posX, message.posY, message.posZ, 1.0, 0.0, 0.0);
+                    }
+                    else {
+                        world.spawnParticle("largeexplode", message.posX, message.posY, message.posZ, 1.0, 0.0, 0.0);
+                    }
+    
+                    if (message.type == ExplosionType.NORMAL && message.affectedBlocks != null) {
+                        int count = message.affectedBlocks.length;
+                        double[] relPos;
+                        double fxPosX, fxPosY, fxPosZ;
+                        for (int i = 0; i < count; i++) {
+                            relPos = new double[3];
+                            for (int d = 0; d < 3; d++) {
+                                relPos[d] = message.affectedBlocks[i][d] + world.rand.nextFloat();
+                            }
+                            fxPosX = relPos[0] + message.posX;
+                            fxPosY = relPos[1] + message.posY;
+                            fxPosZ = relPos[2] + message.posZ;
+                            double velo = Math.sqrt(relPos[0] * relPos[0] + relPos[1] * relPos[1] + relPos[2] * relPos[2]);
+                            double mult = 0.5 / (velo / message.size + 0.1) * (world.rand.nextFloat() * world.rand.nextFloat() + 0.3F) / velo;
+                            for (int d = 0; d < 3; d++) {
+                                relPos[d] *= mult;
+                            }
+                            world.spawnParticle("explode", (fxPosX + message.posX) / 2.0, (fxPosY + message.posY) / 2.0, (fxPosZ + message.posZ) / 2.0, relPos[0], relPos[1], relPos[2]);
+                            world.spawnParticle("smoke", fxPosX, fxPosY, fxPosZ, relPos[0], relPos[1], relPos[2]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+            return null;
         }
 
     }

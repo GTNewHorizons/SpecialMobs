@@ -27,26 +27,26 @@ import toast.specialMobs.entity.SpecialMobData;
 public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
     /// Useful properties for this class.
     //private static final double HOSTILE_CHANCE = Properties.getDouble(Properties.STATS, "hostile_pigzombies");
-	public double BLAZE_SNOWBALL_HITS = Properties.getDouble( Properties.STATS, "blaze_snowball_hits"); // Can be overwritten by custom blazes to make them more/less snowball sensitive
+    public double BLAZE_SNOWBALL_HITS = Properties.getDouble( Properties.STATS, "blaze_snowball_hits"); // Can be overwritten by custom blazes to make them more/less snowball sensitive
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation("textures/entity/blaze.png") };
 
     /// This mob's special mob data.
     private SpecialMobData specialData;
 
     /// The state of this blaze's attack.
-	public int attackState;
+    public int attackState;
     /// The amount of fireballs in each burst.
-	public short fireballBurstCount;
+    public short fireballBurstCount;
     /// The ticks between each shot in a burst.
-	public short fireballBurstDelay;
-	// Snark is for using the wrong weapon
-	public static ArrayList<ChatComponentText> chatSnark = new ArrayList<ChatComponentText>(); 
-	// Super is for using the right weapon
-	public static ArrayList<ChatComponentText> chatSuper = new ArrayList<ChatComponentText>(); 
+    public short fireballBurstDelay;
+    // Snark is for using the wrong weapon
+    public static ArrayList<ChatComponentText> chatSnark = new ArrayList<ChatComponentText>(); 
+    // Super is for using the right weapon
+    public static ArrayList<ChatComponentText> chatSuper = new ArrayList<ChatComponentText>(); 
 
     static {
-    	// Load up chat
-    	ISpecialMob.loadChat( "entity.SpecialMobs.SpecialBlaze", chatSnark, chatSuper);
+        // Load up chat
+        ISpecialMob.loadChat( "entity.SpecialMobs.SpecialBlaze", chatSnark, chatSuper);
     }
     public Entity_SpecialBlaze(World world) {
         super(world);
@@ -64,8 +64,8 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
 
     /// Helper method to set the attack AI more easily.
     protected void setRangedAI(int burstCount, int burstDelay, int chargeTime, int cooldownTime, float range) {
-    	this.fireballBurstCount = (short) burstCount;
-    	this.fireballBurstDelay = (short) burstDelay;
+        this.fireballBurstCount = (short) burstCount;
+        this.fireballBurstDelay = (short) burstDelay;
 
         SpecialMobData data = this.getSpecialData();
         data.arrowRefireMin = (short) chargeTime;
@@ -110,7 +110,7 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
     /// Called each tick this entity's attack target can be seen.
     @Override
     protected void attackEntity(Entity target, float distance) {
-    	SpecialMobData data = this.getSpecialData();
+        SpecialMobData data = this.getSpecialData();
         if (this.attackTime <= 0 && distance < 2.0F && target.boundingBox.maxY > this.boundingBox.minY && target.boundingBox.minY < this.boundingBox.maxY) {
             this.attackTime = 20;
             this.attackEntityAsMob(target);
@@ -132,25 +132,25 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
                 }
 
                 if (this.attackState > 1) {
-					this.shootFireballAtEntity(target, distance);
+                    this.shootFireballAtEntity(target, distance);
                 }
             }
             this.rotationYaw = (float) (Math.atan2(target.posZ - this.posZ, target.posX - this.posX) * 180.0 / Math.PI) - 90.0F;
             this.hasAttacked = true;
         }
         else {
-        	if (this.onGround) {
-        		this.moveEntityWithHeading(0.0F, (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() * 7.0F);
-        	}
-        	else {
-        		this.moveFlying(0.0F, (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() * 7.0F, 0.03F);
-        	}
+            if (this.onGround) {
+                this.moveEntityWithHeading(0.0F, (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() * 7.0F);
+            }
+            else {
+                this.moveFlying(0.0F, (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() * 7.0F, 0.03F);
+            }
         }
     }
 
     // Returns true if the target can be hurt by fireballs.
     protected boolean canBeHurtByFire(Entity entity) {
-    	return !entity.isImmuneToFire() && (!(entity instanceof EntityLivingBase) || !((EntityLivingBase) entity).isPotionActive(Potion.fireResistance));
+        return !entity.isImmuneToFire() && (!(entity instanceof EntityLivingBase) || !((EntityLivingBase) entity).isPotionActive(Potion.fireResistance));
     }
 
     // Called to attack the target entity with a fireball.
@@ -220,14 +220,14 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
     @Override
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
         if (damageSource.getSourceOfDamage() instanceof EntitySnowball) {
-        	// Snowballs are super-effective. Only takes 4 hits to kill them
+            // Snowballs are super-effective. Only takes 4 hits to kill them
             damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) - 1, damage);
             sendChatSnark(this, damageSource, this.rand, chatSuper);
         } else if (Properties.EntityFrostShardClass.isInstance(damageSource.getSourceOfDamage()) 
-        		|| Properties.EntityIceArrow.isInstance(damageSource.getSourceOfDamage())
-        		|| "frost".equals(damageSource.getDamageType())) {
-        	// Frost-based weapons are super-super-effective. Should take only 3 hits to kill them.
-        	damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) + 2, damage);
+                || Properties.EntityIceArrow.isInstance(damageSource.getSourceOfDamage())
+                || "frost".equals(damageSource.getDamageType())) {
+            // Frost-based weapons are super-super-effective. Should take only 3 hits to kill them.
+            damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) + 2, damage);
             sendChatSnark(this, damageSource, this.rand, chatSuper);
         }
         Entity attacker = damageSource.getEntity();
@@ -235,19 +235,19 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
             ItemStack heldItem = ((EntityLivingBase)attacker).getHeldItem();
             if (heldItem != null) {
                 if (Properties.ItemTFIceSword.isInstance(heldItem.getItem()) ) {
-                	damage = (float)Math.max(this.getMaxHealth()/2 + 4, damage);
+                    damage = (float)Math.max(this.getMaxHealth()/2 + 4, damage);
                     sendChatSnark(this, damageSource, this.rand, chatSuper);
                 }
             } else {
-            	//Attacking empty handed? You idiot.
-            	sendChatSnark(this, damageSource, this.rand, chatSnark);
+                //Attacking empty handed? You idiot.
+                sendChatSnark(this, damageSource, this.rand, chatSnark);
             }
-            	
+                
         }
         if (damageSource.isFireDamage()) {
-        	// What are you, stupid?
+            // What are you, stupid?
             sendChatSnark(this, damageSource, this.rand, chatSnark);
-        	damage = 0;
+            damage = 0;
         }
         return super.attackEntityFrom(damageSource, damage);
     }

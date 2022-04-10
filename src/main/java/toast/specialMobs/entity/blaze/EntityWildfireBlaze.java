@@ -43,7 +43,7 @@ public class EntityWildfireBlaze extends Entity_SpecialBlaze
 
     // Called to attack the target entity with a fireball.
     @Override
-	public void shootFireballAtEntity(Entity target, float distance) {
+    public void shootFireballAtEntity(Entity target, float distance) {
         if (this.babyCount > 0 && this.rand.nextInt(3) != 0) {
             this.babyCount--;
             EntityCinderBlaze baby = new EntityCinderBlaze(this.worldObj);
@@ -60,8 +60,8 @@ public class EntityWildfireBlaze extends Entity_SpecialBlaze
 
     /// Overridden to modify attack effects.
     @Override
-	protected void onTypeAttack(Entity target) {
-    	target.setFire(8);
+    protected void onTypeAttack(Entity target) {
+        target.setFire(8);
     }
 
     /// Called when this entity is killed.
@@ -69,16 +69,16 @@ public class EntityWildfireBlaze extends Entity_SpecialBlaze
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (hit) {
-	        for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-	            this.dropItem(Items.coal, 1);
-	        }
-	        if (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0) {
-	            this.entityDropItem(new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntityBlaze(this.worldObj))), 0.0F);
-	        }
+            for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
+                this.dropItem(Items.coal, 1);
+            }
+            if (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0) {
+                this.entityDropItem(new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntityBlaze(this.worldObj))), 0.0F);
+            }
         }
 
         if (!this.worldObj.isRemote) {
-        	EntityCinderBlaze baby = null;
+            EntityCinderBlaze baby = null;
             for (int i = this.babies; i-- > 0;) {
                 baby = new EntityCinderBlaze(this.worldObj);
                 baby.copyLocationAndAnglesFrom(this);

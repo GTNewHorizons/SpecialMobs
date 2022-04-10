@@ -21,7 +21,7 @@ import toast.specialMobs.entity.spider.Entity_SpecialSpider;
 
 public class EntityWildsWitch extends Entity_SpecialWitch
 {
-	public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
+    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/wilds.png")
     };
 
@@ -50,58 +50,58 @@ public class EntityWildsWitch extends Entity_SpecialWitch
 
     /// Called when the witch is looking for a potion to drink.
     @Override
-	public void tryDrinkPotion() {
-    	if (this.potionThrowDelay <= 0) {
-    		EntityLivingBase riding = this.ridingEntity instanceof EntityLivingBase ? (EntityLivingBase) this.ridingEntity : null;
+    public void tryDrinkPotion() {
+        if (this.potionThrowDelay <= 0) {
+            EntityLivingBase riding = this.ridingEntity instanceof EntityLivingBase ? (EntityLivingBase) this.ridingEntity : null;
 
-    		if (riding != null && riding.isBurning() && !riding.isPotionActive(Potion.fireResistance)) {
+            if (riding != null && riding.isBurning() && !riding.isPotionActive(Potion.fireResistance)) {
                 this.drinkPotion(16387); // Splash Fire Resistance
             }
-    		else if (this.isBurning() && !this.isPotionActive(Potion.fireResistance)) {
+            else if (this.isBurning() && !this.isPotionActive(Potion.fireResistance)) {
                 this.drinkPotion(8195); // Fire Resistance
             }
             else if (this.rand.nextFloat() < 0.2F && riding != null && riding.isInsideOfMaterial(Material.water) && !riding.isPotionActive(Potion.waterBreathing) ||
-            		this.rand.nextFloat() < 0.15F && this.isInsideOfMaterial(Material.water) && !this.isPotionActive(Potion.waterBreathing)) {
-            	if (riding != null && riding.isInsideOfMaterial(Material.water) && !riding.isPotionActive(Potion.waterBreathing)) {
-	            	this.drinkPotion(16397); // Splash Water Breathing
-	            }
-	            else {
-	            	this.drinkPotion(8205); // Water Breathing
-	            }
+                    this.rand.nextFloat() < 0.15F && this.isInsideOfMaterial(Material.water) && !this.isPotionActive(Potion.waterBreathing)) {
+                if (riding != null && riding.isInsideOfMaterial(Material.water) && !riding.isPotionActive(Potion.waterBreathing)) {
+                    this.drinkPotion(16397); // Splash Water Breathing
+                }
+                else {
+                    this.drinkPotion(8205); // Water Breathing
+                }
             }
             else if (this.rand.nextFloat() < 0.1F && riding != null && riding.getHealth() < riding.getMaxHealth() ||
-            		this.rand.nextFloat() < 0.05F && this.getHealth() < this.getMaxHealth()) {
+                    this.rand.nextFloat() < 0.05F && this.getHealth() < this.getMaxHealth()) {
                 if (riding != null && riding.getHealth() < riding.getMaxHealth()) {
-					this.drinkPotion(16389); // Splash Instant Health
-				}
-	            else {
-	                this.drinkPotion(8197); // Instant Health
-	            }
-    		}
+                    this.drinkPotion(16389); // Splash Instant Health
+                }
+                else {
+                    this.drinkPotion(8197); // Instant Health
+                }
+            }
             else if (this.spiderCount > 0 && this.ridingEntity == null) {
-            	if (this.rand.nextFloat() < 0.1F && this.getAttackTarget() != null) {
-            		this.potionThrowDelay = 8;
-	                this.spiderCount--;
-	                Entity_SpecialSpider spider = new Entity_SpecialSpider(this.worldObj);
-	                spider.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-	                if (!this.worldObj.getCollidingBoundingBoxes(spider, spider.boundingBox).isEmpty()) {
-	                	// Spider too big, get a smaller one
-	                	spider = new EntitySmallSpider(this.worldObj);
-	                    spider.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-	                }
-	                spider.onSpawnWithEgg((IEntityLivingData) null);
-	                spider.isHostile = true;
-	                spider.setTarget(this.getAttackTarget());
+                if (this.rand.nextFloat() < 0.1F && this.getAttackTarget() != null) {
+                    this.potionThrowDelay = 8;
+                    this.spiderCount--;
+                    Entity_SpecialSpider spider = new Entity_SpecialSpider(this.worldObj);
+                    spider.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                    if (!this.worldObj.getCollidingBoundingBoxes(spider, spider.boundingBox).isEmpty()) {
+                        // Spider too big, get a smaller one
+                        spider = new EntitySmallSpider(this.worldObj);
+                        spider.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                    }
+                    spider.onSpawnWithEgg((IEntityLivingData) null);
+                    spider.isHostile = true;
+                    spider.setTarget(this.getAttackTarget());
 
-	                SpecialMobData data = spider.getSpecialData();
-	                data.arrowRefireMin = 0;
-	                data.arrowRefireMax = 0;
-	                data.arrowRange = 0.0F;
+                    SpecialMobData data = spider.getSpecialData();
+                    data.arrowRefireMin = 0;
+                    data.arrowRefireMax = 0;
+                    data.arrowRange = 0.0F;
 
-	                this.worldObj.spawnEntityInWorld(spider);
-	                this.mountEntity(spider);
-	                this.worldObj.playSoundAtEntity(spider, "mob.ghast.fireball", 0.5F, 2.0F / (this.rand.nextFloat() * 0.4F + 0.8F));
-	            }
+                    this.worldObj.spawnEntityInWorld(spider);
+                    this.mountEntity(spider);
+                    this.worldObj.playSoundAtEntity(spider, "mob.ghast.fireball", 0.5F, 2.0F / (this.rand.nextFloat() * 0.4F + 0.8F));
+                }
             }
             else if (this.rand.nextFloat() < 0.2F && riding != null && this.getAttackTarget() != null && !riding.isPotionActive(Potion.moveSpeed) && this.getAttackTarget().getDistanceSqToEntity(this) > 121.0) {
                 this.drinkPotion(16418); // Splash Swiftness II
@@ -110,9 +110,9 @@ public class EntityWildsWitch extends Entity_SpecialWitch
                 this.drinkPotion(16386); // Splash Swiftness
             }
             else {
-            	this.tryDrinkPotionByType();
+                this.tryDrinkPotionByType();
             }
-    	}
+        }
     }
 
     /// Attack the specified entity using a ranged attack.
@@ -128,10 +128,10 @@ public class EntityWildsWitch extends Entity_SpecialWitch
                 baby.isHostile = true;
                 baby.setTarget(this.getAttackTarget());
 
-	            SpecialMobData data = baby.getSpecialData();
-	            data.arrowRefireMin = 0;
-	            data.arrowRefireMax = 0;
-	            data.arrowRange = 0.0F;
+                SpecialMobData data = baby.getSpecialData();
+                data.arrowRefireMin = 0;
+                data.arrowRefireMax = 0;
+                data.arrowRange = 0.0F;
 
                 this.worldObj.spawnEntityInWorld(baby);
             }
@@ -141,18 +141,18 @@ public class EntityWildsWitch extends Entity_SpecialWitch
             }
         }
         else {
-        	super.attackEntityWithRangedAttack(target, range);
+            super.attackEntityWithRangedAttack(target, range);
         }
     }
 
     /// Overridden to modify potion attacks. Returns true if the potion was modified.
     @Override
-	protected boolean adjustSplashPotionByType(EntityPotion thrownPotion, EntityLivingBase target, float range, float distance) {
+    protected boolean adjustSplashPotionByType(EntityPotion thrownPotion, EntityLivingBase target, float range, float distance) {
         thrownPotion.setPotionDamage(16388); // The default potion // Splash Poison
         if (target.getHealth() <= 2.0F) {
-        	super.adjustSplashPotionByType(thrownPotion, target, range, distance); // Default - damage dealing potion
+            super.adjustSplashPotionByType(thrownPotion, target, range, distance); // Default - damage dealing potion
         }
-    	return true;
+        return true;
     }
 
     /// Called when this entity is killed.
@@ -160,11 +160,11 @@ public class EntityWildsWitch extends Entity_SpecialWitch
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-			this.dropItem(Items.spider_eye, 1);
-		}
+            this.dropItem(Items.spider_eye, 1);
+        }
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-			this.dropItem(Items.fermented_spider_eye, 1);
-		}
+            this.dropItem(Items.fermented_spider_eye, 1);
+        }
     }
 
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.

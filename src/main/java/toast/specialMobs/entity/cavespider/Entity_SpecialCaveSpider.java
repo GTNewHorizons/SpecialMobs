@@ -218,7 +218,7 @@ public class Entity_SpecialCaveSpider extends EntityCaveSpider implements ISpeci
         super.writeEntityToNBT(tag);
         NBTTagCompound saveTag = SpecialMobData.getSaveLocation(tag);
         if (this.isHostile) {
-        	saveTag.setBoolean("SMAnger", true);
+            saveTag.setBoolean("SMAnger", true);
         }
 
         this.getSpecialData().isImmuneToFire = this.isImmuneToFire;

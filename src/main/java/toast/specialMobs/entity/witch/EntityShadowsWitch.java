@@ -14,7 +14,7 @@ import toast.specialMobs.entity.SpecialMobData;
 
 public class EntityShadowsWitch extends Entity_SpecialWitch
 {
-	public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
+    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/shadows.png")
     };
 
@@ -31,18 +31,18 @@ public class EntityShadowsWitch extends Entity_SpecialWitch
     @Override
     public void onLivingUpdate() {
         if (!this.worldObj.isRemote && this.isEntityAlive() && this.getAttackTarget() != null && this.rand.nextInt(10) == 0 && this.getAttackTarget().isPotionActive(Potion.blindness)) {
-        	this.getAttackTarget().removePotionEffect(Potion.nightVision.id);
+            this.getAttackTarget().removePotionEffect(Potion.nightVision.id);
         }
         super.onLivingUpdate();
     }
 
     /// Changes the default splash potion into another befitting the situation.
     @Override
-	protected EntityPotion adjustSplashPotion(EntityPotion thrownPotion, EntityLivingBase target, float range, float distance) {
+    protected EntityPotion adjustSplashPotion(EntityPotion thrownPotion, EntityLivingBase target, float range, float distance) {
         if (this.adjustSplashPotionByType(thrownPotion, target, range, distance))
-        	return thrownPotion;
+            return thrownPotion;
         if (target.getHealth() >= 4.0F && !target.isPotionActive(Potion.blindness))
-			return new EntityPotion(this.worldObj, this, this.makeShadowPotion());
+            return new EntityPotion(this.worldObj, this, this.makeShadowPotion());
         if (target.getHealth() >= 8.0F && !target.isPotionActive(Potion.poison)) {
             thrownPotion.setPotionDamage(16388); // Splash Poison
             return thrownPotion;
@@ -59,8 +59,8 @@ public class EntityShadowsWitch extends Entity_SpecialWitch
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-			this.dropItem(Items.dye, 1); // Ink sac
-		}
+            this.dropItem(Items.dye, 1); // Ink sac
+        }
     }
 
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.
@@ -91,7 +91,7 @@ public class EntityShadowsWitch extends Entity_SpecialWitch
     }
 
     private ItemStack makeShadowPotion() {
-    	ItemStack potion = new ItemStack(Items.potionitem, 1, 16396);
+        ItemStack potion = new ItemStack(Items.potionitem, 1, 16396);
         EffectHelper.setItemName(potion, "Splash Potion of Blindness", 0xf);
         EffectHelper.addPotionEffect(potion, Potion.blindness, 200, 0);
         return potion;

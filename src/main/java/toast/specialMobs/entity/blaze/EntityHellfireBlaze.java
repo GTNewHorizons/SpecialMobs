@@ -35,7 +35,7 @@ public class EntityHellfireBlaze extends Entity_SpecialBlaze
 
     // Called to attack the target entity with a fireball.
     @Override
-	public void shootFireballAtEntity(Entity target, float distance) {
+    public void shootFireballAtEntity(Entity target, float distance) {
         double dX = target.posX - this.posX;
         double dY = target.boundingBox.minY + target.height / 2.0F - this.posY - this.height / 2.0F;
         double dZ = target.posZ - this.posZ;

@@ -40,10 +40,10 @@ public class EntityLavaMonster extends EntityMob implements ISpecialMob {
     public static final double HEAL_PERCENT = Properties.getDouble(Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_percent");
     public static final double HEAL_MAX = Properties.getDouble(Properties.LAVAMONSTER_GENERAL, "lavamonster_heal_max");
     
-	// Snark is for using the wrong weapon
-	public static ArrayList<ChatComponentText> chatSnark = new ArrayList<ChatComponentText>(); 
-	// Super is for using the right weapon
-	public static ArrayList<ChatComponentText> chatSuper = new ArrayList<ChatComponentText>(); 
+    // Snark is for using the wrong weapon
+    public static ArrayList<ChatComponentText> chatSnark = new ArrayList<ChatComponentText>(); 
+    // Super is for using the right weapon
+    public static ArrayList<ChatComponentText> chatSuper = new ArrayList<ChatComponentText>(); 
 
     /// Ticks until the next attack phase change.
     public int attackDelay = 0;
@@ -55,8 +55,8 @@ public class EntityLavaMonster extends EntityMob implements ISpecialMob {
     private byte textureIndex = 0;
 
     static {
-    	// Load up chat
-    	ISpecialMob.loadChat( "entity.SpecialMobs.LavaMonster", chatSnark, chatSuper);
+        // Load up chat
+        ISpecialMob.loadChat( "entity.SpecialMobs.LavaMonster", chatSnark, chatSuper);
     }
     
     public EntityLavaMonster(World world) {
@@ -123,13 +123,13 @@ public class EntityLavaMonster extends EntityMob implements ISpecialMob {
         }
         // On average, every HEAL_TIME (multiplied by 2 because average) heal the lava monster if it is standing in lava. This way players have to lure it out to do more damage
         if (( this.rand.nextInt(HEAL_TIME*2) == 0) && (this.worldObj.getBlock((int) Math.round(posX), (int) Math.round(posY), (int) Math.round(posZ)).getMaterial() == Material.lava)) {
-        	float damage = this.getMaxHealth() - this.getHealth();
-        	if( damage != 0) {
-	        	// Always try healing at least 1 half-heart
-	        	damage = (float) Math.max(damage*HEAL_PERCENT, 1);
-	        	// Heal damage or HEAL_MAX/2 hearts, whichever is smaller.
-	        	this.heal( (float) Math.min( damage, HEAL_MAX));
-        	}
+            float damage = this.getMaxHealth() - this.getHealth();
+            if( damage != 0) {
+                // Always try healing at least 1 half-heart
+                damage = (float) Math.max(damage*HEAL_PERCENT, 1);
+                // Heal damage or HEAL_MAX/2 hearts, whichever is smaller.
+                this.heal( (float) Math.min( damage, HEAL_MAX));
+            }
         }
         int x = MathHelper.floor_double(this.posX);
         int y = MathHelper.floor_double(this.posY);
@@ -156,17 +156,17 @@ public class EntityLavaMonster extends EntityMob implements ISpecialMob {
     /// Called when the entity is attacked.
     @Override
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
-    	if ( isDamageSourceEffective( damageSource ) ) {
-        	// Snowballs and other frost damage sources are super-effective. Only takes 3 hits to kill them
+        if ( isDamageSourceEffective( damageSource ) ) {
+            // Snowballs and other frost damage sources are super-effective. Only takes 3 hits to kill them
             damage = Math.max(this.getMaxHealth()/2 - 1, damage);
             // Super effective message
             sendChatSnark(this, damageSource, this.rand, chatSuper);
         }
         if (damageSource.isFireDamage()) {
-        	// What are you, stupid? message
+            // What are you, stupid? message
             sendChatSnark(this, damageSource, this.rand, chatSnark);
 
-        	damage = 0;
+            damage = 0;
         }
         return super.attackEntityFrom(damageSource, damage);
     }
@@ -185,12 +185,12 @@ public class EntityLavaMonster extends EntityMob implements ISpecialMob {
                 ItemStack heldItem = ((EntityLivingBase)attacker).getHeldItem();
                 if (heldItem != null) {
                     if (Properties.ItemTFIceSword.isInstance(heldItem.getItem()) ) {
-                    	return true;
+                        return true;
                     }
                 }
             }
             if ( "frost".equals(damageSource.getDamageType()) ) {
-            	return true;
+                return true;
             }
         }
         return false;
@@ -211,52 +211,52 @@ public class EntityLavaMonster extends EntityMob implements ISpecialMob {
             this.dropItem(Items.fire_charge, 1);
         }
         if (!BASIC_LOOT && recentlyHit && (this.rand.nextInt(15) == 0)) {
-        	this.dropItem(Items.lava_bucket, 1);
+            this.dropItem(Items.lava_bucket, 1);
         }
     }
 
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.
     @Override
     protected void dropRareDrop(int superRare) {
-    	ItemStack drop;
-    	if ((superRare == 0)|| BASIC_LOOT) {
-	        drop = new ItemStack(Items.iron_boots);
-	        drop.setStackDisplayName("\u00a7cLava Slippers");
-	        drop.addEnchantment(Enchantment.fireProtection, 3);
-	        this.entityDropItem(drop, 1.0F);
-    	} else
-    	{
-    		switch( this.rand.nextInt(4) ) {
-    		case 0:
-    			drop = new ItemStack(Items.diamond_boots);
-		        drop.setStackDisplayName("\u00a7cFirefighter Boots"); // In honor of the brave men and women who run into danger, not away
-		        drop.addEnchantment(Enchantment.fireProtection, 4);
-		        drop.addEnchantment(Enchantment.featherFalling, 2);
-		        this.entityDropItem(drop, 1.0F);
-		        break;
-    		case 1:
-    			drop = new ItemStack(Items.diamond_leggings);
-		        drop.setStackDisplayName("\u00a7cFirefighter Pants");
-		        drop.addEnchantment(Enchantment.fireProtection, 4);
-		        drop.addEnchantment(Enchantment.blastProtection, 2);
-		        this.entityDropItem(drop, 1.0F);
-		        break;
-    		case 2:
-    			drop = new ItemStack(Items.diamond_chestplate);
-		        drop.setStackDisplayName("\u00a7cFirefighter Jacket");
-		        drop.addEnchantment(Enchantment.fireProtection, 4);
-		        drop.addEnchantment(Enchantment.projectileProtection, 2);
-		        this.entityDropItem(drop, 1.0F);
-		        break;
-    		case 3:
-    			drop = new ItemStack(Items.diamond_helmet);
-		        drop.setStackDisplayName("\u00a7cFirefighter Helmet");
-		        drop.addEnchantment(Enchantment.fireProtection, 4);
-		        drop.addEnchantment(Enchantment.respiration, 2);
-		        this.entityDropItem(drop, 0.0F);
-		        break;
-    		}
-    	}
+        ItemStack drop;
+        if ((superRare == 0)|| BASIC_LOOT) {
+            drop = new ItemStack(Items.iron_boots);
+            drop.setStackDisplayName("\u00a7cLava Slippers");
+            drop.addEnchantment(Enchantment.fireProtection, 3);
+            this.entityDropItem(drop, 1.0F);
+        } else
+        {
+            switch( this.rand.nextInt(4) ) {
+            case 0:
+                drop = new ItemStack(Items.diamond_boots);
+                drop.setStackDisplayName("\u00a7cFirefighter Boots"); // In honor of the brave men and women who run into danger, not away
+                drop.addEnchantment(Enchantment.fireProtection, 4);
+                drop.addEnchantment(Enchantment.featherFalling, 2);
+                this.entityDropItem(drop, 1.0F);
+                break;
+            case 1:
+                drop = new ItemStack(Items.diamond_leggings);
+                drop.setStackDisplayName("\u00a7cFirefighter Pants");
+                drop.addEnchantment(Enchantment.fireProtection, 4);
+                drop.addEnchantment(Enchantment.blastProtection, 2);
+                this.entityDropItem(drop, 1.0F);
+                break;
+            case 2:
+                drop = new ItemStack(Items.diamond_chestplate);
+                drop.setStackDisplayName("\u00a7cFirefighter Jacket");
+                drop.addEnchantment(Enchantment.fireProtection, 4);
+                drop.addEnchantment(Enchantment.projectileProtection, 2);
+                this.entityDropItem(drop, 1.0F);
+                break;
+            case 3:
+                drop = new ItemStack(Items.diamond_helmet);
+                drop.setStackDisplayName("\u00a7cFirefighter Helmet");
+                drop.addEnchantment(Enchantment.fireProtection, 4);
+                drop.addEnchantment(Enchantment.respiration, 2);
+                this.entityDropItem(drop, 0.0F);
+                break;
+            }
+        }
     }
 
     /// Returns true if this mob is on fire. Used for rendering.
@@ -332,10 +332,10 @@ public class EntityLavaMonster extends EntityMob implements ISpecialMob {
     }
     
    public SpecialMobData getSpecialData() {
-	   return null;
+       return null;
    }
 
    public void adjustEntityAttributes() {
-	   return;
+       return;
    }
 }

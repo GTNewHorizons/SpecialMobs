@@ -36,11 +36,11 @@ public class EntityDrowningCreeper extends Entity_SpecialCreeper
     public void explodeByType(boolean powered, boolean griefing) {
         float power = powered ? this.explosionRadius * 2.0F : (float)this.explosionRadius;
         if (griefing) {
-        	this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 1.0F, true);
+            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 1.0F, true);
             MobHelper.drowningExplode(this, (int)power);
         }
         else {
-        	this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, power, false);
+            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, power, false);
         }
     }
 

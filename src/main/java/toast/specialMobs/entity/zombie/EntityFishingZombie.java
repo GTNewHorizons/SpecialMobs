@@ -14,7 +14,7 @@ import toast.specialMobs.entity.IAngler;
 
 public class EntityFishingZombie extends Entity_SpecialZombie implements IAngler
 {
-	/// The position of hasFishingRod within the data watcher.
+    /// The position of hasFishingRod within the data watcher.
     private static final byte DW_FISHING_ROD = DataWatcherHelper.instance.ZOMBIE_FISHING.nextKey();
 
     /// Ticks until this fishing zombie can cast its lure again.
@@ -44,11 +44,11 @@ public class EntityFishingZombie extends Entity_SpecialZombie implements IAngler
         float tension = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
         if (this.rand.nextFloat() < 0.25F * tension) {
             try {
-            	EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
+                EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
             }
             catch (Exception ex) {
-            	_SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
-            	ex.printStackTrace();
+                _SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
+                ex.printStackTrace();
             }
         }
         this.setCurrentItemOrArmor(0, itemStack);
@@ -76,7 +76,7 @@ public class EntityFishingZombie extends Entity_SpecialZombie implements IAngler
     /// Returns the heldItem.
     @Override
     public ItemStack getHeldItem() {
-    	ItemStack held = super.getHeldItem();
+        ItemStack held = super.getHeldItem();
         if (this.worldObj.isRemote && held != null && held.getItem() instanceof ItemFishingRod && !this.getFishingRod())
             return new ItemStack(Items.stick);
         return held;

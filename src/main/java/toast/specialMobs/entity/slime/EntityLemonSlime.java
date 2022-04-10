@@ -24,8 +24,8 @@ public class EntityLemonSlime extends Entity_SpecialSlime
 
     /// Gets the additional experience this slime type gives.
     @Override
-	protected int getTypeXp() {
-    	return 2;
+    protected int getTypeXp() {
+        return 2;
     }
 
     /// Overridden to modify attack effects.
@@ -46,12 +46,12 @@ public class EntityLemonSlime extends Entity_SpecialSlime
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (this.getSlimeSize() == 1) {
-	        for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-	            this.dropItem(Items.redstone, 1);
-	        }
-	        if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-	            this.entityDropItem(new ItemStack(Items.dye, 1, 11), 0.0F);
-	        }
+            for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
+                this.dropItem(Items.redstone, 1);
+            }
+            if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
+                this.entityDropItem(new ItemStack(Items.dye, 1, 11), 0.0F);
+            }
         }
     }
 
@@ -59,10 +59,10 @@ public class EntityLemonSlime extends Entity_SpecialSlime
     @Override
     protected void dropRareDrop(int superRare) {
         if (this.getSlimeSize() == 1) {
-	        ItemStack itemStack = new ItemStack(Items.potionitem, 1, 8195);
-	        EffectHelper.setItemName(itemStack, "Potion of Haste", 0xf);
-	        EffectHelper.addPotionEffect(itemStack, Potion.digSpeed, 3600 / (superRare + 1), superRare);
-	        this.entityDropItem(itemStack, 0.0F);
+            ItemStack itemStack = new ItemStack(Items.potionitem, 1, 8195);
+            EffectHelper.setItemName(itemStack, "Potion of Haste", 0xf);
+            EffectHelper.addPotionEffect(itemStack, Potion.digSpeed, 3600 / (superRare + 1), superRare);
+            this.entityDropItem(itemStack, 0.0F);
         }
     }
 }

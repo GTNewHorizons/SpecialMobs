@@ -20,7 +20,7 @@ import toast.specialMobs.entity.skeleton.Entity_SpecialSkeleton;
 
 public class EntityUndeadWitch extends Entity_SpecialWitch
 {
-	public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
+    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
         new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/undead.png")
     };
 
@@ -49,13 +49,13 @@ public class EntityUndeadWitch extends Entity_SpecialWitch
 
     /// Called when the witch is looking for a potion to drink.
     @Override
-	public void tryDrinkPotion() {
-    	if (this.potionThrowDelay <= 0) {
-    		if (this.isBurning() && !this.isPotionActive(Potion.fireResistance)) {
+    public void tryDrinkPotion() {
+        if (this.potionThrowDelay <= 0) {
+            if (this.isBurning() && !this.isPotionActive(Potion.fireResistance)) {
                 this.drinkPotion(8195); // Fire Resistance
             }
             else if (this.rand.nextFloat() < 0.15F && this.isInsideOfMaterial(Material.water) && !this.isPotionActive(Potion.waterBreathing)) {
-            	this.drinkPotion(8205); // Water Breathing
+                this.drinkPotion(8205); // Water Breathing
             }
             else if (this.rand.nextFloat() < 0.025F && this.getHealth() < this.getMaxHealth()) {
                 this.drinkPotion(16396); // Splash Instant Damage
@@ -67,9 +67,9 @@ public class EntityUndeadWitch extends Entity_SpecialWitch
                 this.drinkPotion(16386); // Splash Swiftness
             }
             else {
-            	this.tryDrinkPotionByType();
+                this.tryDrinkPotionByType();
             }
-    	}
+        }
     }
 
     /// Attack the specified entity using a ranged attack.
@@ -83,23 +83,23 @@ public class EntityUndeadWitch extends Entity_SpecialWitch
 
             skeleton.onSpawnWithEgg((IEntityLivingData) null);
             for (int i = 0; i < 4; i++) {
-				skeleton.setCurrentItemOrArmor(i, null);
-			}
-			skeleton.setCurrentItemOrArmor(4, new ItemStack(Items.leather_helmet, 1, Items.leather_helmet.getMaxDamage() - 2 - this.rand.nextInt(5)));
+                skeleton.setCurrentItemOrArmor(i, null);
+            }
+            skeleton.setCurrentItemOrArmor(4, new ItemStack(Items.leather_helmet, 1, Items.leather_helmet.getMaxDamage() - 2 - this.rand.nextInt(5)));
 
-			skeleton.worldObj.spawnEntityInWorld(skeleton);
+            skeleton.worldObj.spawnEntityInWorld(skeleton);
             this.worldObj.playSoundAtEntity(skeleton, "mob.ghast.fireball", 0.5F, 2.0F / (this.rand.nextFloat() * 0.4F + 0.8F));
         }
         else {
-        	super.attackEntityWithRangedAttack(target, range);
+            super.attackEntityWithRangedAttack(target, range);
         }
     }
 
     /// Overridden to modify potion attacks. Returns true if the potion was modified.
     @Override
-	protected boolean adjustSplashPotionByType(EntityPotion thrownPotion, EntityLivingBase target, float range, float distance) {
-    	super.adjustSplashPotionByType(thrownPotion, target, range, distance);
-    	return true; // Only throws default potion
+    protected boolean adjustSplashPotionByType(EntityPotion thrownPotion, EntityLivingBase target, float range, float distance) {
+        super.adjustSplashPotionByType(thrownPotion, target, range, distance);
+        return true; // Only throws default potion
     }
 
     /// Called when this entity is killed.
@@ -107,14 +107,14 @@ public class EntityUndeadWitch extends Entity_SpecialWitch
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-			this.entityDropItem(new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntitySkeleton(this.worldObj))), 0.0F);
-		}
+            this.entityDropItem(new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntitySkeleton(this.worldObj))), 0.0F);
+        }
     }
 
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.
     @Override
     protected void dropRareDrop(int superRare) {
-    	this.dropItem(Items.skull, 1);
+        this.dropItem(Items.skull, 1);
     }
 
     /// Saves this entity to NBT.

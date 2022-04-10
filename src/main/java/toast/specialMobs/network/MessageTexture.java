@@ -24,7 +24,7 @@ public class MessageTexture implements IMessage {
         ResourceLocation[] textures = ((ISpecialMob) entity).getSpecialData().getTextures();
         this.texturePaths = new String[textures.length];
         for (int i = textures.length; i-- > 0;) {
-        	this.texturePaths[i] = textures[i].toString();
+            this.texturePaths[i] = textures[i].toString();
         }
     }
 

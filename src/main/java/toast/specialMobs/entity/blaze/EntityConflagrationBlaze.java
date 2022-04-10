@@ -38,29 +38,29 @@ public class EntityConflagrationBlaze extends Entity_SpecialBlaze
     //TODO Fix this so it uses same mechanism as vampire/unholy ghast etc.
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
         if (!damageSource.isFireDamage() && !damageSource.isExplosion() && !damageSource.isMagicDamage() && !DamageSource.drown.damageType.equals(damageSource.damageType) && !(damageSource.getSourceOfDamage() instanceof EntitySnowball)) {
-        	// Maximum damage is 1/20th of mob health, 1/10th if a critical hit
-        	damage = Math.min(MobHelper.isCritical(damageSource) ? this.getMaxHealth()/10 : this.getMaxHealth()/20, damage); 
+            // Maximum damage is 1/20th of mob health, 1/10th if a critical hit
+            damage = Math.min(MobHelper.isCritical(damageSource) ? this.getMaxHealth()/10 : this.getMaxHealth()/20, damage); 
             if (damageSource.isProjectile()) {
-            	// Projectiles do half damage, so 1/20 or 1/40
-            	damage = damage/2;
+                // Projectiles do half damage, so 1/20 or 1/40
+                damage = damage/2;
             }
             // At minimum do .5 to 1 point of damage
             damage = Math.max(damage, MobHelper.isCritical(damageSource) ? 1.0F : 0.5F);
 
-        	if (!this.worldObj.isRemote && this.feedingLevel < 7) {
-	            this.setFeedingLevel(this.feedingLevel + 1, true);
-	            SpecialMobData data = this.getSpecialData();
-	            data.addAttribute(SharedMonsterAttributes.attackDamage, 1.0);
-	            data.arrowDamage += 0.5F;
-	            data.arrowRefireMin -= 4;
-	            data.arrowRefireMax -= 4;
-	            if (this.feedingLevel == 7) {
-					this.fireballBurstCount++;
-				}
-        	}
+            if (!this.worldObj.isRemote && this.feedingLevel < 7) {
+                this.setFeedingLevel(this.feedingLevel + 1, true);
+                SpecialMobData data = this.getSpecialData();
+                data.addAttribute(SharedMonsterAttributes.attackDamage, 1.0);
+                data.arrowDamage += 0.5F;
+                data.arrowRefireMin -= 4;
+                data.arrowRefireMax -= 4;
+                if (this.feedingLevel == 7) {
+                    this.fireballBurstCount++;
+                }
+            }
         }
         // "Extra Effective" attack sources are handled in the super class.
-    	return super.attackEntityFrom(damageSource, damage);
+        return super.attackEntityFrom(damageSource, damage);
     }
 
     /// Called when this entity is killed.
@@ -68,14 +68,14 @@ public class EntityConflagrationBlaze extends Entity_SpecialBlaze
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (hit) {
-	        for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
-	            this.dropItem(Items.fire_charge, 1);
-	        }
-	        if (this.rand.nextInt(5) == 0 || this.rand.nextInt(1 + looting) > 0) {
-		        ItemStack itemStack = new ItemStack(Items.potionitem, 1, 8195);
-		        EffectHelper.addPotionEffect(itemStack, Potion.fireResistance, 600, 0);
-		        this.entityDropItem(itemStack, 0.0F);
-	        }
+            for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
+                this.dropItem(Items.fire_charge, 1);
+            }
+            if (this.rand.nextInt(5) == 0 || this.rand.nextInt(1 + looting) > 0) {
+                ItemStack itemStack = new ItemStack(Items.potionitem, 1, 8195);
+                EffectHelper.addPotionEffect(itemStack, Potion.fireResistance, 600, 0);
+                this.entityDropItem(itemStack, 0.0F);
+            }
         }
     }
 

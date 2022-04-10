@@ -27,9 +27,9 @@ public class EntitySmolderBlaze extends Entity_SpecialBlaze
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (hit) {
-	        for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
-	            this.dropItem(Items.coal, 1);
-	        }
+            for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
+                this.dropItem(Items.coal, 1);
+            }
         }
     }
 }

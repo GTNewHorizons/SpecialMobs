@@ -36,14 +36,14 @@ public class ReplacementEntry
         replacement.getEntityData().setByte("smi", (byte) 1);
         replacement.copyLocationAndAnglesFrom(this.entity);
         if (this.entity.ridingEntity != null) {
-        	Entity riding = this.entity.ridingEntity;
-        	this.entity.mountEntity(null);
-        	replacement.mountEntity(riding);
+            Entity riding = this.entity.ridingEntity;
+            this.entity.mountEntity(null);
+            replacement.mountEntity(riding);
         }
         if (this.entity.riddenByEntity != null) {
-        	Entity rider = this.entity.riddenByEntity;
-        	rider.mountEntity(null);
-        	rider.mountEntity(replacement);
+            Entity rider = this.entity.riddenByEntity;
+            rider.mountEntity(null);
+            rider.mountEntity(replacement);
         }
 
         if (replacement instanceof ISpecialMob) {

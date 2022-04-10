@@ -21,38 +21,38 @@ public class EntityAINinja extends EntityAIBase {
     // Returns whether the AI should begin execution.
     @Override
     public boolean shouldExecute() {
-    	if (this.ninjaEntity.getHidingBlock() == null)
-    		return false;
-    	int length = this.theEntity.worldObj.playerEntities.size();
-    	try {
-    		EntityPlayer player;
-    		float dX, dZ;
-    		float angleFromPlayer;
-    		for (int i = 0; i < length; i++) {
-    			player = (EntityPlayer) this.theEntity.worldObj.playerEntities.get(i);
-    			dX = (float) (this.theEntity.posX - player.posX);
-    			dZ = (float) (this.theEntity.posZ - player.posZ);
-    			angleFromPlayer = (float) Math.atan2(dX, -dZ) * 180.0F / (float) Math.PI;
-    			if (Math.abs(angleFromPlayer - MathHelper.wrapAngleTo180_float(player.rotationYawHead)) > 90.0F)
-    				return true;
-    		}
-    	}
-    	catch (Exception ex) {
-    		// Do nothing
-    	}
-    	return false;
+        if (this.ninjaEntity.getHidingBlock() == null)
+            return false;
+        int length = this.theEntity.worldObj.playerEntities.size();
+        try {
+            EntityPlayer player;
+            float dX, dZ;
+            float angleFromPlayer;
+            for (int i = 0; i < length; i++) {
+                player = (EntityPlayer) this.theEntity.worldObj.playerEntities.get(i);
+                dX = (float) (this.theEntity.posX - player.posX);
+                dZ = (float) (this.theEntity.posZ - player.posZ);
+                angleFromPlayer = (float) Math.atan2(dX, -dZ) * 180.0F / (float) Math.PI;
+                if (Math.abs(angleFromPlayer - MathHelper.wrapAngleTo180_float(player.rotationYawHead)) > 90.0F)
+                    return true;
+            }
+        }
+        catch (Exception ex) {
+            // Do nothing
+        }
+        return false;
     }
 
     // Returns whether an in-progress EntityAIBase should continue executing
     @Override
     public boolean continueExecuting() {
-    	return this.shouldExecute();
+        return this.shouldExecute();
     }
 
     // Determine if this AI task is interruptible by a higher priority task.
     @Override
     public boolean isInterruptible() {
-    	return false;
+        return false;
     }
 
     // Called once when the AI begins execution.
