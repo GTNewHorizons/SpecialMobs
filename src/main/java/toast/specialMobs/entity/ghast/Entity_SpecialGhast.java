@@ -100,6 +100,7 @@ public class Entity_SpecialGhast extends EntityGhast implements ISpecialMob {
         /// Check for despawning.
         if (!this.worldObj.isRemote && this.worldObj.difficultySetting.getDifficultyId() == 0) {
             this.setDead();
+            return;
         }
         this.despawnEntity();
         this.prevAttackCounter = this.attackCounter;

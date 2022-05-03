@@ -114,6 +114,7 @@ public class EntitySpecialFishHook extends Entity {
         if (!this.worldObj.isRemote) {
             if (this.angler == null || this.angler.isDead || this.getDistanceSqToEntity(this.angler) > 1024.0) {
                 this.setDead();
+                return;
             }
             Vec3 posVec = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
             Vec3 motionVec = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
@@ -174,6 +175,7 @@ public class EntitySpecialFishHook extends Entity {
         this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
         if (this.isInWater()) {
             this.setDead();
+            return;
         }
         this.motionX *= 0.99;
         this.motionY *= 0.99;
