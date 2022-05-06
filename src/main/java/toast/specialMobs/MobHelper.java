@@ -1,7 +1,5 @@
 package toast.specialMobs;
 
-import java.util.HashSet;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockLiquid;
@@ -28,41 +26,36 @@ import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.pigzombie.Entity_SpecialPigZombie;
 import toast.specialMobs.network.MessageExplosion;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.stream.Stream;
+
 public abstract class MobHelper
 {
+    private static Stream<EntityAITaskEntry> typeFilteredTaskEntries(EntityLiving entity, Class<?> type) {
+        return Arrays.stream(entity.tasks.taskEntries.toArray())
+            .filter(Objects::nonNull)
+            .filter(e -> e instanceof EntityAITaskEntry)
+            .map(e -> (EntityAITaskEntry) e)
+            .filter(e -> type.isInstance(e.action));
+    }
     // Clears all melee attack AIs.
     public static void clearMeleeAttackAI(EntityLiving entity) {
-        for (EntityAITaskEntry entry : (EntityAITaskEntry[]) entity.tasks.taskEntries.toArray()) if (entry.action.getClass().equals(EntityAIAttackOnCollide.class)) {
-            entity.tasks.removeTask(entry.action);
-        }
+        typeFilteredTaskEntries(entity, EntityAIAttackOnCollide.class).forEach(e -> entity.tasks.removeTask(e.action));
     }
     // Clears all ranged attack AIs.
     public static void clearRangedAttackAI(EntityLiving entity) {
-        for (EntityAITaskEntry entry : (EntityAITaskEntry[]) entity.tasks.taskEntries.toArray()) if (entry.action.getClass().equals(EntityAIArrowAttack.class)) {
-            entity.tasks.removeTask(entry.action);
-        }
+        typeFilteredTaskEntries(entity, EntityAIArrowAttack.class).forEach(e -> entity.tasks.removeTask(e.action));
     }
 
     // Returns true if the mob has a recognized ranged attack AI.
     public static boolean hasRangedAttack(EntityLiving entity) {
-        for (EntityAITaskEntry entry : (EntityAITaskEntry[]) entity.tasks.taskEntries.toArray()) if (entry.action instanceof EntityAIArrowAttack)
+        if (typeFilteredTaskEntries(entity, EntityAIArrowAttack.class).findAny().isPresent()) {
             return true;
+        }
         return entity instanceof Entity_SpecialPigZombie && ((Entity_SpecialPigZombie)entity).willShootBow() && entity.getHeldItem() != null && entity.getHeldItem().getItem() instanceof ItemBow;
     }
-
-    /*
-    // Clears the entity's AI tasks.
-    public static void clearAI(EntityLiving entity) {
-        for (EntityAITaskEntry entry : (EntityAITaskEntry[])entity.tasks.taskEntries.toArray(new EntityAITaskEntry[0]))
-            entity.tasks.removeTask(entry.action);
-    }
-
-    // Clears the entity's AI target tasks.
-    public static void clearTargetAI(EntityLiving entity) {
-        for (EntityAITaskEntry entry : (EntityAITaskEntry[])entity.targetTasks.taskEntries.toArray(new EntityAITaskEntry[0]))
-            entity.targetTasks.removeTask(entry.action);
-    }
-     */
 
     // Drops arrows from the entity if it should drop arrows.
     public static void dropFewArrows(EntityLivingBase entity, boolean recentlyHit, int looting) {
@@ -78,7 +71,7 @@ public abstract class MobHelper
     public static void darkExplode(Entity exploder, int radius) {
         Explosion explosion = new Explosion(exploder.worldObj, exploder, exploder.posX, exploder.posY, exploder.posZ, radius);
         float blastPower = explosion.explosionSize * (0.7F + exploder.worldObj.rand.nextFloat() * 0.6F);
-        HashSet<ChunkPosition> affectedBlocks = new HashSet<ChunkPosition>();
+        HashSet<ChunkPosition> affectedBlocks = new HashSet<>();
         radius <<= 2;
         int bX = (int)exploder.posX;
         int bY = (int)exploder.posY;
@@ -198,7 +191,7 @@ public abstract class MobHelper
     public static ItemStack removeHeldItem(EntityPlayer player) {
         ItemStack heldItem = player.inventory.getCurrentItem();
         if (heldItem != null) {
-            player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
+            player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
         }
         return heldItem;
     }
@@ -217,7 +210,7 @@ public abstract class MobHelper
             for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
                 item = player.inventory.getStackInSlot(i);
                 if (item != null && --count < 0) {
-                    player.inventory.setInventorySlotContents(i, (ItemStack)null);
+                    player.inventory.setInventorySlotContents(i, null);
                     return item;
                 }
             }
@@ -234,8 +227,6 @@ public abstract class MobHelper
 
     // Returns true if the entity can be replaced by a special version.
     public static boolean canReplace(EntityLiving entity) {
-        if (!entity.isNoDespawnRequired() && !(entity instanceof ISpecialMob) && entity.getEntityData().getByte("smi") == 0)
-            return true;
-        return false;
+        return !entity.isNoDespawnRequired() && !(entity instanceof ISpecialMob) && entity.getEntityData().getByte("smi") == 0;
     }
 }
