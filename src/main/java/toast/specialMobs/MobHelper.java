@@ -34,10 +34,9 @@ import java.util.stream.Stream;
 public abstract class MobHelper
 {
     private static Stream<EntityAITaskEntry> typeFilteredTaskEntries(EntityLiving entity, Class<?> type) {
-        return Arrays.stream(entity.tasks.taskEntries.toArray())
+        EntityAITaskEntry[] array = (EntityAITaskEntry[]) entity.tasks.taskEntries.toArray(new EntityAITaskEntry[0]);
+        return Arrays.stream(array)
             .filter(Objects::nonNull)
-            .filter(e -> e instanceof EntityAITaskEntry)
-            .map(e -> (EntityAITaskEntry) e)
             .filter(e -> type.isInstance(e.action));
     }
     // Clears all melee attack AIs.
