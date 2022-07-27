@@ -125,6 +125,7 @@ public abstract class Properties {
         Properties.add(config, Properties.ENCHANTS, "plague_sword", 163);
         Properties.add(config, Properties.ENCHANTS, "poison_bow", 164);
         Properties.add(config, Properties.ENCHANTS, "poison_sword", 165);
+        Properties.add(config, Properties.ENCHANTS, "poison_lvl", 2, "The level of poison inflicted by poison skeletons (min 1).");
 
         Properties.add(config, Properties.SPAWNING, "end_ender_creeper", 1, 0, Integer.MAX_VALUE);
         Properties.add(config, Properties.SPAWNING, "nether_fire_creeper", 10, 0, Integer.MAX_VALUE);
