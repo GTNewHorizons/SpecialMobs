@@ -21,7 +21,7 @@ public class EnchantmentSpecial extends Enchantment
         plagueSword = id < 0 ? null : new EnchantmentSpecial(id, "plagueSword", 3, EnumEnchantmentType.weapon);
 
         id = Properties.getInt(Properties.ENCHANTS, "poison_bow");
-        poisonBow = id < 0 ? null : new EnchantmentSpecial(id, "poisonBow", 2, EnumEnchantmentType.bow);
+        poisonBow = id < 0 ? null : new EnchantmentSpecial(id, "poisonBow", Properties.getInt(Properties.ENCHANTS, "poison_lvl", EnumEnchantmentType.bow);
         id = Properties.getInt(Properties.ENCHANTS, "poison_sword");
         poisonSword = id < 0 ? null : new EnchantmentSpecial(id, "poisonSword", 1, EnumEnchantmentType.weapon);
     }
