@@ -26,6 +26,8 @@ import net.minecraft.potion.PotionEffect;
 
 public abstract class EffectHelper
 {
+    public static final boolean POISON_STACKS = Properties.getBoolean(Properties.ENCHANTS, "poison_stacks");
+
     // Applies the potion's effect on the entity. If the potion is already active, its duration is increased up to the given duration and its amplifier is increased by the given amplifier + 1.
     public static void stackEffect(EntityLivingBase entity, Potion potion, int duration, int amplifier) {
         if (entity.isPotionActive(potion)) {
@@ -43,7 +45,7 @@ public abstract class EffectHelper
             EffectHelper.stackEffect(entity, potion, duration, amplifier);
             return;
         }
-        if (entity.isPotionActive(potion)) {
+        if (POISON_STACKS && entity.isPotionActive(potion)) {
             PotionEffect potionEffect = entity.getActivePotionEffect(potion);
             entity.addPotionEffect(new PotionEffect(potion.id, Math.max(duration, potionEffect.getDuration()), Math.min(amplifierMax, potionEffect.getAmplifier() + amplifier + 1)));
         }
