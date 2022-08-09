@@ -30,7 +30,7 @@ public abstract class EffectHelper
 
     // Applies the potion's effect on the entity. If the potion is already active, its duration is increased up to the given duration and its amplifier is increased by the given amplifier + 1.
     public static void stackEffect(EntityLivingBase entity, Potion potion, int duration, int amplifier) {
-        if (entity.isPotionActive(potion)) {
+        if (POISON_STACKS && entity.isPotionActive(potion)) {
             PotionEffect potionEffect = entity.getActivePotionEffect(potion);
             entity.addPotionEffect(new PotionEffect(potion.id, Math.max(duration, potionEffect.getDuration()), potionEffect.getAmplifier() + amplifier + 1));
         }
