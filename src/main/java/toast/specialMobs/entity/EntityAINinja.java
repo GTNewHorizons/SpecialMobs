@@ -21,8 +21,7 @@ public class EntityAINinja extends EntityAIBase {
     // Returns whether the AI should begin execution.
     @Override
     public boolean shouldExecute() {
-        if (this.ninjaEntity.getHidingBlock() == null)
-            return false;
+        if (this.ninjaEntity.getHidingBlock() == null) return false;
         int length = this.theEntity.worldObj.playerEntities.size();
         try {
             EntityPlayer player;
@@ -36,8 +35,7 @@ public class EntityAINinja extends EntityAIBase {
                 if (Math.abs(angleFromPlayer - MathHelper.wrapAngleTo180_float(player.rotationYawHead)) > 90.0F)
                     return true;
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             // Do nothing
         }
         return false;

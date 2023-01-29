@@ -8,15 +8,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class EntityShadowsWitch extends Entity_SpecialWitch
-{
+public class EntityShadowsWitch extends Entity_SpecialWitch {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/shadows.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/shadows.png") };
 
     /// The number of spiders this witch can spawn.
     public byte spiderCount;
@@ -30,7 +30,10 @@ public class EntityShadowsWitch extends Entity_SpecialWitch
     /// Called every tick while this entity is alive.
     @Override
     public void onLivingUpdate() {
-        if (!this.worldObj.isRemote && this.isEntityAlive() && this.getAttackTarget() != null && this.rand.nextInt(10) == 0 && this.getAttackTarget().isPotionActive(Potion.blindness)) {
+        if (!this.worldObj.isRemote && this.isEntityAlive()
+                && this.getAttackTarget() != null
+                && this.rand.nextInt(10) == 0
+                && this.getAttackTarget().isPotionActive(Potion.blindness)) {
             this.getAttackTarget().removePotionEffect(Potion.nightVision.id);
         }
         super.onLivingUpdate();
@@ -38,9 +41,9 @@ public class EntityShadowsWitch extends Entity_SpecialWitch
 
     /// Changes the default splash potion into another befitting the situation.
     @Override
-    protected EntityPotion adjustSplashPotion(EntityPotion thrownPotion, EntityLivingBase target, float range, float distance) {
-        if (this.adjustSplashPotionByType(thrownPotion, target, range, distance))
-            return thrownPotion;
+    protected EntityPotion adjustSplashPotion(EntityPotion thrownPotion, EntityLivingBase target, float range,
+            float distance) {
+        if (this.adjustSplashPotionByType(thrownPotion, target, range, distance)) return thrownPotion;
         if (target.getHealth() >= 4.0F && !target.isPotionActive(Potion.blindness))
             return new EntityPotion(this.worldObj, this, this.makeShadowPotion());
         if (target.getHealth() >= 8.0F && !target.isPotionActive(Potion.poison)) {
@@ -84,8 +87,7 @@ public class EntityShadowsWitch extends Entity_SpecialWitch
         NBTTagCompound saveTag = SpecialMobData.getSaveLocation(tag);
         if (saveTag.hasKey("Spiders")) {
             this.spiderCount = saveTag.getByte("Spiders");
-        }
-        else if (tag.hasKey("Spiders")) {
+        } else if (tag.hasKey("Spiders")) {
             this.spiderCount = tag.getByte("Spiders");
         }
     }

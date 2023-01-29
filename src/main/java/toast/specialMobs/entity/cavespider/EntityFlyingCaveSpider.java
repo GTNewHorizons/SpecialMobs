@@ -7,15 +7,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityFlyingCaveSpider extends Entity_SpecialCaveSpider
-{
+public class EntityFlyingCaveSpider extends Entity_SpecialCaveSpider {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/flying.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/flying_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/flying.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/flying_eyes.png") };
 
     public EntityFlyingCaveSpider(World world) {
         super(world);
@@ -40,8 +40,7 @@ public class EntityFlyingCaveSpider extends Entity_SpecialCaveSpider
             this.motionX = vX / vH * 2.0 + this.motionX * 0.2;
             this.motionZ = vZ / vH * 2.0 + this.motionZ * 0.2;
             this.motionY = 0.4 * 2.0;
-        }
-        else {
+        } else {
             super.attackEntity(target, distanceSq);
         }
     }

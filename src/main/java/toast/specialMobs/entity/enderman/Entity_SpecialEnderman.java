@@ -9,17 +9,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class Entity_SpecialEnderman extends EntityEnderman implements ISpecialMob
-{
+public class Entity_SpecialEnderman extends EntityEnderman implements ISpecialMob {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation("textures/entity/enderman/enderman.png"),
-        new ResourceLocation("textures/entity/enderman/enderman_eyes.png")
-    };
+            new ResourceLocation("textures/entity/enderman/enderman.png"),
+            new ResourceLocation("textures/entity/enderman/enderman_eyes.png") };
 
     /// This mob's special mob data.
     private SpecialMobData specialData;
@@ -107,7 +107,13 @@ public class Entity_SpecialEnderman extends EntityEnderman implements ISpecialMo
         if (!this.worldObj.isRemote) {
             Block carried = this.func_146080_bZ();
             if (carried != null) {
-                carried.dropBlockAsItem(this.worldObj, (int)Math.floor(this.posX), (int)Math.floor(this.posY), (int)Math.floor(this.posZ), this.getCarryingData(), 0);
+                carried.dropBlockAsItem(
+                        this.worldObj,
+                        (int) Math.floor(this.posX),
+                        (int) Math.floor(this.posY),
+                        (int) Math.floor(this.posZ),
+                        this.getCarryingData(),
+                        0);
                 this.func_146081_a(Blocks.air);
             }
         }
@@ -145,7 +151,7 @@ public class Entity_SpecialEnderman extends EntityEnderman implements ISpecialMo
 
     /// Sets the entity inside a web block.
     @Override
-    public void setInWeb()  {
+    public void setInWeb() {
         if (!this.getSpecialData().isImmuneToWebs) {
             super.setInWeb();
         }
@@ -186,7 +192,7 @@ public class Entity_SpecialEnderman extends EntityEnderman implements ISpecialMo
     static {
         if (!Properties.getBoolean(Properties.STATS, "enderman_griefing")) {
             for (Object key : Block.blockRegistry.getKeys()) {
-                EntityEnderman.setCarriable(Block.getBlockFromName((String)key), false);
+                EntityEnderman.setCarriable(Block.getBlockFromName((String) key), false);
             }
         }
     }

@@ -1,10 +1,11 @@
 package toast.specialMobs.client;
 
 import net.minecraft.client.renderer.RenderBlocks;
+
 import toast.specialMobs.CommonProxy;
+import toast.specialMobs.entity.EntityLavaMonster;
 import toast.specialMobs.entity.EntitySpecialFishHook;
 import toast.specialMobs.entity.EntitySpecialSpitball;
-import toast.specialMobs.entity.EntityLavaMonster;
 import toast.specialMobs.entity.blaze.Entity_SpecialBlaze;
 import toast.specialMobs.entity.cavespider.Entity_SpecialCaveSpider;
 import toast.specialMobs.entity.creeper.Entity_SpecialCreeper;
@@ -22,8 +23,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ClientProxy extends CommonProxy
-{
+public class ClientProxy extends CommonProxy {
+
     // Helps this class render blocks.
     public static final RenderBlocks blockRenderer = new RenderBlocks();
 

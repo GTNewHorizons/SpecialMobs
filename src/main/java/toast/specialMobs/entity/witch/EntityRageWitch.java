@@ -7,14 +7,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityRageWitch extends Entity_SpecialWitch
-{
+public class EntityRageWitch extends Entity_SpecialWitch {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/rage.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/rage.png") };
 
     public EntityRageWitch(World world) {
         super(world);
@@ -36,9 +36,9 @@ public class EntityRageWitch extends Entity_SpecialWitch
         float tension = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
         if (this.rand.nextFloat() < 0.25F * tension) {
             try {
-                EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
-            }
-            catch (Exception ex) {
+                EnchantmentHelper
+                        .addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
+            } catch (Exception ex) {
                 _SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
                 ex.printStackTrace();
             }
@@ -49,7 +49,9 @@ public class EntityRageWitch extends Entity_SpecialWitch
     /// Overridden to modify potion drinking ai.
     @Override
     protected void tryDrinkPotionByType() {
-        if (this.rand.nextFloat() < 0.2F && this.getAttackTarget() != null && !this.isPotionActive(Potion.resistance) && !this.isPotionActive(Potion.damageBoost)) {
+        if (this.rand.nextFloat() < 0.2F && this.getAttackTarget() != null
+                && !this.isPotionActive(Potion.resistance)
+                && !this.isPotionActive(Potion.damageBoost)) {
             this.drinkPotion(this.makeRagePotion());
         }
     }

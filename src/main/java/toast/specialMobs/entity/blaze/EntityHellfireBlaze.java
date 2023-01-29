@@ -8,13 +8,13 @@ import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityHellfireBlaze extends Entity_SpecialBlaze
-{
+public class EntityHellfireBlaze extends Entity_SpecialBlaze {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/hellfire.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/hellfire.png") };
 
     /// The base explosion strength of this blaze's fireballs.
     public int explosionStrength = 2;
@@ -40,8 +40,14 @@ public class EntityHellfireBlaze extends Entity_SpecialBlaze
         double dY = target.boundingBox.minY + target.height / 2.0F - this.posY - this.height / 2.0F;
         double dZ = target.posZ - this.posZ;
         float spread = (float) Math.sqrt(distance) * this.getSpecialData().arrowSpread;
-        this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1009, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
-        EntityLargeFireball fireball = new EntityLargeFireball(this.worldObj, this, dX + this.rand.nextGaussian() * spread, dY, dZ + this.rand.nextGaussian() * spread);
+        this.worldObj
+                .playAuxSFXAtEntity((EntityPlayer) null, 1009, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
+        EntityLargeFireball fireball = new EntityLargeFireball(
+                this.worldObj,
+                this,
+                dX + this.rand.nextGaussian() * spread,
+                dY,
+                dZ + this.rand.nextGaussian() * spread);
         fireball.field_92057_e = this.explosionStrength;
         fireball.posY = this.posY + this.height / 2.0F + 0.5;
         this.worldObj.spawnEntityInWorld(fireball);
@@ -53,6 +59,7 @@ public class EntityHellfireBlaze extends Entity_SpecialBlaze
         super.writeEntityToNBT(tag);
         tag.setInteger("ExplosionPower", this.explosionStrength);
     }
+
     /// Reads this entity from NBT.
     @Override
     public void readEntityFromNBT(NBTTagCompound tag) {

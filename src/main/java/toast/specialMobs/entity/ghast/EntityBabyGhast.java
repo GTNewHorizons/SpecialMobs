@@ -4,8 +4,8 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.world.World;
 
-public class EntityBabyGhast extends EntityMeleeGhast
-{
+public class EntityBabyGhast extends EntityMeleeGhast {
+
     public EntityBabyGhast(World world) {
         super(world);
         this.setSize(1.0F, 1.0F);

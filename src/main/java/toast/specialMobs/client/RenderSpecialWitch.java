@@ -20,8 +20,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderSpecialWitch extends RenderWitch
-{
+public class RenderSpecialWitch extends RenderWitch {
+
     private final ModelWitch witchModel;
 
     public RenderSpecialWitch() {
@@ -33,14 +33,14 @@ public class RenderSpecialWitch extends RenderWitch
     /// Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
-        return ((ISpecialMob)entity).getSpecialData().getTexture();
+        return ((ISpecialMob) entity).getSpecialData().getTexture();
     }
 
     /// Allows the render to do any OpenGL state modifications necessary before the model is rendered.
     @Override
     protected void preRenderCallback(EntityLivingBase entity, float partialTick) {
         super.preRenderCallback(entity, partialTick);
-        float scale = ((ISpecialMob)entity).getSpecialData().getRenderScale();
+        float scale = ((ISpecialMob) entity).getSpecialData().getRenderScale();
         this.shadowSize = 0.3F * scale;
         GL11.glScalef(scale, scale, scale);
     }
@@ -77,24 +77,22 @@ public class RenderSpecialWitch extends RenderWitch
             this.witchModel.villagerNose.postRender(0.0625F);
             GL11.glTranslatef(-0.0625F, 0.53125F, 0.21875F);
 
-
-            if (itemstack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(itemstack.getItem()).getRenderType())) {
+            if (itemstack.getItem() instanceof ItemBlock
+                    && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(itemstack.getItem()).getRenderType())) {
                 scale = 0.5F;
                 GL11.glTranslatef(0.0F, 0.1875F, -0.3125F);
                 scale *= 0.75F;
                 GL11.glRotatef(20.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
                 GL11.glScalef(scale, -scale, scale);
-            }
-            else if (itemstack.getItem() == Items.bow) {
+            } else if (itemstack.getItem() == Items.bow) {
                 scale = 0.625F;
                 GL11.glTranslatef(0.0F, 0.125F, 0.3125F);
                 GL11.glRotatef(-20.0F, 0.0F, 1.0F, 0.0F);
                 GL11.glScalef(scale, -scale, scale);
                 GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-            }
-            else if (itemstack.getItem().isFull3D()) {
+            } else if (itemstack.getItem().isFull3D()) {
                 scale = 0.625F;
 
                 if (itemstack.getItem().shouldRotateAroundWhenRendering()) {
@@ -106,8 +104,7 @@ public class RenderSpecialWitch extends RenderWitch
                 GL11.glScalef(scale, -scale, scale);
                 GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-            }
-            else {
+            } else {
                 scale = 0.375F;
                 GL11.glTranslatef(0.25F, 0.1875F, -0.1875F);
                 GL11.glScalef(scale, scale, scale);
@@ -119,7 +116,9 @@ public class RenderSpecialWitch extends RenderWitch
             GL11.glRotatef(-15.0F, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(40.0F, 0.0F, 0.0F, 1.0F);
 
-            int passes = itemstack.getItem().requiresMultipleRenderPasses() ? itemstack.getItem().getRenderPasses(itemstack.getItemDamage()) : 1;
+            int passes = itemstack.getItem().requiresMultipleRenderPasses()
+                    ? itemstack.getItem().getRenderPasses(itemstack.getItemDamage())
+                    : 1;
             float r, g, b;
             for (int p = 0; p < passes; p++) {
                 int color = itemstack.getItem().getColorFromItemStack(itemstack, p);

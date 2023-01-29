@@ -10,13 +10,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityWildfireBlaze extends Entity_SpecialBlaze
-{
+public class EntityWildfireBlaze extends Entity_SpecialBlaze {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/wildfire.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/wildfire.png") };
 
     /// The number of cinders this blaze can spawn.
     public byte babyCount;
@@ -51,9 +51,14 @@ public class EntityWildfireBlaze extends Entity_SpecialBlaze
             baby.onSpawnWithEgg((IEntityLivingData) null);
             baby.setTarget(this.getEntityToAttack());
             this.worldObj.spawnEntityInWorld(baby);
-            this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1009, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
-        }
-        else {
+            this.worldObj.playAuxSFXAtEntity(
+                    (EntityPlayer) null,
+                    1009,
+                    (int) this.posX,
+                    (int) this.posY,
+                    (int) this.posZ,
+                    0);
+        } else {
             super.shootFireballAtEntity(target, distance);
         }
     }
@@ -73,7 +78,9 @@ public class EntityWildfireBlaze extends Entity_SpecialBlaze
                 this.dropItem(Items.coal, 1);
             }
             if (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0) {
-                this.entityDropItem(new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntityBlaze(this.worldObj))), 0.0F);
+                this.entityDropItem(
+                        new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntityBlaze(this.worldObj))),
+                        0.0F);
             }
         }
 
@@ -87,7 +94,13 @@ public class EntityWildfireBlaze extends Entity_SpecialBlaze
                 this.worldObj.spawnEntityInWorld(baby);
             }
             if (baby != null) {
-                this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1009, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
+                this.worldObj.playAuxSFXAtEntity(
+                        (EntityPlayer) null,
+                        1009,
+                        (int) this.posX,
+                        (int) this.posY,
+                        (int) this.posZ,
+                        0);
                 baby.spawnExplosionParticle();
             }
         }

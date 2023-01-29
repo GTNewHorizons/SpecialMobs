@@ -13,16 +13,16 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityHungrySpider extends Entity_SpecialSpider
-{
+public class EntityHungrySpider extends Entity_SpecialSpider {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/hungry.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/hungry_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/hungry.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/hungry_eyes.png") };
 
     /// The feeding level of this hungry spider.
     private byte feedingLevel;
@@ -56,8 +56,7 @@ public class EntityHungrySpider extends Entity_SpecialSpider
             if (drop != null) {
                 if (this.canPickUpLoot()) {
                     this.setCurrentItemOrArmor(0, drop);
-                }
-                else {
+                } else {
                     this.entityDropItem(drop, 0.0F);
                     this.worldObj.playSoundAtEntity(this, "random.burp", 0.5F, this.rand.nextFloat() * 0.1F + 0.9F);
                 }
@@ -68,8 +67,7 @@ public class EntityHungrySpider extends Entity_SpecialSpider
     /// Sets the held item, or an armor slot.
     @Override
     public void setCurrentItemOrArmor(int slot, ItemStack itemStack) {
-        if (this.worldObj.isRemote)
-            return;
+        if (this.worldObj.isRemote) return;
         if (itemStack != null && this.gainedHealth < 64) {
             this.gainedHealth++;
             float maxHealth = this.getMaxHealth();
@@ -88,8 +86,7 @@ public class EntityHungrySpider extends Entity_SpecialSpider
         if (itemStack != null) {
             if (itemStack.getItem() instanceof ItemFood) {
                 this.heal(((ItemFood) itemStack.getItem()).func_150905_g(itemStack));
-            }
-            else {
+            } else {
                 this.stomach.add(itemStack);
             }
             this.worldObj.playSoundAtEntity(this, "random.burp", 0.5F, this.rand.nextFloat() * 0.1F + 0.9F);
@@ -125,8 +122,7 @@ public class EntityHungrySpider extends Entity_SpecialSpider
     private void setFeedingLevel(int level, boolean updateScale) {
         if (level < 0) {
             level = 0;
-        }
-        else if (level > 7) {
+        } else if (level > 7) {
             level = 7;
         }
         int diff = level - this.feedingLevel;

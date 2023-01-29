@@ -10,15 +10,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class EntityQueenGhast extends Entity_SpecialGhast
-{
+public class EntityQueenGhast extends Entity_SpecialGhast {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/queen.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/queen_shooting.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/queen.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/queen_shooting.png") };
 
     /// The number of babies this ghast can spawn.
     public byte babyCount;
@@ -53,11 +53,10 @@ public class EntityQueenGhast extends Entity_SpecialGhast
             EntityBabyGhast baby = new EntityBabyGhast(this.worldObj);
             baby.copyLocationAndAnglesFrom(this);
             baby.targetedEntity = this.targetedEntity;
-            baby.onSpawnWithEgg((IEntityLivingData)null);
+            baby.onSpawnWithEgg((IEntityLivingData) null);
             this.worldObj.spawnEntityInWorld(baby);
             this.worldObj.playSoundAtEntity(baby, "random.pop", 1.0F, 2.0F / (this.rand.nextFloat() * 0.4F + 0.8F));
-        }
-        else {
+        } else {
             super.shootFireballAtEntity(target);
         }
     }
@@ -73,7 +72,9 @@ public class EntityQueenGhast extends Entity_SpecialGhast
             this.dropItem(Items.emerald, 1);
         }
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-            this.entityDropItem(new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntityGhast(this.worldObj))), 0.0F);
+            this.entityDropItem(
+                    new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntityGhast(this.worldObj))),
+                    0.0F);
         }
 
         if (!this.worldObj.isRemote) {
@@ -82,7 +83,7 @@ public class EntityQueenGhast extends Entity_SpecialGhast
                 baby = new EntityBabyGhast(this.worldObj);
                 baby.copyLocationAndAnglesFrom(this);
                 baby.targetedEntity = this.targetedEntity;
-                baby.onSpawnWithEgg((IEntityLivingData)null);
+                baby.onSpawnWithEgg((IEntityLivingData) null);
                 this.worldObj.spawnEntityInWorld(baby);
             }
             if (baby != null) {
@@ -108,14 +109,12 @@ public class EntityQueenGhast extends Entity_SpecialGhast
         NBTTagCompound saveTag = SpecialMobData.getSaveLocation(tag);
         if (saveTag.hasKey("BabyCount")) {
             this.babyCount = saveTag.getByte("BabyCount");
-        }
-        else if (tag.hasKey("BabyCount")) {
+        } else if (tag.hasKey("BabyCount")) {
             this.babyCount = tag.getByte("BabyCount");
         }
         if (saveTag.hasKey("Babies")) {
             this.babies = saveTag.getByte("Babies");
-        }
-        else if (tag.hasKey("Babies")) {
+        } else if (tag.hasKey("Babies")) {
             this.babies = tag.getByte("Babies");
         }
     }

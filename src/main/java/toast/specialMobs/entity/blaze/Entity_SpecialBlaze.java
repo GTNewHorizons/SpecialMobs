@@ -25,10 +25,18 @@ import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
 
 public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
+
     /// Useful properties for this class.
-    //private static final double HOSTILE_CHANCE = Properties.getDouble(Properties.STATS, "hostile_pigzombies");
-    public double BLAZE_SNOWBALL_HITS = Properties.getDouble( Properties.STATS, "blaze_snowball_hits"); // Can be overwritten by custom blazes to make them more/less snowball sensitive
-    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation("textures/entity/blaze.png") };
+    // private static final double HOSTILE_CHANCE = Properties.getDouble(Properties.STATS, "hostile_pigzombies");
+    public double BLAZE_SNOWBALL_HITS = Properties.getDouble(Properties.STATS, "blaze_snowball_hits"); // Can be
+                                                                                                       // overwritten by
+                                                                                                       // custom blazes
+                                                                                                       // to make them
+                                                                                                       // more/less
+                                                                                                       // snowball
+                                                                                                       // sensitive
+    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
+            new ResourceLocation("textures/entity/blaze.png") };
 
     /// This mob's special mob data.
     private SpecialMobData specialData;
@@ -40,14 +48,15 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
     /// The ticks between each shot in a burst.
     public short fireballBurstDelay;
     // Snark is for using the wrong weapon
-    public static ArrayList<ChatComponentText> chatSnark = new ArrayList<ChatComponentText>(); 
+    public static ArrayList<ChatComponentText> chatSnark = new ArrayList<ChatComponentText>();
     // Super is for using the right weapon
-    public static ArrayList<ChatComponentText> chatSuper = new ArrayList<ChatComponentText>(); 
+    public static ArrayList<ChatComponentText> chatSuper = new ArrayList<ChatComponentText>();
 
     static {
         // Load up chat
-        ISpecialMob.loadChat( "entity.SpecialMobs.SpecialBlaze", chatSnark, chatSuper);
+        ISpecialMob.loadChat("entity.SpecialMobs.SpecialBlaze", chatSnark, chatSuper);
     }
+
     public Entity_SpecialBlaze(World world) {
         super(world);
         this.getSpecialData().isImmuneToFire = this.isImmuneToFire;
@@ -111,21 +120,20 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
     @Override
     protected void attackEntity(Entity target, float distance) {
         SpecialMobData data = this.getSpecialData();
-        if (this.attackTime <= 0 && distance < 2.0F && target.boundingBox.maxY > this.boundingBox.minY && target.boundingBox.minY < this.boundingBox.maxY) {
+        if (this.attackTime <= 0 && distance < 2.0F
+                && target.boundingBox.maxY > this.boundingBox.minY
+                && target.boundingBox.minY < this.boundingBox.maxY) {
             this.attackTime = 20;
             this.attackEntityAsMob(target);
-        }
-        else if (this.canBeHurtByFire(target) && distance < data.arrowRange) {
+        } else if (this.canBeHurtByFire(target) && distance < data.arrowRange) {
             if (this.attackTime == 0) {
                 this.attackState++;
                 if (this.attackState == 1) {
                     this.attackTime = data.arrowRefireMin;
                     this.func_70844_e(true); // setRenderBurning
-                }
-                else if (this.attackState <= this.fireballBurstCount + 1) {
+                } else if (this.attackState <= this.fireballBurstCount + 1) {
                     this.attackTime = this.fireballBurstDelay;
-                }
-                else {
+                } else {
                     this.attackTime = data.arrowRefireMax - data.arrowRefireMin;
                     this.attackState = 0;
                     this.func_70844_e(false); // setRenderBurning
@@ -135,22 +143,29 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
                     this.shootFireballAtEntity(target, distance);
                 }
             }
-            this.rotationYaw = (float) (Math.atan2(target.posZ - this.posZ, target.posX - this.posX) * 180.0 / Math.PI) - 90.0F;
+            this.rotationYaw = (float) (Math.atan2(target.posZ - this.posZ, target.posX - this.posX) * 180.0 / Math.PI)
+                    - 90.0F;
             this.hasAttacked = true;
-        }
-        else {
+        } else {
             if (this.onGround) {
-                this.moveEntityWithHeading(0.0F, (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() * 7.0F);
-            }
-            else {
-                this.moveFlying(0.0F, (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() * 7.0F, 0.03F);
+                this.moveEntityWithHeading(
+                        0.0F,
+                        (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()
+                                * 7.0F);
+            } else {
+                this.moveFlying(
+                        0.0F,
+                        (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()
+                                * 7.0F,
+                        0.03F);
             }
         }
     }
 
     // Returns true if the target can be hurt by fireballs.
     protected boolean canBeHurtByFire(Entity entity) {
-        return !entity.isImmuneToFire() && (!(entity instanceof EntityLivingBase) || !((EntityLivingBase) entity).isPotionActive(Potion.fireResistance));
+        return !entity.isImmuneToFire() && (!(entity instanceof EntityLivingBase)
+                || !((EntityLivingBase) entity).isPotionActive(Potion.fireResistance));
     }
 
     // Called to attack the target entity with a fireball.
@@ -159,8 +174,14 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
         double dY = target.boundingBox.minY + target.height / 2.0F - this.posY - this.height / 2.0F;
         double dZ = target.posZ - this.posZ;
         float spread = (float) Math.sqrt(distance) * this.getSpecialData().arrowSpread;
-        this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1009, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
-        EntitySmallFireball fireball = new EntitySmallFireball(this.worldObj, this, dX + this.rand.nextGaussian() * spread, dY, dZ + this.rand.nextGaussian() * spread);
+        this.worldObj
+                .playAuxSFXAtEntity((EntityPlayer) null, 1009, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
+        EntitySmallFireball fireball = new EntitySmallFireball(
+                this.worldObj,
+                this,
+                dX + this.rand.nextGaussian() * spread,
+                dY,
+                dZ + this.rand.nextGaussian() * spread);
         fireball.posY = this.posY + this.height / 2.0F + 0.5;
         this.worldObj.spawnEntityInWorld(fireball);
     }
@@ -200,14 +221,12 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
         NBTTagCompound saveTag = SpecialMobData.getSaveLocation(tag);
         if (saveTag.hasKey("SMFireballBurstCount")) {
             this.fireballBurstCount = saveTag.getShort("SMFireballBurstCount");
-        }
-        else if (tag.hasKey("SMFireballBurstCount")) {
+        } else if (tag.hasKey("SMFireballBurstCount")) {
             this.fireballBurstCount = tag.getShort("SMFireballBurstCount");
         }
         if (saveTag.hasKey("SMFireballBurstDelay")) {
             this.fireballBurstDelay = saveTag.getShort("SMFireballBurstDelay");
-        }
-        else if (tag.hasKey("SMFireballBurstDelay")) {
+        } else if (tag.hasKey("SMFireballBurstDelay")) {
             this.fireballBurstDelay = tag.getShort("SMFireballBurstDelay");
         }
 
@@ -221,28 +240,28 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
         if (damageSource.getSourceOfDamage() instanceof EntitySnowball) {
             // Snowballs are super-effective. Only takes 4 hits to kill them
-            damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) - 1, damage);
+            damage = (float) Math.max(this.getMaxHealth() / (BLAZE_SNOWBALL_HITS - 1) - 1, damage);
             sendChatSnark(this, damageSource, this.rand, chatSuper);
-        } else if (Properties.EntityFrostShardClass.isInstance(damageSource.getSourceOfDamage()) 
+        } else if (Properties.EntityFrostShardClass.isInstance(damageSource.getSourceOfDamage())
                 || Properties.EntityIceArrow.isInstance(damageSource.getSourceOfDamage())
                 || "frost".equals(damageSource.getDamageType())) {
-            // Frost-based weapons are super-super-effective. Should take only 3 hits to kill them.
-            damage = (float)Math.max(this.getMaxHealth()/(BLAZE_SNOWBALL_HITS - 1) + 2, damage);
-            sendChatSnark(this, damageSource, this.rand, chatSuper);
-        }
+                    // Frost-based weapons are super-super-effective. Should take only 3 hits to kill them.
+                    damage = (float) Math.max(this.getMaxHealth() / (BLAZE_SNOWBALL_HITS - 1) + 2, damage);
+                    sendChatSnark(this, damageSource, this.rand, chatSuper);
+                }
         Entity attacker = damageSource.getEntity();
         if (attacker instanceof EntityLivingBase) {
-            ItemStack heldItem = ((EntityLivingBase)attacker).getHeldItem();
+            ItemStack heldItem = ((EntityLivingBase) attacker).getHeldItem();
             if (heldItem != null) {
-                if (Properties.ItemTFIceSword.isInstance(heldItem.getItem()) ) {
-                    damage = (float)Math.max(this.getMaxHealth()/2 + 4, damage);
+                if (Properties.ItemTFIceSword.isInstance(heldItem.getItem())) {
+                    damage = (float) Math.max(this.getMaxHealth() / 2 + 4, damage);
                     sendChatSnark(this, damageSource, this.rand, chatSuper);
                 }
             } else {
-                //Attacking empty handed? You idiot.
+                // Attacking empty handed? You idiot.
                 sendChatSnark(this, damageSource, this.rand, chatSnark);
             }
-                
+
         }
         if (damageSource.isFireDamage()) {
             // What are you, stupid?
@@ -251,7 +270,7 @@ public class Entity_SpecialBlaze extends EntityBlaze implements ISpecialMob {
         }
         return super.attackEntityFrom(damageSource, damage);
     }
-    
+
     /// Called when this entity is killed.
     @Override
     protected void dropFewItems(boolean hit, int looting) {

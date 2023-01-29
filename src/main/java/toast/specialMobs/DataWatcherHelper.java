@@ -7,8 +7,8 @@ import toast.specialMobs.entity.SpecialMobData;
 /**
  * Stores all known keys for data watcher values on hostile entities.
  */
-public class DataWatcherHelper
-{
+public class DataWatcherHelper {
+
     /** Keys must be below the max number of keys ({@value}) and at least 0. */
     public static final byte MAX_KEYS = 32;
 
@@ -20,17 +20,24 @@ public class DataWatcherHelper
 
         SpecialMobData.init();
     }
+
     public static void verify() {
         DataWatcherHelper.instance.GENERIC.verify();
         DataWatcherHelper.instance = null;
     }
 
     // Used by ISpecialMob - this is the root of all entity data
-    public final EntityDataRoot GENERIC = new EntityDataRoot("specialmob",
-            0, 1, // Entity
-            6, 7, 8, 9, // EntityLivingBase
-            10, 11 // EntityLiving
-        ).needs(1);
+    public final EntityDataRoot GENERIC = new EntityDataRoot(
+            "specialmob",
+            0,
+            1, // Entity
+            6,
+            7,
+            8,
+            9, // EntityLivingBase
+            10,
+            11 // EntityLiving
+    ).needs(1);
 
     // Used by the basic mob types
     public final EntityData BLAZE = new EntityData("blaze", this.GENERIC, 16);
@@ -141,7 +148,11 @@ public class DataWatcherHelper
                     }
                 }
                 if (index < this.autoKeys.length) {
-                    _SpecialMobs.debugException("Not enough data watcher keys available for " + this.id + "! (" + (this.autoKeys.length - index) + " more needed)");
+                    _SpecialMobs.debugException(
+                            "Not enough data watcher keys available for " + this.id
+                                    + "! ("
+                                    + (this.autoKeys.length - index)
+                                    + " more needed)");
                 }
                 this.keysUsed |= newKeys; // Add keys just generated
             }
@@ -154,6 +165,7 @@ public class DataWatcherHelper
         private boolean isKeyUnused(byte key) {
             return (this.keysUsed & 1 << key) == 0;
         }
+
         private int addKey(int keys, byte newKey) {
             return keys | 1 << newKey;
         }
@@ -161,7 +173,11 @@ public class DataWatcherHelper
         // Throws a debug exception if this data has not had all of its keys used.
         protected void verifyNeededKeys() {
             if (this.autoKeys != null && this.autoKeyIndex < this.autoKeys.length) {
-                _SpecialMobs.debugException("Too many data watcher keys requested for " + this.id + "! (" + (this.autoKeys.length - this.autoKeyIndex) + " extras)");
+                _SpecialMobs.debugException(
+                        "Too many data watcher keys requested for " + this.id
+                                + "! ("
+                                + (this.autoKeys.length - this.autoKeyIndex)
+                                + " extras)");
             }
 
             for (EntityData child : this.children) {

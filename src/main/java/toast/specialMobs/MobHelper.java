@@ -1,5 +1,10 @@
 package toast.specialMobs;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.stream.Stream;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockLiquid;
@@ -22,27 +27,23 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
+
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.pigzombie.Entity_SpecialPigZombie;
 import toast.specialMobs.network.MessageExplosion;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.stream.Stream;
+public abstract class MobHelper {
 
-public abstract class MobHelper
-{
     private static Stream<EntityAITaskEntry> typeFilteredTaskEntries(EntityLiving entity, Class<?> type) {
         EntityAITaskEntry[] array = (EntityAITaskEntry[]) entity.tasks.taskEntries.toArray(new EntityAITaskEntry[0]);
-        return Arrays.stream(array)
-            .filter(Objects::nonNull)
-            .filter(e -> type.isInstance(e.action));
+        return Arrays.stream(array).filter(Objects::nonNull).filter(e -> type.isInstance(e.action));
     }
+
     // Clears all melee attack AIs.
     public static void clearMeleeAttackAI(EntityLiving entity) {
         typeFilteredTaskEntries(entity, EntityAIAttackOnCollide.class).forEach(e -> entity.tasks.removeTask(e.action));
     }
+
     // Clears all ranged attack AIs.
     public static void clearRangedAttackAI(EntityLiving entity) {
         typeFilteredTaskEntries(entity, EntityAIArrowAttack.class).forEach(e -> entity.tasks.removeTask(e.action));
@@ -53,13 +54,14 @@ public abstract class MobHelper
         if (typeFilteredTaskEntries(entity, EntityAIArrowAttack.class).findAny().isPresent()) {
             return true;
         }
-        return entity instanceof Entity_SpecialPigZombie && ((Entity_SpecialPigZombie)entity).willShootBow() && entity.getHeldItem() != null && entity.getHeldItem().getItem() instanceof ItemBow;
+        return entity instanceof Entity_SpecialPigZombie && ((Entity_SpecialPigZombie) entity).willShootBow()
+                && entity.getHeldItem() != null
+                && entity.getHeldItem().getItem() instanceof ItemBow;
     }
 
     // Drops arrows from the entity if it should drop arrows.
     public static void dropFewArrows(EntityLivingBase entity, boolean recentlyHit, int looting) {
-        if (entity.getHeldItem() == null || !(entity.getHeldItem().getItem() instanceof ItemBow))
-            return;
+        if (entity.getHeldItem() == null || !(entity.getHeldItem().getItem() instanceof ItemBow)) return;
         for (int i = entity.getRNG().nextInt(3 + looting); i-- > 0;) {
             entity.dropItem(Items.arrow, 1);
         }
@@ -68,13 +70,19 @@ public abstract class MobHelper
     // Causes a creeper explosion that places dirt instead of destroying blocks.
     @SuppressWarnings("unchecked")
     public static void darkExplode(Entity exploder, int radius) {
-        Explosion explosion = new Explosion(exploder.worldObj, exploder, exploder.posX, exploder.posY, exploder.posZ, radius);
+        Explosion explosion = new Explosion(
+                exploder.worldObj,
+                exploder,
+                exploder.posX,
+                exploder.posY,
+                exploder.posZ,
+                radius);
         float blastPower = explosion.explosionSize * (0.7F + exploder.worldObj.rand.nextFloat() * 0.6F);
         HashSet<ChunkPosition> affectedBlocks = new HashSet<>();
         radius <<= 2;
-        int bX = (int)exploder.posX;
-        int bY = (int)exploder.posY;
-        int bZ = (int)exploder.posZ;
+        int bX = (int) exploder.posX;
+        int bY = (int) exploder.posY;
+        int bZ = (int) exploder.posZ;
         float resistance;
         Block block;
         for (int x = -radius; x <= radius; x++) {
@@ -84,9 +92,21 @@ public abstract class MobHelper
                         continue;
                     }
                     block = exploder.worldObj.getBlock(bX + x, bY + y, bZ + z);
-                    if (block != null && block.getLightValue() > 1 && !(block instanceof BlockLiquid) && !(block instanceof BlockFire) && block != Blocks.lit_redstone_ore && !(block instanceof BlockOre)) {
-                        resistance = exploder.func_145772_a(explosion, exploder.worldObj, bX + x, bY + y, bZ + z, block) + 0.3F;
-                        if (blastPower - resistance * 0.3F > 0.0F && exploder.func_145774_a(explosion, exploder.worldObj, bX + x, bY + y, bZ + z, block, blastPower)) {
+                    if (block != null && block.getLightValue() > 1
+                            && !(block instanceof BlockLiquid)
+                            && !(block instanceof BlockFire)
+                            && block != Blocks.lit_redstone_ore
+                            && !(block instanceof BlockOre)) {
+                        resistance = exploder.func_145772_a(explosion, exploder.worldObj, bX + x, bY + y, bZ + z, block)
+                                + 0.3F;
+                        if (blastPower - resistance * 0.3F > 0.0F && exploder.func_145774_a(
+                                explosion,
+                                exploder.worldObj,
+                                bX + x,
+                                bY + y,
+                                bZ + z,
+                                block,
+                                blastPower)) {
                             affectedBlocks.add(new ChunkPosition(bX + x, bY + y, bZ + z));
                         }
                     }
@@ -100,9 +120,9 @@ public abstract class MobHelper
 
     // Causes a creeper explosion that places dirt instead of destroying blocks.
     public static void dirtExplode(Entity exploder, int radius) {
-        int bX = (int)exploder.posX;
-        int bY = (int)exploder.posY;
-        int bZ = (int)exploder.posZ;
+        int bX = (int) exploder.posX;
+        int bY = (int) exploder.posY;
+        int bZ = (int) exploder.posZ;
         for (int x = -radius; x <= radius; x++) {
             for (int y = -radius; y <= radius; y++) {
                 for (int z = -radius; z <= radius; z++) {
@@ -121,9 +141,9 @@ public abstract class MobHelper
     // Causes a creeper explosion that places dirt instead of destroying blocks.
     public static void drowningExplode(Entity exploder, int radius) {
         radius += 3;
-        int bX = (int)exploder.posX;
-        int bY = (int)exploder.posY;
-        int bZ = (int)exploder.posZ;
+        int bX = (int) exploder.posX;
+        int bY = (int) exploder.posY;
+        int bZ = (int) exploder.posZ;
         for (int x = -radius; x <= radius; x++) {
             for (int y = -radius; y <= radius; y++) {
                 for (int z = -radius; z <= radius; z++) {
@@ -133,13 +153,11 @@ public abstract class MobHelper
                             if (Blocks.cobblestone.canPlaceBlockAt(exploder.worldObj, bX + x, bY + y, bZ + z)) {
                                 if (exploder.worldObj.rand.nextFloat() < 0.25F) {
                                     exploder.worldObj.setBlock(bX + x, bY + y, bZ + z, Blocks.monster_egg, 1, 2);
-                                }
-                                else {
+                                } else {
                                     exploder.worldObj.setBlock(bX + x, bY + y, bZ + z, Blocks.cobblestone, 0, 2);
                                 }
                             }
-                        }
-                        else if (Blocks.water.canPlaceBlockAt(exploder.worldObj, bX + x, bY + y, bZ + z)) {
+                        } else if (Blocks.water.canPlaceBlockAt(exploder.worldObj, bX + x, bY + y, bZ + z)) {
                             exploder.worldObj.setBlock(bX + x, bY + y, bZ + z, Blocks.water, 0, 2);
                         }
                     }
@@ -156,7 +174,12 @@ public abstract class MobHelper
         float speed;
         float pitch, yaw;
         for (int i = 0; i < count; i++) {
-            gravel = new EntityFallingBlock(exploder.worldObj, exploder.posX, exploder.posY + exploder.height / 2.0F, exploder.posZ, Blocks.gravel);
+            gravel = new EntityFallingBlock(
+                    exploder.worldObj,
+                    exploder.posX,
+                    exploder.posY + exploder.height / 2.0F,
+                    exploder.posZ,
+                    Blocks.gravel);
             gravel.field_145812_b = 1; // time alive, if it starts at 0, the entity will normally die instantly
             gravel.field_145813_c = false; // drop item if can't place
             gravel.func_145806_a(true); // setHurtEntities
@@ -176,14 +199,17 @@ public abstract class MobHelper
     public static void lightningExplode(Entity exploder, int radius) {
         MobHelper.lightningExplode(exploder, exploder.posX, exploder.posY, exploder.posZ, radius);
     }
+
     public static void lightningExplode(Entity exploder, double posX, double posY, double posZ, int radius) {
         radius /= 3;
         for (int x = -radius; x <= radius; x++) {
             for (int z = -radius; z <= radius; z++) {
-                exploder.worldObj.spawnEntityInWorld(new EntityLightningBolt(exploder.worldObj, posX + x, posY, posZ + z));
+                exploder.worldObj
+                        .spawnEntityInWorld(new EntityLightningBolt(exploder.worldObj, posX + x, posY, posZ + z));
             }
         }
-        _SpecialMobs.CHANNEL.sendToDimension(new MessageExplosion(posX, posY, posZ, radius, "lightning"), exploder.dimension);
+        _SpecialMobs.CHANNEL
+                .sendToDimension(new MessageExplosion(posX, posY, posZ, radius, "lightning"), exploder.dimension);
     }
 
     // Removes the player's currently held item and returns it.
@@ -221,11 +247,13 @@ public abstract class MobHelper
     public static boolean isCritical(DamageSource damageSource) {
         if (damageSource.getSourceOfDamage() instanceof EntityArrow)
             return ((EntityArrow) damageSource.getSourceOfDamage()).getIsCritical();
-        return damageSource.getEntity() != null && !damageSource.getEntity().isInWater() && damageSource.getEntity().fallDistance > 0.0F;
+        return damageSource.getEntity() != null && !damageSource.getEntity().isInWater()
+                && damageSource.getEntity().fallDistance > 0.0F;
     }
 
     // Returns true if the entity can be replaced by a special version.
     public static boolean canReplace(EntityLiving entity) {
-        return !entity.isNoDespawnRequired() && !(entity instanceof ISpecialMob) && entity.getEntityData().getByte("smi") == 0;
+        return !entity.isNoDespawnRequired() && !(entity instanceof ISpecialMob)
+                && entity.getEntityData().getByte("smi") == 0;
     }
 }

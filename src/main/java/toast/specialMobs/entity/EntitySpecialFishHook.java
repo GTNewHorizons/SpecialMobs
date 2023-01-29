@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
@@ -13,7 +12,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import toast.specialMobs.Properties;
 
 public class EntitySpecialFishHook extends Entity {
 
@@ -30,23 +28,38 @@ public class EntitySpecialFishHook extends Entity {
         super(world);
         this.angler = entity;
         ((IAngler) entity).setFishHook(this);
-        this.setLocationAndAngles(entity.posX, entity.posY + 1.62 - entity.yOffset, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-        this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F;
+        this.setLocationAndAngles(
+                entity.posX,
+                entity.posY + 1.62 - entity.yOffset,
+                entity.posZ,
+                entity.rotationYaw,
+                entity.rotationPitch);
+        this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
         this.posY -= 0.1;
-        this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F;
+        this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
         this.setPosition(this.posX, this.posY, this.posZ);
         this.motionX = (target.posX - entity.posX) * 0.7;
         this.motionY = (target.posY + target.getEyeHeight() - 0.7 - this.posY) * 0.7;
         this.motionZ = (target.posZ - entity.posZ) * 0.7;
         double vH = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
         if (vH >= 1E-7) {
-            this.rotationYaw = (float)(Math.atan2(this.motionZ, this.motionX) * 180.0 / Math.PI) - 90.0F;
-            this.rotationPitch = (float)(-Math.atan2(this.motionY, vH) * 180.0 / Math.PI);
+            this.rotationYaw = (float) (Math.atan2(this.motionZ, this.motionX) * 180.0 / Math.PI) - 90.0F;
+            this.rotationPitch = (float) (-Math.atan2(this.motionY, vH) * 180.0 / Math.PI);
             double dX = this.motionX / vH;
             double dZ = this.motionZ / vH;
-            this.setLocationAndAngles(entity.posX + dX, this.posY, entity.posZ + dZ, this.rotationYaw, this.rotationPitch);
+            this.setLocationAndAngles(
+                    entity.posX + dX,
+                    this.posY,
+                    entity.posZ + dZ,
+                    this.rotationYaw,
+                    this.rotationPitch);
             this.yOffset = 0.0F;
-            this.calculateVelocity(this.motionX, this.motionY + vH * 0.2, this.motionZ, 1.0F, 14 - (this.worldObj.difficultySetting.getDifficultyId() << 2));
+            this.calculateVelocity(
+                    this.motionX,
+                    this.motionY + vH * 0.2,
+                    this.motionZ,
+                    1.0F,
+                    14 - (this.worldObj.difficultySetting.getDifficultyId() << 2));
         }
         this.updateAnglerId();
     }
@@ -61,10 +74,12 @@ public class EntitySpecialFishHook extends Entity {
     public int getAnglerId() {
         return this.dataWatcher.getWatchableObjectInt(EntitySpecialFishHook.DW_ANGLER_ID);
     }
+
     // Sets the saved angler's entity id to the current angler's.
     public void updateAnglerId() {
         if (this.angler != null && this.angler.getEntityId() != this.getAnglerId()) {
-            this.dataWatcher.updateObject(EntitySpecialFishHook.DW_ANGLER_ID, Integer.valueOf(this.angler.getEntityId()));
+            this.dataWatcher
+                    .updateObject(EntitySpecialFishHook.DW_ANGLER_ID, Integer.valueOf(this.angler.getEntityId()));
         }
     }
 
@@ -89,8 +104,8 @@ public class EntitySpecialFishHook extends Entity {
         this.motionY = vY;
         this.motionZ = vZ;
         float vH = MathHelper.sqrt_double(vX * vX + vZ * vZ);
-        this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(vX, vZ) * 180.0 / Math.PI);
-        this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(vY, vH) * 180.0 / Math.PI);
+        this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(vX, vZ) * 180.0 / Math.PI);
+        this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(vY, vH) * 180.0 / Math.PI);
     }
 
     @Override
@@ -100,8 +115,8 @@ public class EntitySpecialFishHook extends Entity {
         this.motionZ = vZ;
         if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
             float vH = MathHelper.sqrt_double(vX * vX + vZ * vZ);
-            this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(vX, vZ) * 180.0 / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(vY, vH) * 180.0 / Math.PI);
+            this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(vX, vZ) * 180.0 / Math.PI);
+            this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(vY, vH) * 180.0 / Math.PI);
         }
     }
 
@@ -117,15 +132,19 @@ public class EntitySpecialFishHook extends Entity {
                 return;
             }
             Vec3 posVec = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-            Vec3 motionVec = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+            Vec3 motionVec = Vec3
+                    .createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
             MovingObjectPosition object = this.worldObj.rayTraceBlocks(posVec, motionVec);
             posVec = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-            motionVec = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+            motionVec = Vec3
+                    .createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
             if (object != null) {
                 motionVec = Vec3.createVectorHelper(object.hitVec.xCoord, object.hitVec.yCoord, object.hitVec.zCoord);
             }
             Entity entityHit = null;
-            List<?> entitiesInPath = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0, 1.0, 1.0));
+            List<?> entitiesInPath = this.worldObj.getEntitiesWithinAABBExcludingEntity(
+                    this,
+                    this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0, 1.0, 1.0));
             double d = Double.POSITIVE_INFINITY;
             for (int i = 0; i < entitiesInPath.size(); i++) {
                 Entity entityInPath = (Entity) entitiesInPath.get(i);
@@ -147,8 +166,7 @@ public class EntitySpecialFishHook extends Entity {
             if (object != null) {
                 this.onImpact(object);
             }
-        }
-        else if (this.angler == null) {
+        } else if (this.angler == null) {
             Entity entity = this.worldObj.getEntityByID(this.getAnglerId());
             if (entity instanceof EntityLiving) {
                 this.angler = (EntityLiving) entity;
@@ -158,8 +176,9 @@ public class EntitySpecialFishHook extends Entity {
         this.posY += this.motionY;
         this.posZ += this.motionZ;
         float var16 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0 / Math.PI);
-        for (this.rotationPitch = (float)(Math.atan2(this.motionY, var16) * 180.0 / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
+        this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0 / Math.PI);
+        for (this.rotationPitch = (float) (Math.atan2(this.motionY, var16) * 180.0 / Math.PI); this.rotationPitch
+                - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
             // Do nothing
         }
         while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
@@ -197,9 +216,9 @@ public class EntitySpecialFishHook extends Entity {
             object.entityHit.onGround = false;
             if (object.entityHit instanceof EntityPlayerMP) {
                 try {
-                    ((EntityPlayerMP) object.entityHit).playerNetServerHandler.sendPacket(new S12PacketEntityVelocity(object.entityHit));
-                }
-                catch (Exception ex) {
+                    ((EntityPlayerMP) object.entityHit).playerNetServerHandler
+                            .sendPacket(new S12PacketEntityVelocity(object.entityHit));
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
@@ -228,6 +247,7 @@ public class EntitySpecialFishHook extends Entity {
     public void writeEntityToNBT(NBTTagCompound tag) {
         // Nothing to save
     }
+
     @Override
     public void readEntityFromNBT(NBTTagCompound tag) {
         // Nothing to load

@@ -8,15 +8,15 @@ import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityCursedEnderman extends Entity_SpecialEnderman
-{
+public class EntityCursedEnderman extends Entity_SpecialEnderman {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/cursed.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/cursed_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/cursed.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/cursed_eyes.png") };
 
     public EntityCursedEnderman(World world) {
         super(world);
@@ -48,8 +48,8 @@ public class EntityCursedEnderman extends Entity_SpecialEnderman
                     time = 120;
             }
             time *= 20;
-            EffectHelper.stackEffect((EntityLivingBase)target, Potion.weakness, time, 0, 4);
-            EffectHelper.stackEffect((EntityLivingBase)target, Potion.digSlowdown, time, 0, 4);
+            EffectHelper.stackEffect((EntityLivingBase) target, Potion.weakness, time, 0, 4);
+            EffectHelper.stackEffect((EntityLivingBase) target, Potion.digSlowdown, time, 0, 4);
         }
     }
 

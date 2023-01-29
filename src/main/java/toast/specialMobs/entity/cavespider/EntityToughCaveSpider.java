@@ -4,14 +4,14 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityToughCaveSpider extends Entity_SpecialCaveSpider
-{
+public class EntityToughCaveSpider extends Entity_SpecialCaveSpider {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/tough.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/tough_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/tough.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/tough_eyes.png") };
 
     public EntityToughCaveSpider(World world) {
         super(world);

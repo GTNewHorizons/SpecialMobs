@@ -19,22 +19,22 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.MobHelper;
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class Entity_SpecialZombie extends EntityZombie implements ISpecialMob, IRangedAttackMob
-{
+public class Entity_SpecialZombie extends EntityZombie implements ISpecialMob, IRangedAttackMob {
+
     /// Useful properties for this class.
     private static final double INFECT_CHANCE = Properties.getDouble(Properties.STATS, "villager_infection");
     private static final double BOW_CHANCE = Properties.getDouble(Properties.STATS, "bow_chance_zombie");
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation("textures/entity/zombie/zombie.png"),
-        new ResourceLocation("textures/entity/zombie/zombie_villager.png")
-    };
+            new ResourceLocation("textures/entity/zombie/zombie.png"),
+            new ResourceLocation("textures/entity/zombie/zombie_villager.png") };
 
     /// This entity's AI attack patterns.
     public EntityAIArrowAttack aiArrowAttack;
@@ -69,22 +69,33 @@ public class Entity_SpecialZombie extends EntityZombie implements ISpecialMob, I
     protected void loadRangedAI() {
         this.tasks.removeTask(this.aiArrowAttack);
         SpecialMobData data = this.getSpecialData();
-        this.aiArrowAttack = new EntityAIArrowAttack(this, data.arrowMoveSpeed, data.arrowRefireMin, data.arrowRefireMax, data.arrowRange);
+        this.aiArrowAttack = new EntityAIArrowAttack(
+                this,
+                data.arrowMoveSpeed,
+                data.arrowRefireMin,
+                data.arrowRefireMax,
+                data.arrowRange);
         this.setCombatTask();
     }
+
     protected void setRangedAI(double moveSpeed, int minDelay, int maxDelay, float range) {
         SpecialMobData data = this.getSpecialData();
         data.arrowMoveSpeed = (float) moveSpeed;
         data.arrowRefireMin = (short) minDelay;
         data.arrowRefireMax = (short) maxDelay;
         data.arrowRange = range;
-        this.aiArrowAttack = new EntityAIArrowAttack(this, data.arrowMoveSpeed, data.arrowRefireMin, data.arrowRefireMax, data.arrowRange);
+        this.aiArrowAttack = new EntityAIArrowAttack(
+                this,
+                data.arrowMoveSpeed,
+                data.arrowRefireMin,
+                data.arrowRefireMax,
+                data.arrowRange);
     }
+
     protected void setMeleeAI(double moveSpeed) {
         this.aiAttackOnCollide = new EntityAIAttackOnCollide[] {
                 new EntityAIAttackOnCollide(this, EntityPlayer.class, moveSpeed, false),
-                new EntityAIAttackOnCollide(this, EntityVillager.class, moveSpeed, true)
-        };
+                new EntityAIAttackOnCollide(this, EntityVillager.class, moveSpeed, true) };
     }
 
     /// Returns this mob's special data.
@@ -101,9 +112,9 @@ public class Entity_SpecialZombie extends EntityZombie implements ISpecialMob, I
             float tension = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
             if (this.rand.nextFloat() < 0.25F * tension) {
                 try {
-                    EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
-                }
-                catch (Exception ex) {
+                    EnchantmentHelper
+                            .addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
+                } catch (Exception ex) {
                     _SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
                     ex.printStackTrace();
                 }
@@ -125,7 +136,9 @@ public class Entity_SpecialZombie extends EntityZombie implements ISpecialMob, I
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float range) {
         EntityArrow arrow = new EntityArrow(this.worldObj, this, target, 1.6F, this.getTypeArrowSpread());
-        arrow.setDamage(range * this.getSpecialData().arrowDamage + this.rand.nextGaussian() * 0.25 + this.worldObj.difficultySetting.getDifficultyId() * 0.11F);
+        arrow.setDamage(
+                range * this.getSpecialData().arrowDamage + this.rand.nextGaussian() * 0.25
+                        + this.worldObj.difficultySetting.getDifficultyId() * 0.11F);
 
         int power = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, this.getHeldItem());
         int punch = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, this.getHeldItem());
@@ -145,7 +158,8 @@ public class Entity_SpecialZombie extends EntityZombie implements ISpecialMob, I
 
     /// Overridden to modify the base arrow variance.
     protected float getTypeArrowSpread() {
-        return this.getSpecialData().arrowSpread - this.worldObj.difficultySetting.getDifficultyId() * (this.getSpecialData().arrowSpread / 4.0F + 0.5F);
+        return this.getSpecialData().arrowSpread
+                - this.worldObj.difficultySetting.getDifficultyId() * (this.getSpecialData().arrowSpread / 4.0F + 0.5F);
     }
 
     /// Called each tick while this entity is alive.
@@ -180,21 +194,29 @@ public class Entity_SpecialZombie extends EntityZombie implements ISpecialMob, I
     /// This method gets called when the entity kills another one.
     @Override
     public void onKillEntity(EntityLivingBase entity) {
-        if (!this.worldObj.isRemote && entity instanceof EntityVillager && this.rand.nextDouble() < Entity_SpecialZombie.INFECT_CHANCE){
+        if (!this.worldObj.isRemote && entity instanceof EntityVillager
+                && this.rand.nextDouble() < Entity_SpecialZombie.INFECT_CHANCE) {
             Entity_SpecialZombie zombie = null;
             try {
-                zombie = this.getClass().getConstructor(new Class[] { World.class }).newInstance(new Object[] { this.worldObj });
-            }
-            catch (Exception ex) {
-                _SpecialMobs.debugException("Error infecting villager! " + ex.getClass().getName() + " @" + this.getClass().getName());
+                zombie = this.getClass().getConstructor(new Class[] { World.class })
+                        .newInstance(new Object[] { this.worldObj });
+            } catch (Exception ex) {
+                _SpecialMobs.debugException(
+                        "Error infecting villager! " + ex.getClass().getName() + " @" + this.getClass().getName());
                 return;
             }
             zombie.copyLocationAndAnglesFrom(entity);
             this.worldObj.spawnEntityInWorld(zombie);
-            zombie.onSpawnWithEgg((IEntityLivingData)null);
+            zombie.onSpawnWithEgg((IEntityLivingData) null);
             zombie.setVillager(true);
             zombie.setChild(entity.isChild());
-            this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1016, (int)this.posX, (int)this.posY, (int)this.posZ, 0);
+            this.worldObj.playAuxSFXAtEntity(
+                    (EntityPlayer) null,
+                    1016,
+                    (int) this.posX,
+                    (int) this.posY,
+                    (int) this.posZ,
+                    0);
             entity.setDead();
         }
     }
@@ -208,8 +230,7 @@ public class Entity_SpecialZombie extends EntityZombie implements ISpecialMob, I
         ItemStack itemStack = this.getHeldItem();
         if (itemStack != null && itemStack.getItem() instanceof ItemBow) {
             this.tasks.addTask(2, this.aiArrowAttack);
-        }
-        else {
+        } else {
             this.tasks.addTask(2, this.aiAttackOnCollide[0]);
             this.tasks.addTask(3, this.aiAttackOnCollide[1]);
         }
@@ -280,7 +301,7 @@ public class Entity_SpecialZombie extends EntityZombie implements ISpecialMob, I
 
     /// Sets the entity inside a web block.
     @Override
-    public void setInWeb()  {
+    public void setInWeb() {
         if (!this.getSpecialData().isImmuneToWebs) {
             super.setInWeb();
         }

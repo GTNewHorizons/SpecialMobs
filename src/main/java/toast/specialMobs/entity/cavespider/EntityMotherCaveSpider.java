@@ -11,16 +11,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class EntityMotherCaveSpider extends Entity_SpecialCaveSpider
-{
+public class EntityMotherCaveSpider extends Entity_SpecialCaveSpider {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/mother.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/mother_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/mother.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/mother_eyes.png") };
 
     /// The number of babies spawned on death.
     private byte babies;
@@ -47,7 +47,9 @@ public class EntityMotherCaveSpider extends Entity_SpecialCaveSpider
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-            this.entityDropItem(new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntityCaveSpider(this.worldObj))), 0.0F);
+            this.entityDropItem(
+                    new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntityCaveSpider(this.worldObj))),
+                    0.0F);
         }
 
         if (!this.worldObj.isRemote) {
@@ -56,7 +58,7 @@ public class EntityMotherCaveSpider extends Entity_SpecialCaveSpider
                 baby = new EntityBabyCaveSpider(this.worldObj);
                 baby.copyLocationAndAnglesFrom(this);
                 baby.setTarget(this.getEntityToAttack());
-                baby.onSpawnWithEgg((IEntityLivingData)null);
+                baby.onSpawnWithEgg((IEntityLivingData) null);
                 this.worldObj.spawnEntityInWorld(baby);
             }
             if (baby != null) {
@@ -72,23 +74,15 @@ public class EntityMotherCaveSpider extends Entity_SpecialCaveSpider
         ItemStack itemStack;
         String name;
         if (this.rand.nextBoolean()) {
-            Item[] armor = {
-                    Items.chainmail_helmet, Items.chainmail_chestplate, Items.chainmail_leggings, Items.chainmail_boots
-            };
-            String[] armorNames = {
-                    "Helmet", "Chestplate", "Leggings", "Boots"
-            };
+            Item[] armor = { Items.chainmail_helmet, Items.chainmail_chestplate, Items.chainmail_leggings,
+                    Items.chainmail_boots };
+            String[] armorNames = { "Helmet", "Chestplate", "Leggings", "Boots" };
             int choice = this.rand.nextInt(armor.length);
             itemStack = new ItemStack(armor[choice]);
             name = armorNames[choice];
-        }
-        else {
-            Item[] tools = {
-                    Items.stone_sword, Items.bow, Items.stone_pickaxe, Items.stone_axe, Items.stone_shovel
-            };
-            String[] toolNames = {
-                    "Sword", "Bow", "Pickaxe", "Axe", "Shovel"
-            };
+        } else {
+            Item[] tools = { Items.stone_sword, Items.bow, Items.stone_pickaxe, Items.stone_axe, Items.stone_shovel };
+            String[] toolNames = { "Sword", "Bow", "Pickaxe", "Axe", "Shovel" };
             int choice = this.rand.nextInt(tools.length);
             itemStack = new ItemStack(tools[choice]);
             name = toolNames[choice];
@@ -98,8 +92,7 @@ public class EntityMotherCaveSpider extends Entity_SpecialCaveSpider
         int damage = itemStack.getMaxDamage() - this.rand.nextInt(this.rand.nextInt(maxDamage) + 1);
         if (damage > maxDamage) {
             damage = maxDamage;
-        }
-        else if (damage < 1) {
+        } else if (damage < 1) {
             damage = 1;
         }
         itemStack.setItemDamage(damage);
@@ -127,8 +120,7 @@ public class EntityMotherCaveSpider extends Entity_SpecialCaveSpider
         NBTTagCompound saveTag = SpecialMobData.getSaveLocation(tag);
         if (saveTag.hasKey("Babies")) {
             this.babies = saveTag.getByte("Babies");
-        }
-        else if (tag.hasKey("Babies")) {
+        } else if (tag.hasKey("Babies")) {
             this.babies = tag.getByte("Babies");
         }
     }

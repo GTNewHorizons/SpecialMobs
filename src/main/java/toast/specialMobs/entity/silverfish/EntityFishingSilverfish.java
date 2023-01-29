@@ -5,15 +5,15 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.EntitySpecialFishHook;
 import toast.specialMobs.entity.IAngler;
 
-public class EntityFishingSilverfish extends Entity_SpecialSilverfish implements IAngler
-{
+public class EntityFishingSilverfish extends Entity_SpecialSilverfish implements IAngler {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "silverfish/fishing.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "silverfish/fishing.png") };
 
     /// Ticks until this fishing silverfish can cast its lure again.
     public int rodTime = 0;
@@ -39,6 +39,7 @@ public class EntityFishingSilverfish extends Entity_SpecialSilverfish implements
     public void setFishHook(EntitySpecialFishHook hook) {
         this.fishHook = hook;
     }
+
     @Override /// IAngler
     public EntitySpecialFishHook getFishHook() {
         return this.fishHook;

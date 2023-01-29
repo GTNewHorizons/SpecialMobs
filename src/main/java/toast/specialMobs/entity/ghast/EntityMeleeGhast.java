@@ -3,8 +3,8 @@ package toast.specialMobs.entity.ghast;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.world.World;
 
-public class EntityMeleeGhast extends Entity_SpecialGhast
-{
+public class EntityMeleeGhast extends Entity_SpecialGhast {
+
     public EntityMeleeGhast(World world) {
         super(world);
     }
@@ -25,8 +25,7 @@ public class EntityMeleeGhast extends Entity_SpecialGhast
                 if (!this.isCourseTraversable(Math.sqrt(v))) {
                     this.setRandomWaypoints(32.0F);
                 }
-            }
-            else {
+            } else {
                 this.setRandomWaypoints(32.0F);
             }
         }
@@ -38,8 +37,7 @@ public class EntityMeleeGhast extends Entity_SpecialGhast
                 this.motionX += vX * speed;
                 this.motionY += vY * speed;
                 this.motionZ += vZ * speed;
-            }
-            else {
+            } else {
                 this.setRandomWaypoints(8.0F);
             }
         }
@@ -50,18 +48,23 @@ public class EntityMeleeGhast extends Entity_SpecialGhast
             this.attackCounter--;
         }
         if (this.targetedEntity != null) {
-            this.renderYawOffset = this.rotationYaw = -((float)Math.atan2(this.targetedEntity.posX - this.posX, this.targetedEntity.posZ - this.posZ)) * 180.0F / (float)Math.PI;
+            this.renderYawOffset = this.rotationYaw = -((float) Math
+                    .atan2(this.targetedEntity.posX - this.posX, this.targetedEntity.posZ - this.posZ)) * 180.0F
+                    / (float) Math.PI;
             if (this.attackCounter <= 0) {
                 double reach = this.width * this.width * 4.0F + this.targetedEntity.width;
-                if (this.getDistanceSq(this.targetedEntity.posX, this.targetedEntity.posY + this.targetedEntity.height / 2.0F, this.targetedEntity.posZ) <= reach) {
+                if (this.getDistanceSq(
+                        this.targetedEntity.posX,
+                        this.targetedEntity.posY + this.targetedEntity.height / 2.0F,
+                        this.targetedEntity.posZ) <= reach) {
                     this.attackCounter = 20;
                     this.swingItem();
                     this.attackEntityAsMob(this.targetedEntity);
                 }
             }
-        }
-        else {
-            this.renderYawOffset = this.rotationYaw = -((float)Math.atan2(this.motionX, this.motionZ)) * 180.0F / (float)Math.PI;
+        } else {
+            this.renderYawOffset = this.rotationYaw = -((float) Math.atan2(this.motionX, this.motionZ)) * 180.0F
+                    / (float) Math.PI;
         }
     }
 }

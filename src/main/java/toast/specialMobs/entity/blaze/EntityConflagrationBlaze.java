@@ -10,17 +10,17 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.MobHelper;
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class EntityConflagrationBlaze extends Entity_SpecialBlaze
-{
+public class EntityConflagrationBlaze extends Entity_SpecialBlaze {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/conflagration.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/conflagration.png") };
 
     /// The feeding level of this conflagration blaze.
     private byte feedingLevel;
@@ -30,19 +30,24 @@ public class EntityConflagrationBlaze extends Entity_SpecialBlaze
         this.getSpecialData().setTextures(EntityConflagrationBlaze.TEXTURES);
         this.experienceValue += 4;
         // For conflagration, cold attacks are extra effective, but other attacks are much weaker
-        this.BLAZE_SNOWBALL_HITS = Properties.getDouble( Properties.STATS, "conflagration_snowball_hits");
+        this.BLAZE_SNOWBALL_HITS = Properties.getDouble(Properties.STATS, "conflagration_snowball_hits");
     }
 
     /// Called when the entity is attacked.
     @Override
-    //TODO Fix this so it uses same mechanism as vampire/unholy ghast etc.
+    // TODO Fix this so it uses same mechanism as vampire/unholy ghast etc.
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
-        if (!damageSource.isFireDamage() && !damageSource.isExplosion() && !damageSource.isMagicDamage() && !DamageSource.drown.damageType.equals(damageSource.damageType) && !(damageSource.getSourceOfDamage() instanceof EntitySnowball)) {
+        if (!damageSource.isFireDamage() && !damageSource.isExplosion()
+                && !damageSource.isMagicDamage()
+                && !DamageSource.drown.damageType.equals(damageSource.damageType)
+                && !(damageSource.getSourceOfDamage() instanceof EntitySnowball)) {
             // Maximum damage is 1/20th of mob health, 1/10th if a critical hit
-            damage = Math.min(MobHelper.isCritical(damageSource) ? this.getMaxHealth()/10 : this.getMaxHealth()/20, damage); 
+            damage = Math.min(
+                    MobHelper.isCritical(damageSource) ? this.getMaxHealth() / 10 : this.getMaxHealth() / 20,
+                    damage);
             if (damageSource.isProjectile()) {
                 // Projectiles do half damage, so 1/20 or 1/40
-                damage = damage/2;
+                damage = damage / 2;
             }
             // At minimum do .5 to 1 point of damage
             damage = Math.max(damage, MobHelper.isCritical(damageSource) ? 1.0F : 0.5F);
@@ -93,8 +98,7 @@ public class EntityConflagrationBlaze extends Entity_SpecialBlaze
     private void setFeedingLevel(int level, boolean updateScale) {
         if (level < 0) {
             level = 0;
-        }
-        else if (level > 7) {
+        } else if (level > 7) {
             level = 7;
         }
         int diff = level - this.feedingLevel;
@@ -113,6 +117,7 @@ public class EntityConflagrationBlaze extends Entity_SpecialBlaze
         super.writeEntityToNBT(tag);
         tag.setByte("FeedLevel", this.feedingLevel);
     }
+
     /// Reads this entity from NBT.
     @Override
     public void readEntityFromNBT(NBTTagCompound tag) {

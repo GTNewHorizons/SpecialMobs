@@ -17,8 +17,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderSpecialZombie extends RenderZombie
-{
+public class RenderSpecialZombie extends RenderZombie {
+
     public RenderSpecialZombie() {
         super();
     }
@@ -29,16 +29,16 @@ public class RenderSpecialZombie extends RenderZombie
         if (entity instanceof INinja && ((INinja) entity).getHidingBlock() != null)
             return TextureMap.locationBlocksTexture;
 
-        if (!(entity instanceof EntityPigZombie) && ((EntityZombie)entity).isVillager())
-            return ((ISpecialMob)entity).getSpecialData().getTexture(1);
-        return ((ISpecialMob)entity).getSpecialData().getTexture();
+        if (!(entity instanceof EntityPigZombie) && ((EntityZombie) entity).isVillager())
+            return ((ISpecialMob) entity).getSpecialData().getTexture(1);
+        return ((ISpecialMob) entity).getSpecialData().getTexture();
     }
 
     /// Allows the render to do any OpenGL state modifications necessary before the model is rendered.
     @Override
     protected void preRenderCallback(EntityLivingBase entity, float partialTick) {
         super.preRenderCallback(entity, partialTick);
-        float scale = ((ISpecialMob)entity).getSpecialData().getRenderScale();
+        float scale = ((ISpecialMob) entity).getSpecialData().getRenderScale();
         this.shadowSize = 0.5F * scale;
         GL11.glScalef(scale, scale, scale);
     }

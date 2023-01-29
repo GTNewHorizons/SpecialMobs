@@ -10,16 +10,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class EntityMirageEnderman extends Entity_SpecialEnderman
-{
+public class EntityMirageEnderman extends Entity_SpecialEnderman {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/mirage.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/mirage_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/mirage.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/mirage_eyes.png") };
 
     /// Whether this mirage enderman is fake.
     public boolean isFake = false;
@@ -108,7 +108,8 @@ public class EntityMirageEnderman extends Entity_SpecialEnderman
         if (!this.isFake && this.entityToAttack != null) {
             mirage = new EntityMirageEnderman(this.worldObj);
             mirage.setFake();
-            mirage.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.getEntityAttribute(SharedMonsterAttributes.maxHealth).getAttributeValue());
+            mirage.getEntityAttribute(SharedMonsterAttributes.maxHealth)
+                    .setBaseValue(this.getEntityAttribute(SharedMonsterAttributes.maxHealth).getAttributeValue());
             mirage.setHealth(this.getHealth());
             mirage.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
             mirage.setTarget(this.entityToAttack);
@@ -144,8 +145,7 @@ public class EntityMirageEnderman extends Entity_SpecialEnderman
         NBTTagCompound saveTag = SpecialMobData.getSaveLocation(tag);
         if (saveTag.getBoolean("IsFake")) {
             this.setFake();
-        }
-        else if (tag.getBoolean("IsFake")) {
+        } else if (tag.getBoolean("IsFake")) {
             this.setFake();
         }
     }

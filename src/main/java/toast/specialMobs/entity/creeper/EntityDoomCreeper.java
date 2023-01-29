@@ -3,13 +3,13 @@ package toast.specialMobs.entity.creeper;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityDoomCreeper extends Entity_SpecialCreeper
-{
+public class EntityDoomCreeper extends Entity_SpecialCreeper {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/doom.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/doom.png") };
 
     public EntityDoomCreeper(World world) {
         super(world);

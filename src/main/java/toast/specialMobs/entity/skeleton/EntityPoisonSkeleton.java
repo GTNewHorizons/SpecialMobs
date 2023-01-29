@@ -5,16 +5,16 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.EnchantmentSpecial;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityPoisonSkeleton extends Entity_SpecialSkeleton
-{
+public class EntityPoisonSkeleton extends Entity_SpecialSkeleton {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/poison.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/poison_wither.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/poison.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/poison_wither.png") };
 
     public EntityPoisonSkeleton(World world) {
         super(world);
@@ -29,11 +29,16 @@ public class EntityPoisonSkeleton extends Entity_SpecialSkeleton
         if (itemStack != null) {
             if (itemStack.getItem() instanceof ItemBow) {
                 if (EnchantmentSpecial.poisonBow != null) {
-                    EffectHelper.overrideEnchantment(itemStack, EnchantmentSpecial.poisonBow, this.rand.nextInt(EnchantmentSpecial.poisonBow.getMaxLevel()) + 1);
+                    EffectHelper.overrideEnchantment(
+                            itemStack,
+                            EnchantmentSpecial.poisonBow,
+                            this.rand.nextInt(EnchantmentSpecial.poisonBow.getMaxLevel()) + 1);
                 }
-            }
-            else if (EnchantmentSpecial.poisonSword != null) {
-                EffectHelper.overrideEnchantment(itemStack, EnchantmentSpecial.poisonSword, this.rand.nextInt(EnchantmentSpecial.poisonSword.getMaxLevel()) + 1);
+            } else if (EnchantmentSpecial.poisonSword != null) {
+                EffectHelper.overrideEnchantment(
+                        itemStack,
+                        EnchantmentSpecial.poisonSword,
+                        this.rand.nextInt(EnchantmentSpecial.poisonSword.getMaxLevel()) + 1);
             }
         }
     }

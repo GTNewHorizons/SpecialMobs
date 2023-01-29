@@ -7,22 +7,23 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import toast.specialMobs.entity.EntityLavaMonster;
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
+import toast.specialMobs.entity.EntityLavaMonster;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderLavaMonster extends RenderLiving {
+
     /// The texture for this renderer.
     public static final ResourceLocation[] LAVA_MONSTER_TEXTURES;
-    public static final boolean ANIMATE_TEXTURE = Properties.getBoolean(Properties.LAVAMONSTER_GENERAL, "lavamonster_animated_texture");
+    public static final boolean ANIMATE_TEXTURE = Properties
+            .getBoolean(Properties.LAVAMONSTER_GENERAL, "lavamonster_animated_texture");
     static {
         if (ANIMATE_TEXTURE) {
             LAVA_MONSTER_TEXTURES = new ResourceLocation[20];
-        }
-        else {
+        } else {
             LAVA_MONSTER_TEXTURES = new ResourceLocation[1];
         }
         String path = _SpecialMobs.TEXTURE_PATH + "lavamonster/lavaMonster_";
@@ -44,7 +45,7 @@ public class RenderLavaMonster extends RenderLiving {
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
         if (EntityLavaMonster.ANIMATE_TEXTURE)
-            return RenderLavaMonster.LAVA_MONSTER_TEXTURES[ ((EntityLavaMonster) entity).getTextureIndex()];
+            return RenderLavaMonster.LAVA_MONSTER_TEXTURES[((EntityLavaMonster) entity).getTextureIndex()];
         return RenderLavaMonster.LAVA_MONSTER_TEXTURES[0];
     }
 }

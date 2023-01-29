@@ -12,8 +12,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderSpecialBlaze extends RenderBlaze
-{
+public class RenderSpecialBlaze extends RenderBlaze {
+
     public RenderSpecialBlaze() {
         super();
     }

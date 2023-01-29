@@ -5,14 +5,14 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityFlyingSpider extends Entity_SpecialSpider
-{
+public class EntityFlyingSpider extends Entity_SpecialSpider {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/flying.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/flying_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/flying.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/flying_eyes.png") };
 
     public EntityFlyingSpider(World world) {
         super(world);
@@ -37,8 +37,7 @@ public class EntityFlyingSpider extends Entity_SpecialSpider
             this.motionX = vX / vH * 2.0 + this.motionX * 0.2;
             this.motionZ = vZ / vH * 2.0 + this.motionZ * 0.2;
             this.motionY = 0.4 * 2.0;
-        }
-        else {
+        } else {
             super.attackEntity(target, distance);
         }
     }

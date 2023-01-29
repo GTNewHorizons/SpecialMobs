@@ -4,8 +4,8 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.world.World;
 
-public class EntityGiantPigZombie extends Entity_SpecialPigZombie
-{
+public class EntityGiantPigZombie extends Entity_SpecialPigZombie {
+
     public EntityGiantPigZombie(World world) {
         super(world);
         this.stepHeight = 1.0F;

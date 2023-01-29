@@ -22,20 +22,27 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
 
 public class Entity_SpecialPigZombie extends EntityPigZombie implements ISpecialMob, IRangedAttackMob {
+
     /// Useful properties for this class.
     private static final double HOSTILE_CHANCE = Properties.getDouble(Properties.STATS, "hostile_pigzombies");
     private static final double BOW_CHANCE = Properties.getDouble(Properties.STATS, "bow_chance_pigzombie");
     /// Attacking speed boost modifier.
     private static final UUID stopModifierUUID = UUID.fromString("70A57A49-7EC5-45BA-B886-3B90B23A1718");
-    private static final AttributeModifier stopModifier = new AttributeModifier(Entity_SpecialPigZombie.stopModifierUUID, "Attacking speed boost", -1.0, 2).setSaved(false);
+    private static final AttributeModifier stopModifier = new AttributeModifier(
+            Entity_SpecialPigZombie.stopModifierUUID,
+            "Attacking speed boost",
+            -1.0,
+            2).setSaved(false);
 
-    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation("textures/entity/zombie_pigman.png") };
+    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
+            new ResourceLocation("textures/entity/zombie_pigman.png") };
 
     /// Extra data to make sure anger level is saved.
     public boolean isHostile;
@@ -91,9 +98,9 @@ public class Entity_SpecialPigZombie extends EntityPigZombie implements ISpecial
             float tension = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
             if (this.rand.nextFloat() < 0.25F * tension) {
                 try {
-                    EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
-                }
-                catch (Exception ex) {
+                    EnchantmentHelper
+                            .addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
+                } catch (Exception ex) {
                     _SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
                     ex.printStackTrace();
                 }
@@ -128,7 +135,8 @@ public class Entity_SpecialPigZombie extends EntityPigZombie implements ISpecial
             this.isHostile = true;
         }
         if (this.isHostile && !this.hasPath()) {
-            this.rotationYaw = MathHelper.wrapAngleTo180_float(this.rotationYaw + (float) this.rand.nextGaussian() * 20.0F);
+            this.rotationYaw = MathHelper
+                    .wrapAngleTo180_float(this.rotationYaw + (float) this.rand.nextGaussian() * 20.0F);
         }
     }
 
@@ -155,7 +163,9 @@ public class Entity_SpecialPigZombie extends EntityPigZombie implements ISpecial
             if (!this.worldObj.isRemote && distance < this.getSpecialData().arrowRange) {
                 if (target instanceof EntityLivingBase && this.attackTime <= 0) {
                     float damage = distance / this.getSpecialData().arrowRange;
-                    this.attackTime = (int) (damage * (this.getSpecialData().arrowRefireMax - this.getSpecialData().arrowRefireMin) + this.getSpecialData().arrowRefireMin);
+                    this.attackTime = (int) (damage
+                            * (this.getSpecialData().arrowRefireMax - this.getSpecialData().arrowRefireMin)
+                            + this.getSpecialData().arrowRefireMin);
                     damage = Math.max(0.1F, Math.min(1.0F, damage));
                     this.attackEntityWithRangedAttack((EntityLivingBase) target, damage);
                 }
@@ -166,17 +176,14 @@ public class Entity_SpecialPigZombie extends EntityPigZombie implements ISpecial
                 if (stopped != shouldStop) {
                     if (shouldStop) {
                         attribute.applyModifier(Entity_SpecialPigZombie.stopModifier);
-                    }
-                    else {
+                    } else {
                         attribute.removeModifier(Entity_SpecialPigZombie.stopModifier);
                     }
                 }
-            }
-            else {
+            } else {
                 this.sightDelay = 20;
             }
-        }
-        else {
+        } else {
             if (stopped) {
                 attribute.removeModifier(Entity_SpecialPigZombie.stopModifier);
             }
@@ -193,7 +200,9 @@ public class Entity_SpecialPigZombie extends EntityPigZombie implements ISpecial
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float range) {
         EntityArrow arrow = new EntityArrow(this.worldObj, this, target, 1.6F, this.getTypeArrowSpread());
-        arrow.setDamage(range * this.getSpecialData().arrowDamage + this.rand.nextGaussian() * 0.25 + this.worldObj.difficultySetting.getDifficultyId() * 0.11F);
+        arrow.setDamage(
+                range * this.getSpecialData().arrowDamage + this.rand.nextGaussian() * 0.25
+                        + this.worldObj.difficultySetting.getDifficultyId() * 0.11F);
 
         int power = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, this.getHeldItem());
         int punch = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, this.getHeldItem());
@@ -213,7 +222,8 @@ public class Entity_SpecialPigZombie extends EntityPigZombie implements ISpecial
 
     /// Overridden to modify the base arrow variance.
     protected float getTypeArrowSpread() {
-        return this.getSpecialData().arrowSpread - this.worldObj.difficultySetting.getDifficultyId() * (this.getSpecialData().arrowSpread / 4.0F + 0.5F);
+        return this.getSpecialData().arrowSpread
+                - this.worldObj.difficultySetting.getDifficultyId() * (this.getSpecialData().arrowSpread / 4.0F + 0.5F);
     }
 
     /// Called to attack the target.
@@ -252,11 +262,9 @@ public class Entity_SpecialPigZombie extends EntityPigZombie implements ISpecial
         NBTTagCompound saveTag = SpecialMobData.getSaveLocation(tag);
         if (saveTag.hasKey("SMAnger")) {
             this.isHostile = saveTag.getBoolean("SMAnger");
-        }
-        else if (tag.hasKey("SMAnger")) {
+        } else if (tag.hasKey("SMAnger")) {
             this.isHostile = tag.getBoolean("SMAnger");
-        }
-        else {
+        } else {
             this.isHostile = tag.getShort("Anger") != 0;
         }
 

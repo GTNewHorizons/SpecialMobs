@@ -9,15 +9,15 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityDesertSpider extends Entity_SpecialSpider
-{
+public class EntityDesertSpider extends Entity_SpecialSpider {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/desert.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/desert_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/desert.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/desert_eyes.png") };
 
     public EntityDesertSpider(World world) {
         super(world);
@@ -51,10 +51,10 @@ public class EntityDesertSpider extends Entity_SpecialSpider
                     time = 15;
             }
             time *= 20;
-            EffectHelper.stackEffect((EntityLivingBase)target, Potion.confusion, time, 1, 5);
-            EffectHelper.stackEffect((EntityLivingBase)target, Potion.moveSlowdown, time, 1, 5);
-            ((EntityLivingBase)target).addPotionEffect(new PotionEffect(Potion.blindness.id, time, 0));
-            ((EntityLivingBase)target).addPotionEffect(new PotionEffect(Potion.resistance.id, time, -2));
+            EffectHelper.stackEffect((EntityLivingBase) target, Potion.confusion, time, 1, 5);
+            EffectHelper.stackEffect((EntityLivingBase) target, Potion.moveSlowdown, time, 1, 5);
+            ((EntityLivingBase) target).addPotionEffect(new PotionEffect(Potion.blindness.id, time, 0));
+            ((EntityLivingBase) target).addPotionEffect(new PotionEffect(Potion.resistance.id, time, -2));
         }
     }
 

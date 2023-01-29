@@ -11,16 +11,16 @@ import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityThiefSkeleton extends Entity_SpecialSkeleton
-{
+public class EntityThiefSkeleton extends Entity_SpecialSkeleton {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/thief.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/thief_wither.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/thief.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/thief_wither.png") };
 
     public EntityThiefSkeleton(World world) {
         super(world);
@@ -47,7 +47,7 @@ public class EntityThiefSkeleton extends Entity_SpecialSkeleton
     @Override
     protected void onTypeAttack(Entity target) {
         if (target instanceof EntityPlayer) {
-            ItemStack stolen = MobHelper.removeHeldItem((EntityPlayer)target);
+            ItemStack stolen = MobHelper.removeHeldItem((EntityPlayer) target);
             if (stolen != null) {
                 this.entityDropItem(stolen, 0.0F);
             }
@@ -81,12 +81,9 @@ public class EntityThiefSkeleton extends Entity_SpecialSkeleton
         ItemStack itemStack;
         String name;
         if (this.rand.nextBoolean()) {
-            Item[] armor = {
-                    Items.leather_helmet, Items.leather_chestplate, Items.leather_leggings, Items.leather_boots
-            };
-            String[] armorNames = {
-                    "Cap", "Tunic", "Pants", "Boots"
-            };
+            Item[] armor = { Items.leather_helmet, Items.leather_chestplate, Items.leather_leggings,
+                    Items.leather_boots };
+            String[] armorNames = { "Cap", "Tunic", "Pants", "Boots" };
             int choice = this.rand.nextInt(armor.length);
             itemStack = new ItemStack(armor[choice]);
             name = armorNames[choice];
@@ -94,22 +91,17 @@ public class EntityThiefSkeleton extends Entity_SpecialSkeleton
             EffectHelper.addItemText(itemStack, "\u00a77\u00a7othe next leading brand!");
             EffectHelper.dye(itemStack, 0x0a141f);
             EffectHelper.enchantItem(this.rand, itemStack, 30);
-        }
-        else {
-            Item[] tools = {
-                    Items.golden_sword, Items.bow, Items.fishing_rod, Items.golden_pickaxe, Items.golden_axe, Items.golden_shovel
-            };
-            String[] toolNames = {
-                    "Knife", "Bow", "Fishing Rod", "Pickaxe", "Axe", "Shovel"
-            };
+        } else {
+            Item[] tools = { Items.golden_sword, Items.bow, Items.fishing_rod, Items.golden_pickaxe, Items.golden_axe,
+                    Items.golden_shovel };
+            String[] toolNames = { "Knife", "Bow", "Fishing Rod", "Pickaxe", "Axe", "Shovel" };
             int choice = this.rand.nextInt(tools.length);
             itemStack = new ItemStack(tools[choice]);
             name = toolNames[choice];
             EffectHelper.addItemText(itemStack, "\u00a77\u00a7o\"Finders keepers\"");
             if (tools[choice] instanceof ItemFishingRod) {
                 EffectHelper.enchantItem(itemStack, Enchantment.field_151370_z, 5);
-            }
-            else {
+            } else {
                 EffectHelper.enchantItem(itemStack, Enchantment.looting, 5);
                 if (!(tools[choice] instanceof ItemBow)) {
                     EffectHelper.enchantItem(itemStack, Enchantment.fortune, 5);

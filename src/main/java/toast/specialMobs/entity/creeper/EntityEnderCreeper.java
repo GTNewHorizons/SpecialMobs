@@ -18,19 +18,23 @@ import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityEnderCreeper extends Entity_SpecialCreeper
-{
+public class EntityEnderCreeper extends Entity_SpecialCreeper {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/ender.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/ender_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/ender.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/ender_eyes.png") };
 
     /// The speed boost when attacking. Identical to an enderman's speed boost.
     private static final UUID attackingSpeedBoostUUID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
-    private static final AttributeModifier attackingSpeedBoost = new AttributeModifier(EntityEnderCreeper.attackingSpeedBoostUUID, "Attacking speed boost", 6.2, 0).setSaved(false);
+    private static final AttributeModifier attackingSpeedBoost = new AttributeModifier(
+            EntityEnderCreeper.attackingSpeedBoostUUID,
+            "Attacking speed boost",
+            6.2,
+            0).setSaved(false);
 
     /// The entity to attack last tick. Used to update the attacking speed boost.
     private Entity lastEntityToAttack;
@@ -87,8 +91,7 @@ public class EntityEnderCreeper extends Entity_SpecialCreeper
                     this.lookDelay = 0;
                     return player;
                 }
-            }
-            else {
+            } else {
                 this.lookDelay = 0;
             }
         }
@@ -98,10 +101,12 @@ public class EntityEnderCreeper extends Entity_SpecialCreeper
     /// Carried from EntityEnderman.class.
     private boolean shouldAttackPlayer(EntityPlayer player) {
         ItemStack itemStack = player.inventory.armorInventory[3];
-        if (itemStack != null && itemStack.getItem() == Item.getItemFromBlock(Blocks.pumpkin))
-            return false;
+        if (itemStack != null && itemStack.getItem() == Item.getItemFromBlock(Blocks.pumpkin)) return false;
         Vec3 lookVec = player.getLook(1.0F).normalize();
-        Vec3 posVec = Vec3.createVectorHelper(this.posX - player.posX, this.boundingBox.minY + this.height / 2.0 - player.posY - player.getEyeHeight(), this.posZ - player.posZ);
+        Vec3 posVec = Vec3.createVectorHelper(
+                this.posX - player.posX,
+                this.boundingBox.minY + this.height / 2.0 - player.posY - player.getEyeHeight(),
+                this.posZ - player.posZ);
         double distance = posVec.lengthVector();
         posVec = posVec.normalize();
         double dotProduct = lookVec.dotProduct(posVec);
@@ -121,11 +126,23 @@ public class EntityEnderCreeper extends Entity_SpecialCreeper
         this.lastEntityToAttack = this.entityToAttack;
 
         for (int i = 0; i < 2; i++) {
-            this.worldObj.spawnParticle("portal", this.posX + (this.rand.nextDouble() - 0.5) * this.width, this.posY + this.rand.nextDouble() * this.height - 0.25, this.posZ + (this.rand.nextDouble() - 0.5) * this.width, (this.rand.nextDouble() - 0.5) * 2.0, -this.rand.nextDouble(), (this.rand.nextDouble() - 0.5) * 2.0);
+            this.worldObj.spawnParticle(
+                    "portal",
+                    this.posX + (this.rand.nextDouble() - 0.5) * this.width,
+                    this.posY + this.rand.nextDouble() * this.height - 0.25,
+                    this.posZ + (this.rand.nextDouble() - 0.5) * this.width,
+                    (this.rand.nextDouble() - 0.5) * 2.0,
+                    -this.rand.nextDouble(),
+                    (this.rand.nextDouble() - 0.5) * 2.0);
         }
         if (this.worldObj.isDaytime() && !this.worldObj.isRemote) {
             float brightness = this.getBrightness(1.0F);
-            if (brightness > 0.5F && this.worldObj.canBlockSeeTheSky((int)Math.floor(this.posX), (int)Math.floor(this.posY), (int)Math.floor(this.posZ)) && this.rand.nextFloat() * 30.0F < (brightness - 0.4F) * 2.0F) {
+            if (brightness > 0.5F
+                    && this.worldObj.canBlockSeeTheSky(
+                            (int) Math.floor(this.posX),
+                            (int) Math.floor(this.posY),
+                            (int) Math.floor(this.posZ))
+                    && this.rand.nextFloat() * 30.0F < (brightness - 0.4F) * 2.0F) {
                 this.entityToAttack = null;
                 this.teleportRandomly();
             }
@@ -139,25 +156,24 @@ public class EntityEnderCreeper extends Entity_SpecialCreeper
         if (this.entityToAttack != null) {
             if (this.entityToAttack.getDistanceSqToEntity(this) < 9.0 && this.canEntityBeSeen(this.entityToAttack)) {
                 this.setCreeperState(1);
-            }
-            else {
+            } else {
                 this.setCreeperState(-1);
             }
             this.faceEntity(this.entityToAttack, 100.0F, 100.0F);
         }
         if (!this.worldObj.isRemote && this.isEntityAlive()) {
             if (this.entityToAttack != null) {
-                if (this.entityToAttack instanceof EntityPlayer && this.shouldAttackPlayer((EntityPlayer)this.entityToAttack)) {
+                if (this.entityToAttack instanceof EntityPlayer
+                        && this.shouldAttackPlayer((EntityPlayer) this.entityToAttack)) {
                     if (this.getCreeperState() < 0 && this.entityToAttack.getDistanceSqToEntity(this) < 16.0) {
                         this.teleportRandomly();
                     }
                     this.teleportDelay = 0;
-                }
-                else if (this.entityToAttack.getDistanceSqToEntity(this) > 256.0 && this.teleportDelay++ >= 30 && this.teleportToEntity(this.entityToAttack)) {
-                    this.teleportDelay = 0;
-                }
-            }
-            else {
+                } else if (this.entityToAttack.getDistanceSqToEntity(this) > 256.0 && this.teleportDelay++ >= 30
+                        && this.teleportToEntity(this.entityToAttack)) {
+                            this.teleportDelay = 0;
+                        }
+            } else {
                 this.teleportDelay = 0;
             }
         }
@@ -169,8 +185,7 @@ public class EntityEnderCreeper extends Entity_SpecialCreeper
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
         if (damageSource instanceof EntityDamageSourceIndirect) {
             for (int i = 0; i < 64; i++) {
-                if (this.teleportRandomly())
-                    return true;
+                if (this.teleportRandomly()) return true;
             }
         }
         return super.attackEntityFrom(damageSource, damage);
@@ -186,7 +201,10 @@ public class EntityEnderCreeper extends Entity_SpecialCreeper
 
     /// Teleports this enderman to the given entity. Returns true if this entity teleports.
     protected boolean teleportToEntity(Entity entity) {
-        Vec3 vector = Vec3.createVectorHelper(this.posX - entity.posX, this.boundingBox.minY + this.height / 2.0F - entity.posY + entity.getEyeHeight(), this.posZ - entity.posZ);
+        Vec3 vector = Vec3.createVectorHelper(
+                this.posX - entity.posX,
+                this.boundingBox.minY + this.height / 2.0F - entity.posY + entity.getEyeHeight(),
+                this.posZ - entity.posZ);
         vector = vector.normalize();
         double x = this.posX + (this.rand.nextDouble() - 0.5) * 8.0 - vector.xCoord * 16.0;
         double y = this.posY + (this.rand.nextInt(16) - 8) - vector.yCoord * 16.0;
@@ -203,9 +221,9 @@ public class EntityEnderCreeper extends Entity_SpecialCreeper
         this.posY = y;
         this.posZ = z;
         boolean canTeleport = false;
-        int blockX = (int)Math.floor(this.posX);
-        int blockY = (int)Math.floor(this.posY);
-        int blockZ = (int)Math.floor(this.posZ);
+        int blockX = (int) Math.floor(this.posX);
+        int blockY = (int) Math.floor(this.posY);
+        int blockZ = (int) Math.floor(this.posZ);
         Block block;
         if (this.worldObj.blockExists(blockX, blockY, blockZ)) {
             boolean canTeleportToBlock = false;
@@ -213,15 +231,15 @@ public class EntityEnderCreeper extends Entity_SpecialCreeper
                 block = this.worldObj.getBlock(blockX, blockY - 1, blockZ);
                 if (block != null && block.getMaterial().blocksMovement()) {
                     canTeleportToBlock = true;
-                }
-                else {
+                } else {
                     --this.posY;
                     --blockY;
                 }
             }
             if (canTeleportToBlock) {
                 this.setPosition(this.posX, this.posY, this.posZ);
-                if (this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() == 0 && !this.worldObj.isAnyLiquid(this.boundingBox)) {
+                if (this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() == 0
+                        && !this.worldObj.isAnyLiquid(this.boundingBox)) {
                     canTeleport = true;
                 }
             }

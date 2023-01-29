@@ -4,13 +4,13 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityInfernoBlaze extends Entity_SpecialBlaze
-{
+public class EntityInfernoBlaze extends Entity_SpecialBlaze {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/inferno.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/inferno.png") };
 
     public EntityInfernoBlaze(World world) {
         super(world);

@@ -6,13 +6,13 @@ import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityBlackberrySlime extends Entity_SpecialSlime
-{
+public class EntityBlackberrySlime extends Entity_SpecialSlime {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "slime/blackberry.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "slime/blackberry.png") };
 
     private int fuseTime = 0;
 
@@ -40,17 +40,21 @@ public class EntityBlackberrySlime extends Entity_SpecialSlime
         if (target != null && target.getDistanceSqToEntity(this) < 9.0F + (explosionPower - 1.0F) * 2.0F) {
             if (this.fuseTime == 0) {
                 this.playSound("creeper.primed", 1.0F, 0.5F);
-            }
-            else if (this.fuseTime >= 30) {
-                this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, explosionPower, this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"));
+            } else if (this.fuseTime >= 30) {
+                this.worldObj.createExplosion(
+                        this,
+                        this.posX,
+                        this.posY,
+                        this.posZ,
+                        explosionPower,
+                        this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"));
                 this.setDead();
             }
             this.getSpecialData().setRenderScale(this.getSpecialData().getRenderScale() + 0.013F);
             this.fuseTime++;
             this.moveStrafing = this.moveForward = 0.0F;
             this.onGround = false;
-        }
-        else if (this.fuseTime > 0) {
+        } else if (this.fuseTime > 0) {
             this.fuseTime--;
             this.getSpecialData().setRenderScale(this.getSpecialData().getRenderScale() - 0.013F);
             this.moveStrafing = this.moveForward = 0.0F;
@@ -62,7 +66,7 @@ public class EntityBlackberrySlime extends Entity_SpecialSlime
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-            if (this.getSlimeSize() == 1) {
+        if (this.getSlimeSize() == 1) {
             for (int i = this.rand.nextInt(3) + looting; i-- > 0;) {
                 this.dropItem(Items.gunpowder, 1);
             }

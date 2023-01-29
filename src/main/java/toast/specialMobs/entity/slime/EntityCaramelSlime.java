@@ -8,14 +8,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityCaramelSlime extends Entity_SpecialSlime
-{
+public class EntityCaramelSlime extends Entity_SpecialSlime {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "slime/caramel.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "slime/caramel.png") };
 
     public EntityCaramelSlime(World world) {
         super(world);

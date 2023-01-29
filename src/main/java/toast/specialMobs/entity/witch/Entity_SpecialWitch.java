@@ -25,21 +25,25 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
-{
+public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob {
+
     // Drinking potion speed penalty modifier.
     private static final UUID drinkingSpeedPenaltyUUID = UUID.fromString("5CD17E52-A79A-43D3-A529-90FDE04B181E");
-    private static final AttributeModifier drinkingSpeedPenaltyModifier = new AttributeModifier(Entity_SpecialWitch.drinkingSpeedPenaltyUUID, "Drinking speed penalty", -0.25, 0).setSaved(false);
+    private static final AttributeModifier drinkingSpeedPenaltyModifier = new AttributeModifier(
+            Entity_SpecialWitch.drinkingSpeedPenaltyUUID,
+            "Drinking speed penalty",
+            -0.25,
+            0).setSaved(false);
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation("textures/entity/witch.png")
-    };
+            new ResourceLocation("textures/entity/witch.png") };
 
     /// Used to trick the witch into thinking it has no potion to drink.
     public boolean fakeNoItem;
@@ -85,9 +89,17 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
         if (!this.hasMeleeAI) {
             MobHelper.clearRangedAttackAI(this);
             SpecialMobData data = this.getSpecialData();
-            this.tasks.addTask(2, new EntityAIArrowAttack(this, data.arrowMoveSpeed, data.arrowRefireMin, data.arrowRefireMax, data.arrowRange));
+            this.tasks.addTask(
+                    2,
+                    new EntityAIArrowAttack(
+                            this,
+                            data.arrowMoveSpeed,
+                            data.arrowRefireMin,
+                            data.arrowRefireMax,
+                            data.arrowRange));
         }
     }
+
     protected void setRangedAI(int minDelay, int maxDelay, float range) {
         this.hasMeleeAI = false;
         SpecialMobData data = this.getSpecialData();
@@ -95,8 +107,16 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
         data.arrowRefireMin = (short) minDelay;
         data.arrowRefireMax = (short) maxDelay;
         data.arrowRange = range;
-        this.tasks.addTask(2, new EntityAIArrowAttack(this, data.arrowMoveSpeed, data.arrowRefireMin, data.arrowRefireMax, data.arrowRange));
+        this.tasks.addTask(
+                2,
+                new EntityAIArrowAttack(
+                        this,
+                        data.arrowMoveSpeed,
+                        data.arrowRefireMin,
+                        data.arrowRefireMax,
+                        data.arrowRange));
     }
+
     protected void setMeleeAI() {
         this.hasMeleeAI = true;
         this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0, false));
@@ -126,19 +146,19 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
         if (this.potionThrowDelay <= 0) {
             if (this.isBurning() && !this.isPotionActive(Potion.fireResistance)) {
                 this.drinkPotion(8195); // Fire Resistance
-            }
-            else if (this.rand.nextFloat() < 0.15F && this.isInsideOfMaterial(Material.water) && !this.isPotionActive(Potion.waterBreathing)) {
-                this.drinkPotion(8205); // Water Breathing
-            }
-            else if (this.rand.nextFloat() < 0.05F && this.getHealth() < this.getMaxHealth()) {
-                this.drinkPotion(8197); // Instant Health
-            }
-            else if (this.rand.nextFloat() < 0.2F && this.getAttackTarget() != null && !this.isPotionActive(Potion.moveSpeed) && this.getAttackTarget().getDistanceSqToEntity(this) > 121.0) {
-                this.drinkPotion(16386); // Splash Swiftness
-            }
-            else {
-                this.tryDrinkPotionByType();
-            }
+            } else if (this.rand.nextFloat() < 0.15F && this.isInsideOfMaterial(Material.water)
+                    && !this.isPotionActive(Potion.waterBreathing)) {
+                        this.drinkPotion(8205); // Water Breathing
+                    } else
+                if (this.rand.nextFloat() < 0.05F && this.getHealth() < this.getMaxHealth()) {
+                    this.drinkPotion(8197); // Instant Health
+                } else if (this.rand.nextFloat() < 0.2F && this.getAttackTarget() != null
+                        && !this.isPotionActive(Potion.moveSpeed)
+                        && this.getAttackTarget().getDistanceSqToEntity(this) > 121.0) {
+                            this.drinkPotion(16386); // Splash Swiftness
+                        } else {
+                            this.tryDrinkPotionByType();
+                        }
         }
     }
 
@@ -151,11 +171,13 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
     public void drinkPotion(int damage) {
         this.drinkPotion(new ItemStack(Items.potionitem, 1, damage));
     }
+
     public void drinkPotion(int damage, Potion potionType, int duration, int amplifier) {
         ItemStack potion = new ItemStack(Items.potionitem, 1, damage);
         EffectHelper.addPotionEffect(potion, potionType, duration, amplifier);
         this.drinkPotion(potion);
     }
+
     public void drinkPotion(ItemStack potion) {
         if (potion == null) {
             // Cancel drinking the current potion and re-equip the sheathed item
@@ -166,10 +188,10 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
 
                 this.setCurrentItemOrArmor(0, this.sheathedItem);
                 this.sheathedItem = null;
-                this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).removeModifier(Entity_SpecialWitch.drinkingSpeedPenaltyModifier);
+                this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+                        .removeModifier(Entity_SpecialWitch.drinkingSpeedPenaltyModifier);
             }
-        }
-        else if (ItemPotion.isSplash(potion.getItemDamage())) {
+        } else if (ItemPotion.isSplash(potion.getItemDamage())) {
             // It is a splash potion, throw it straight down to "drink"
             this.potionThrowDelay = 32;
 
@@ -178,8 +200,7 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
             thrownPotion.motionX = thrownPotion.motionZ = 0.0;
             thrownPotion.motionY = -0.2;
             this.worldObj.spawnEntityInWorld(thrownPotion);
-        }
-        else {
+        } else {
             // Start drinking normal potion
             this.drinkingPotion = true;
             this.potionDrinkDelay = potion.getMaxItemUseDuration();
@@ -221,8 +242,7 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 this.tryDrinkPotion();
             }
         }
@@ -233,6 +253,7 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
     public void setAggressive(boolean value) {
         // Do nothing
     }
+
     /// Return whether this witch is drinking a potion.
     @Override
     public boolean getAggressive() {
@@ -241,16 +262,15 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
 
     @Override
     public ItemStack getHeldItem() {
-        if (!this.worldObj.isRemote && this.fakeNoItem)
-            return null;
+        if (!this.worldObj.isRemote && this.fakeNoItem) return null;
         return super.getHeldItem();
     }
+
     @Override
     public void setCurrentItemOrArmor(int slot, ItemStack equipment) {
         if (!this.worldObj.isRemote && this.fakeNoItem) {
             this.fakeNoItem = false;
-        }
-        else {
+        } else {
             super.setCurrentItemOrArmor(slot, equipment);
         }
     }
@@ -296,9 +316,9 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
     }
 
     /// Changes the default splash potion into another befitting the situation.
-    protected EntityPotion adjustSplashPotion(EntityPotion thrownPotion, EntityLivingBase target, float range, float distance) {
-        if (this.adjustSplashPotionByType(thrownPotion, target, range, distance))
-            return thrownPotion;
+    protected EntityPotion adjustSplashPotion(EntityPotion thrownPotion, EntityLivingBase target, float range,
+            float distance) {
+        if (this.adjustSplashPotionByType(thrownPotion, target, range, distance)) return thrownPotion;
         if (distance >= 8.0F && !target.isPotionActive(Potion.moveSlowdown)) {
             thrownPotion.setPotionDamage(16394); // Splash Slowness
             return thrownPotion;
@@ -315,12 +335,12 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
     }
 
     /// Overridden to modify potion attacks. Returns true if the potion was modified.
-    protected boolean adjustSplashPotionByType(EntityPotion thrownPotion, EntityLivingBase target, float range, float distance) {
+    protected boolean adjustSplashPotionByType(EntityPotion thrownPotion, EntityLivingBase target, float range,
+            float distance) {
         if (target.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD) {
             // The default potion vs. undead
             thrownPotion.setPotionDamage(16389); // Splash Instant Health
-        }
-        else {
+        } else {
             // The default potion vs. living
             thrownPotion.setPotionDamage(16396); // Splash Instant Damage
         }
@@ -378,10 +398,12 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
     protected String getLivingSound() {
         return _SpecialMobs.NAMESPACE + super.getLivingSound();
     }
+
     @Override
     protected String getHurtSound() {
         return _SpecialMobs.NAMESPACE + super.getHurtSound();
     }
+
     @Override
     protected String getDeathSound() {
         return _SpecialMobs.NAMESPACE + super.getDeathSound();
@@ -409,7 +431,7 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob
 
     /// Sets the entity inside a web block.
     @Override
-    public void setInWeb()  {
+    public void setInWeb() {
         if (!this.getSpecialData().isImmuneToWebs) {
             super.setInWeb();
         }

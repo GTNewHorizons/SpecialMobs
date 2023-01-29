@@ -4,14 +4,14 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityGatlingSkeleton extends Entity_SpecialSkeleton
-{
+public class EntityGatlingSkeleton extends Entity_SpecialSkeleton {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/gatling.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/gatling_wither.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/gatling.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/gatling_wither.png") };
 
     public EntityGatlingSkeleton(World world) {
         super(world);

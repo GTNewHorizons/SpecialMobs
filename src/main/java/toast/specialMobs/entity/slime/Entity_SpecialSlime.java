@@ -13,19 +13,19 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class Entity_SpecialSlime extends EntitySlime implements ISpecialMob
-{
+public class Entity_SpecialSlime extends EntitySlime implements ISpecialMob {
+
     /// Useful properties for this class.
     private static final boolean TINY_SLIME_DAMAGE = Properties.getBoolean(Properties.STATS, "tiny_slime_damage");
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation("textures/entity/slime/slime.png")
-    };
+            new ResourceLocation("textures/entity/slime/slime.png") };
 
     /// This mob's special mob data.
     private SpecialMobData specialData;
@@ -41,6 +41,7 @@ public class Entity_SpecialSlime extends EntitySlime implements ISpecialMob
     protected float getSizeMultiplier() {
         return 0.6F;
     }
+
     /// Gets the additional experience this slime type gives.
     protected int getTypeXp() {
         return 0;
@@ -77,6 +78,7 @@ public class Entity_SpecialSlime extends EntitySlime implements ISpecialMob
     protected void adjustTypeAttributes() {
         /// Override to alter attributes.
     }
+
     /// Overridden to modify inherited max health.
     protected void adjustHealthAttribute() {
         /// Override to alter attribute.
@@ -105,7 +107,8 @@ public class Entity_SpecialSlime extends EntitySlime implements ISpecialMob
     @Override
     public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
         EntitySlime proxy = new EntitySlime(this.worldObj);
-        proxy.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage); // Vanilla slimes do not have this attribute
+        proxy.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage); // Vanilla slimes do not have
+                                                                                         // this attribute
         return this.getSpecialData().onSpawnWithEgg(data, proxy);
     }
 
@@ -121,16 +124,18 @@ public class Entity_SpecialSlime extends EntitySlime implements ISpecialMob
         }
         this.attackEntityByType(target);
         /// Update movement.
-        if (this.onGround && this.slimeJumpDelay-- <= 0)  {
+        if (this.onGround && this.slimeJumpDelay-- <= 0) {
             this.slimeJumpDelay = this.getJumpDelay();
             if (this.jumpByType(target)) {
                 this.isJumping = true;
                 if (this.makesSoundOnJump()) {
-                    this.playSound(this.getJumpSound(), this.getSoundVolume(), ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F) * 0.8F);
+                    this.playSound(
+                            this.getJumpSound(),
+                            this.getSoundVolume(),
+                            ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F) * 0.8F);
                 }
             }
-        }
-        else {
+        } else {
             this.isJumping = false;
             if (this.onGround) {
                 this.moveStrafing = this.moveForward = 0.0F;
@@ -142,6 +147,7 @@ public class Entity_SpecialSlime extends EntitySlime implements ISpecialMob
     protected void attackEntityByType(EntityPlayer target) {
         /// Override to alter behavior.
     }
+
     /// Called when this slime jumps, returns true if it successfully jumps.
     protected boolean jumpByType(EntityPlayer target) {
         if (target != null) {
@@ -155,7 +161,11 @@ public class Entity_SpecialSlime extends EntitySlime implements ISpecialMob
     /// Called by a player entity when they collide with an entity.
     @Override
     public void onCollideWithPlayer(EntityPlayer player) {
-        if (!this.worldObj.isRemote && this.attackTime <= 0 && this.canDamagePlayer() && this.canEntityBeSeen(player) && this.getDistanceSqToEntity(player) < this.width * this.width + player.width * player.width * 1.3F && this.attackEntityAsMob(player)) {
+        if (!this.worldObj.isRemote && this.attackTime <= 0
+                && this.canDamagePlayer()
+                && this.canEntityBeSeen(player)
+                && this.getDistanceSqToEntity(player) < this.width * this.width + player.width * player.width * 1.3F
+                && this.attackEntityAsMob(player)) {
             this.attackTime = 20;
             this.playSound("mob.slime.attack", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
         }
@@ -170,7 +180,8 @@ public class Entity_SpecialSlime extends EntitySlime implements ISpecialMob
     /// Called to attack the target.
     @Override
     public boolean attackEntityAsMob(Entity target) {
-        float damage = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue() + this.getAttackStrength();
+        float damage = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue()
+                + this.getAttackStrength();
         int knockback = 0;
         if (target instanceof EntityLivingBase) {
             damage += EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase) target);
@@ -179,7 +190,10 @@ public class Entity_SpecialSlime extends EntitySlime implements ISpecialMob
 
         if (target.attackEntityFrom(DamageSource.causeMobDamage(this), damage)) {
             if (knockback > 0) {
-                target.addVelocity(-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * knockback * 0.5F, 0.1, MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * knockback * 0.5F);
+                target.addVelocity(
+                        -MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * knockback * 0.5F,
+                        0.1,
+                        MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * knockback * 0.5F);
                 this.motionX *= 0.6;
                 this.motionZ *= 0.6;
             }
@@ -235,10 +249,11 @@ public class Entity_SpecialSlime extends EntitySlime implements ISpecialMob
     @Override
     protected Entity_SpecialSlime createInstance() {
         try {
-            return this.getClass().getConstructor(new Class[] { World.class }).newInstance(new Object[] { this.worldObj });
-        }
-        catch (Exception ex) {
-            _SpecialMobs.debugException("Error splitting slime! " + ex.getClass().getName() + " @" + this.getClass().getName());
+            return this.getClass().getConstructor(new Class[] { World.class })
+                    .newInstance(new Object[] { this.worldObj });
+        } catch (Exception ex) {
+            _SpecialMobs.debugException(
+                    "Error splitting slime! " + ex.getClass().getName() + " @" + this.getClass().getName());
             return new Entity_SpecialSlime(this.worldObj);
         }
     }
@@ -265,7 +280,7 @@ public class Entity_SpecialSlime extends EntitySlime implements ISpecialMob
 
     /// Sets the entity inside a web block.
     @Override
-    public void setInWeb()  {
+    public void setInWeb() {
         if (!this.getSpecialData().isImmuneToWebs) {
             super.setInWeb();
         }

@@ -4,8 +4,8 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.world.World;
 
-public class EntityGiantSpider extends Entity_SpecialSpider
-{
+public class EntityGiantSpider extends Entity_SpecialSpider {
+
     public EntityGiantSpider(World world) {
         super(world);
         this.setSize(1.9F, 1.3F);

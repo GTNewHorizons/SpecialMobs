@@ -3,8 +3,6 @@ package toast.specialMobs.entity.witch;
 import java.lang.reflect.Field;
 import java.util.Collection;
 
-import org.apache.commons.lang3.reflect.FieldUtils;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,14 +15,16 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
+import org.apache.commons.lang3.reflect.FieldUtils;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityDominationWitch extends Entity_SpecialWitch
-{
+public class EntityDominationWitch extends Entity_SpecialWitch {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/domination.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/domination.png") };
 
     /// Ticks before this entity can use its pull ability.
     public int pullDelay;
@@ -47,20 +47,25 @@ public class EntityDominationWitch extends Entity_SpecialWitch
     }
 
     public static boolean canAffectMind(EntityLivingBase entity) {
-        if (entity.isPotionActive(Potion.weakness))
-            return true;
+        if (entity.isPotionActive(Potion.weakness)) return true;
         ItemStack helmet = entity.getEquipmentInSlot(4);
-        return helmet == null || helmet.stackTagCompound == null || !helmet.stackTagCompound.getBoolean("SM|MindProtect");
+        return helmet == null || helmet.stackTagCompound == null
+                || !helmet.stackTagCompound.getBoolean("SM|MindProtect");
     }
 
     /// Called every tick while this entity is alive.
     @Override
     public void onLivingUpdate() {
-        if (!this.worldObj.isRemote && this.isEntityAlive() && this.pullDelay-- <= 0 && this.getAttackTarget() != null && this.rand.nextInt(20) == 0) {
+        if (!this.worldObj.isRemote && this.isEntityAlive()
+                && this.pullDelay-- <= 0
+                && this.getAttackTarget() != null
+                && this.rand.nextInt(20) == 0) {
             EntityLivingBase target = this.getAttackTarget();
             double distanceSq = target.getDistanceSqToEntity(this);
 
-            if (distanceSq > 100.0 && distanceSq < 196.0 && EntityDominationWitch.canAffectMind(target) && this.canEntityBeSeen(target)) {
+            if (distanceSq > 100.0 && distanceSq < 196.0
+                    && EntityDominationWitch.canAffectMind(target)
+                    && this.canEntityBeSeen(target)) {
                 this.pullDelay = 80;
 
                 double vX = this.posX - target.posX;
@@ -75,9 +80,9 @@ public class EntityDominationWitch extends Entity_SpecialWitch
                 target.onGround = false;
                 if (target instanceof EntityPlayerMP) {
                     try {
-                        ((EntityPlayerMP) target).playerNetServerHandler.sendPacket(new S12PacketEntityVelocity(target));
-                    }
-                    catch (Exception ex) {
+                        ((EntityPlayerMP) target).playerNetServerHandler
+                                .sendPacket(new S12PacketEntityVelocity(target));
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -85,7 +90,7 @@ public class EntityDominationWitch extends Entity_SpecialWitch
         }
         super.onLivingUpdate();
     }
-    
+
     /// Overridden to modify attack effects.
     @SuppressWarnings("unchecked")
     @Override
@@ -100,21 +105,18 @@ public class EntityDominationWitch extends Entity_SpecialWitch
                         Field potionEffectField = FieldUtils.getDeclaredField(Potion.class, "isBadEffect");
                         if (potionEffectField == null) // Field not found, let's try the obfuscated name
                             potionEffectField = FieldUtils.getDeclaredField(Potion.class, "field_76418_K");
-                        if (potionEffectField != null)
-                        {
+                        if (potionEffectField != null) {
                             boolean tIsBadPotionEffect = false;
-                            Object tFieldObject = FieldUtils.readField(potionEffectField, Potion.potionTypes[effect.getPotionID()], true);
-                            if (tFieldObject != null)
-                                 tIsBadPotionEffect = (boolean)tFieldObject;
-                            
-                            if (tIsBadPotionEffect)
-                            {
+                            Object tFieldObject = FieldUtils
+                                    .readField(potionEffectField, Potion.potionTypes[effect.getPotionID()], true);
+                            if (tFieldObject != null) tIsBadPotionEffect = (boolean) tFieldObject;
+
+                            if (tIsBadPotionEffect) {
                                 stolenEffect = effect;
                                 break;
                             }
                         }
-                    }
-                    catch (Exception ex) {
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -124,10 +126,11 @@ public class EntityDominationWitch extends Entity_SpecialWitch
                 livingTarget.removePotionEffect(stolenEffect.getPotionID());
                 int duration = Math.max(200, stolenEffect.getDuration());
                 duration *= 1.3;
-                this.addPotionEffect(new PotionEffect(stolenEffect.getPotionID(), duration, stolenEffect.getAmplifier()));
-                livingTarget.addPotionEffect(new PotionEffect(Potion.wither.id, 110, Math.max(0, stolenEffect.getAmplifier())));
-            }
-            else {
+                this.addPotionEffect(
+                        new PotionEffect(stolenEffect.getPotionID(), duration, stolenEffect.getAmplifier()));
+                livingTarget.addPotionEffect(
+                        new PotionEffect(Potion.wither.id, 110, Math.max(0, stolenEffect.getAmplifier())));
+            } else {
                 livingTarget.addPotionEffect(new PotionEffect(Potion.wither.id, 70, 0));
             }
         }
@@ -148,8 +151,7 @@ public class EntityDominationWitch extends Entity_SpecialWitch
         int damage;
         if (superRare > 0) {
             damage = 0;
-        }
-        else {
+        } else {
             damage = Items.golden_helmet.getMaxDamage();
             damage = (int) (0.6F * damage + 0.3F * this.rand.nextInt(damage));
         }

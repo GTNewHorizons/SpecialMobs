@@ -16,12 +16,16 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
 
 public class Entity_SpecialGhast extends EntityGhast implements ISpecialMob {
-    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation("textures/entity/ghast/ghast.png"), new ResourceLocation("textures/entity/ghast/ghast_shooting.png") };
+
+    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
+            new ResourceLocation("textures/entity/ghast/ghast.png"),
+            new ResourceLocation("textures/entity/ghast/ghast_shooting.png") };
 
     /// The base explosion strength of this ghast's fireballs.
     public int explosionStrength = 1;
@@ -90,7 +94,8 @@ public class Entity_SpecialGhast extends EntityGhast implements ISpecialMob {
     @Override
     public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
         EntityGhast proxy = new EntityGhast(this.worldObj);
-        proxy.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage); // Vanilla ghasts do not have this attribute
+        proxy.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage); // Vanilla ghasts do not have
+                                                                                         // this attribute
         return this.getSpecialData().onSpawnWithEgg(data, proxy);
     }
 
@@ -134,21 +139,27 @@ public class Entity_SpecialGhast extends EntityGhast implements ISpecialMob {
                 this.motionX += vX * speed;
                 this.motionY += vY * speed;
                 this.motionZ += vZ * speed;
-            }
-            else {
+            } else {
                 this.clearWaypoints();
             }
         }
         // Update the current target.
         this.updateEntityTarget();
         // Execute goal, if able.
-        if (this.targetedEntity != null && this.targetedEntity.getDistanceSqToEntity(this) < this.getSpecialData().arrowRange * this.getSpecialData().arrowRange) {
+        if (this.targetedEntity != null && this.targetedEntity.getDistanceSqToEntity(this)
+                < this.getSpecialData().arrowRange * this.getSpecialData().arrowRange) {
             double x = this.targetedEntity.posX - this.posX;
             double z = this.targetedEntity.posZ - this.posZ;
             this.renderYawOffset = this.rotationYaw = -((float) Math.atan2(x, z)) * 180.0F / (float) Math.PI;
             if (this.canEntityBeSeen(this.targetedEntity)) {
                 if (this.attackCounter == this.getSpecialData().arrowRefireMin >> 1) {
-                    this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1007, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
+                    this.worldObj.playAuxSFXAtEntity(
+                            (EntityPlayer) null,
+                            1007,
+                            (int) this.posX,
+                            (int) this.posY,
+                            (int) this.posZ,
+                            0);
                 }
                 this.attackCounter++;
                 if (this.attackCounter >= this.getSpecialData().arrowRefireMin) {
@@ -157,13 +168,12 @@ public class Entity_SpecialGhast extends EntityGhast implements ISpecialMob {
                     }
                     this.attackCounter = this.getSpecialData().arrowRefireMin - this.getSpecialData().arrowRefireMax;
                 }
-            }
-            else if (this.attackCounter > 0) {
+            } else if (this.attackCounter > 0) {
                 this.attackCounter--;
             }
-        }
-        else {
-            this.renderYawOffset = this.rotationYaw = - ((float) Math.atan2(this.motionX, this.motionZ)) * 180.0F / (float) Math.PI;
+        } else {
+            this.renderYawOffset = this.rotationYaw = -((float) Math.atan2(this.motionX, this.motionZ)) * 180.0F
+                    / (float) Math.PI;
             if (this.attackCounter > 0) {
                 this.attackCounter--;
             }
@@ -192,8 +202,7 @@ public class Entity_SpecialGhast extends EntityGhast implements ISpecialMob {
         AxisAlignedBB aabb = this.boundingBox.copy();
         for (int i = 1; i < v; i++) {
             aabb.offset(dX, dY, dZ);
-            if (!this.worldObj.getCollidingBoundingBoxes(this, aabb).isEmpty())
-                return false;
+            if (!this.worldObj.getCollidingBoundingBoxes(this, aabb).isEmpty()) return false;
         }
         return true;
     }
@@ -225,9 +234,12 @@ public class Entity_SpecialGhast extends EntityGhast implements ISpecialMob {
         double dX = target.posX - this.posX;
         double dY = target.boundingBox.minY + target.height / 2.0F - this.posY - this.height / 2.0F;
         double dZ = target.posZ - this.posZ;
-        this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1008, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
+        this.worldObj
+                .playAuxSFXAtEntity((EntityPlayer) null, 1008, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
         EntityLargeFireball fireball = new EntityLargeFireball(this.worldObj, this, dX, dY, dZ);
-        fireball.field_92057_e = Math.round(this.explosionStrength * this.getTypeExplosionMult()); // Sets the fireball's explosion strength
+        fireball.field_92057_e = Math.round(this.explosionStrength * this.getTypeExplosionMult()); // Sets the
+                                                                                                   // fireball's
+                                                                                                   // explosion strength
         Vec3 vec3 = this.getLook(1.0F);
         fireball.posX = this.posX + vec3.xCoord * this.width;
         fireball.posY = this.posY + this.height / 2.0F + 0.5;
@@ -248,7 +260,10 @@ public class Entity_SpecialGhast extends EntityGhast implements ISpecialMob {
         boolean hit = target.attackEntityFrom(DamageSource.causeMobDamage(this), attackDamage);
         if (hit) {
             if (knockback > 0) {
-                target.addVelocity(-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * knockback * 0.5F, 0.1, MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * knockback * 0.5F);
+                target.addVelocity(
+                        -MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * knockback * 0.5F,
+                        0.1,
+                        MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * knockback * 0.5F);
                 this.motionX *= 0.6;
                 this.motionZ *= 0.6;
             }
@@ -300,8 +315,7 @@ public class Entity_SpecialGhast extends EntityGhast implements ISpecialMob {
         NBTTagCompound saveTag = SpecialMobData.getSaveLocation(tag);
         if (saveTag.hasKey("ExplosionPower")) {
             this.explosionStrength = saveTag.getInteger("ExplosionPower");
-        }
-        else if (tag.hasKey("ExplosionPower")) {
+        } else if (tag.hasKey("ExplosionPower")) {
             this.explosionStrength = tag.getInteger("ExplosionPower");
         }
 

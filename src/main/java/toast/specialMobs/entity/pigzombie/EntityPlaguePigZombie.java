@@ -7,15 +7,15 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.EnchantmentSpecial;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityPlaguePigZombie extends Entity_SpecialPigZombie
-{
+public class EntityPlaguePigZombie extends Entity_SpecialPigZombie {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "pigzombie/plague.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "pigzombie/plague.png") };
 
     public EntityPlaguePigZombie(World world) {
         super(world);
@@ -32,11 +32,16 @@ public class EntityPlaguePigZombie extends Entity_SpecialPigZombie
         if (itemStack != null) {
             if (itemStack.getItem() instanceof ItemBow) {
                 if (EnchantmentSpecial.plagueBow != null) {
-                    EffectHelper.overrideEnchantment(itemStack, EnchantmentSpecial.plagueBow, this.rand.nextInt(EnchantmentSpecial.plagueBow.getMaxLevel()) + 1);
+                    EffectHelper.overrideEnchantment(
+                            itemStack,
+                            EnchantmentSpecial.plagueBow,
+                            this.rand.nextInt(EnchantmentSpecial.plagueBow.getMaxLevel()) + 1);
                 }
-            }
-            else if (EnchantmentSpecial.plagueSword != null) {
-                EffectHelper.overrideEnchantment(itemStack, EnchantmentSpecial.plagueSword, this.rand.nextInt(EnchantmentSpecial.plagueSword.getMaxLevel()) + 1);
+            } else if (EnchantmentSpecial.plagueSword != null) {
+                EffectHelper.overrideEnchantment(
+                        itemStack,
+                        EnchantmentSpecial.plagueSword,
+                        this.rand.nextInt(EnchantmentSpecial.plagueSword.getMaxLevel()) + 1);
             }
         }
     }
@@ -46,7 +51,9 @@ public class EntityPlaguePigZombie extends Entity_SpecialPigZombie
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-            this.dropItem(Item.getItemFromBlock(this.rand.nextBoolean() ? Blocks.brown_mushroom : Blocks.red_mushroom), 1);
+            this.dropItem(
+                    Item.getItemFromBlock(this.rand.nextBoolean() ? Blocks.brown_mushroom : Blocks.red_mushroom),
+                    1);
         }
     }
 }

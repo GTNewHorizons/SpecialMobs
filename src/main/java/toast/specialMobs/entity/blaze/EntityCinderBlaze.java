@@ -4,8 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.world.World;
 
-public class EntityCinderBlaze extends Entity_SpecialBlaze
-{
+public class EntityCinderBlaze extends Entity_SpecialBlaze {
+
     public EntityCinderBlaze(World world) {
         super(world);
         this.setSize(0.5F, 0.9F);

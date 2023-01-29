@@ -9,11 +9,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
 public class EntityFireSkeleton extends Entity_SpecialSkeleton {
-    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/fire.png"), new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/fire_wither.png") };
+
+    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/fire.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/fire_wither.png") };
 
     public EntityFireSkeleton(World world) {
         super(world);
@@ -30,10 +34,15 @@ public class EntityFireSkeleton extends Entity_SpecialSkeleton {
         ItemStack itemStack = this.getHeldItem();
         if (itemStack != null) {
             if (itemStack.getItem() instanceof ItemBow) {
-                EffectHelper.overrideEnchantment(itemStack, Enchantment.flame, this.rand.nextInt(Enchantment.flame.getMaxLevel()) + 1);
-            }
-            else {
-                EffectHelper.overrideEnchantment(itemStack, Enchantment.fireAspect, this.rand.nextInt(Enchantment.fireAspect.getMaxLevel()) + 1);
+                EffectHelper.overrideEnchantment(
+                        itemStack,
+                        Enchantment.flame,
+                        this.rand.nextInt(Enchantment.flame.getMaxLevel()) + 1);
+            } else {
+                EffectHelper.overrideEnchantment(
+                        itemStack,
+                        Enchantment.fireAspect,
+                        this.rand.nextInt(Enchantment.fireAspect.getMaxLevel()) + 1);
             }
         }
     }

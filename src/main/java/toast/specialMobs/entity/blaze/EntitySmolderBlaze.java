@@ -3,13 +3,13 @@ package toast.specialMobs.entity.blaze;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntitySmolderBlaze extends Entity_SpecialBlaze
-{
+public class EntitySmolderBlaze extends Entity_SpecialBlaze {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/smolder.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/smolder.png") };
 
     public EntitySmolderBlaze(World world) {
         super(world);

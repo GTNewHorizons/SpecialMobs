@@ -4,8 +4,8 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemStack;
 
-public class EnchantmentSpecial extends Enchantment
-{
+public class EnchantmentSpecial extends Enchantment {
+
     // The enchantment variables for this mod. Each can be null if disabled.
     public static final Enchantment painBow, painSword, plagueBow, plagueSword, poisonBow, poisonSword;
     static {
@@ -21,7 +21,12 @@ public class EnchantmentSpecial extends Enchantment
         plagueSword = id < 0 ? null : new EnchantmentSpecial(id, "plagueSword", 3, EnumEnchantmentType.weapon);
 
         id = Properties.getInt(Properties.ENCHANTS, "poison_bow");
-        poisonBow = id < 0 ? null : new EnchantmentSpecial(id, "poisonBow", Properties.getInt(Properties.ENCHANTS, "poison_lvl"), EnumEnchantmentType.bow);
+        poisonBow = id < 0 ? null
+                : new EnchantmentSpecial(
+                        id,
+                        "poisonBow",
+                        Properties.getInt(Properties.ENCHANTS, "poison_lvl"),
+                        EnumEnchantmentType.bow);
         id = Properties.getInt(Properties.ENCHANTS, "poison_sword");
         poisonSword = id < 0 ? null : new EnchantmentSpecial(id, "poisonSword", 1, EnumEnchantmentType.weapon);
     }

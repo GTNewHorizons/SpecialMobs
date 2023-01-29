@@ -13,14 +13,14 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityWitchCaveSpider extends Entity_SpecialCaveSpider
-{
+public class EntityWitchCaveSpider extends Entity_SpecialCaveSpider {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/witch.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/witch_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/witch.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/witch_eyes.png") };
 
     public EntityWitchCaveSpider(World world) {
         super(world);
@@ -49,7 +49,7 @@ public class EntityWitchCaveSpider extends Entity_SpecialCaveSpider
                     time = 75;
             }
             time *= 20;
-            ((EntityLivingBase)target).addPotionEffect(new PotionEffect(Potion.resistance.id, time, -3));
+            ((EntityLivingBase) target).addPotionEffect(new PotionEffect(Potion.resistance.id, time, -3));
         }
     }
 
@@ -95,15 +95,19 @@ public class EntityWitchCaveSpider extends Entity_SpecialCaveSpider
                 deflected.readFromNBT(tag);
 
                 if (entity instanceof EntityArrow) {
-                    ((EntityArrow)deflected).shootingEntity = this;
+                    ((EntityArrow) deflected).shootingEntity = this;
+                } else if (entity instanceof EntityFireball) {
+                    ((EntityFireball) deflected).shootingEntity = this;
+                    ((EntityFireball) deflected).accelerationX *= -1.0;
+                    ((EntityFireball) deflected).accelerationY *= -1.0;
+                    ((EntityFireball) deflected).accelerationZ *= -1.0;
                 }
-                else if (entity instanceof EntityFireball) {
-                    ((EntityFireball)deflected).shootingEntity = this;
-                    ((EntityFireball)deflected).accelerationX *= -1.0;
-                    ((EntityFireball)deflected).accelerationY *= -1.0;
-                    ((EntityFireball)deflected).accelerationZ *= -1.0;
-                }
-                deflected.setLocationAndAngles(deflected.posX, deflected.posY, deflected.posZ, -deflected.rotationYaw, -deflected.rotationPitch);
+                deflected.setLocationAndAngles(
+                        deflected.posX,
+                        deflected.posY,
+                        deflected.posZ,
+                        -deflected.rotationYaw,
+                        -deflected.rotationPitch);
                 deflected.motionX *= -1.0;
                 deflected.motionY *= -1.0;
                 deflected.motionZ *= -1.0;

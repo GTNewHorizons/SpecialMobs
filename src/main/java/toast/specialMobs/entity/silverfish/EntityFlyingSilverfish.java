@@ -5,13 +5,13 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityFlyingSilverfish extends Entity_SpecialSilverfish
-{
+public class EntityFlyingSilverfish extends Entity_SpecialSilverfish {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "silverfish/flying.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "silverfish/flying.png") };
 
     public EntityFlyingSilverfish(World world) {
         super(world);
@@ -36,8 +36,7 @@ public class EntityFlyingSilverfish extends Entity_SpecialSilverfish
             this.motionX = vX / vH * 2.0 + this.motionX * 0.2;
             this.motionZ = vZ / vH * 2.0 + this.motionZ * 0.2;
             this.motionY = 0.4 * 2.0;
-        }
-        else {
+        } else {
             super.attackEntity(target, distanceSq);
         }
     }

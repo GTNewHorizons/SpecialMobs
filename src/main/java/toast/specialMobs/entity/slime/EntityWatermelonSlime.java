@@ -9,14 +9,14 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityWatermelonSlime extends Entity_SpecialSlime
-{
+public class EntityWatermelonSlime extends Entity_SpecialSlime {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "slime/watermelon.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "slime/watermelon.png") };
 
     public EntityWatermelonSlime(World world) {
         super(world);
@@ -35,6 +35,7 @@ public class EntityWatermelonSlime extends Entity_SpecialSlime
     protected void adjustTypeAttributes() {
         this.getSpecialData().addAttribute(SharedMonsterAttributes.attackDamage, 2.0);
     }
+
     /// Overridden to modify inherited max health.
     @Override
     protected void adjustHealthAttribute() {
@@ -64,7 +65,10 @@ public class EntityWatermelonSlime extends Entity_SpecialSlime
     /// Overridden to modify attack effects.
     @Override
     protected void onTypeAttack(Entity target) {
-        target.addVelocity(-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * 0.8F, 0.1, MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * 0.8F);
+        target.addVelocity(
+                -MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * 0.8F,
+                0.1,
+                MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * 0.8F);
         this.motionX *= -0.4;
         this.motionZ *= -0.4;
     }

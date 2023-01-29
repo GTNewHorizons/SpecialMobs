@@ -1,9 +1,9 @@
 package toast.specialMobs.network;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
@@ -11,6 +11,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import io.netty.buffer.ByteBuf;
 
 public class MessageTexture implements IMessage {
 
@@ -67,7 +68,8 @@ public class MessageTexture implements IMessage {
     public static class Handler implements IMessageHandler<MessageTexture, IMessage> {
 
         /*
-         * @see cpw.mods.fml.common.network.simpleimpl.IMessageHandler#onMessage(cpw.mods.fml.common.network.simpleimpl.IMessage, cpw.mods.fml.common.network.simpleimpl.MessageContext)
+         * @see cpw.mods.fml.common.network.simpleimpl.IMessageHandler#onMessage(cpw.mods.fml.common.network.simpleimpl.
+         * IMessage, cpw.mods.fml.common.network.simpleimpl.MessageContext)
          */
         @Override
         public IMessage onMessage(MessageTexture message, MessageContext ctx) {
@@ -78,8 +80,7 @@ public class MessageTexture implements IMessage {
                     SpecialMobData data = mob.getSpecialData();
                     data.loadTextures(message.texturePaths);
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 _SpecialMobs.console("[ERROR] Failed to fetch mob texture from server!");
                 ex.printStackTrace();
             }

@@ -22,28 +22,32 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.DataWatcherHelper;
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMob
-{
+public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMob {
+
     /// Useful properties for this class.
     private static final double BABY_CHANCE = Properties.getDouble(Properties.STATS, "baby_skeleton_chance");
     private static final double BOW_CHANCE = Properties.getDouble(Properties.STATS, "bow_chance_skeleton");
     private static final double BOW_CHANCE_WITHER = Properties.getDouble(Properties.STATS, "bow_chance_wither");
     /// Baby speed boost modifier.
     private static final UUID babySpeedBoostUUID = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
-    private static final AttributeModifier babySpeedBoostModifier = new AttributeModifier(Entity_SpecialSkeleton.babySpeedBoostUUID, "Baby speed boost", 0.5, 1);
+    private static final AttributeModifier babySpeedBoostModifier = new AttributeModifier(
+            Entity_SpecialSkeleton.babySpeedBoostUUID,
+            "Baby speed boost",
+            0.5,
+            1);
     /// The position of isBaby within the data watcher.
     private static final byte DW_IS_BABY = DataWatcherHelper.instance.SKELETON.nextKey();
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation("textures/entity/skeleton/skeleton.png"),
-        new ResourceLocation("textures/entity/skeleton/wither_skeleton.png")
-    };
+            new ResourceLocation("textures/entity/skeleton/skeleton.png"),
+            new ResourceLocation("textures/entity/skeleton/wither_skeleton.png") };
 
     /// Adult width and height.
     private float adultWidth = -1.0F;
@@ -54,7 +58,7 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
     public EntityAIAttackOnCollide aiAttackOnCollide;
 
     /// This mob's special mob data.
-    private  SpecialMobData specialData;
+    private SpecialMobData specialData;
 
     public Entity_SpecialSkeleton(World world) {
         super(world);
@@ -80,17 +84,29 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
     protected void loadRangedAI() {
         this.tasks.removeTask(this.aiArrowAttack);
         SpecialMobData data = this.getSpecialData();
-        this.aiArrowAttack = new EntityAIArrowAttack(this, data.arrowMoveSpeed, data.arrowRefireMin, data.arrowRefireMax, data.arrowRange);
+        this.aiArrowAttack = new EntityAIArrowAttack(
+                this,
+                data.arrowMoveSpeed,
+                data.arrowRefireMin,
+                data.arrowRefireMax,
+                data.arrowRange);
         this.setCombatTask();
     }
+
     protected void setRangedAI(double moveSpeed, int minDelay, int maxDelay, float range) {
         SpecialMobData data = this.getSpecialData();
         data.arrowMoveSpeed = (float) moveSpeed;
         data.arrowRefireMin = (short) minDelay;
         data.arrowRefireMax = (short) maxDelay;
         data.arrowRange = range;
-        this.aiArrowAttack = new EntityAIArrowAttack(this, data.arrowMoveSpeed, data.arrowRefireMin, data.arrowRefireMax, data.arrowRange);
+        this.aiArrowAttack = new EntityAIArrowAttack(
+                this,
+                data.arrowMoveSpeed,
+                data.arrowRefireMin,
+                data.arrowRefireMax,
+                data.arrowRange);
     }
+
     protected void setMeleeAI(double moveSpeed) {
         this.aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, moveSpeed, false);
     }
@@ -114,25 +130,28 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
                 float tension = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
                 if (this.rand.nextFloat() < 0.25F * tension) {
                     try {
-                        EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
-                    }
-                    catch (Exception ex) {
+                        EnchantmentHelper.addRandomEnchantment(
+                                this.rand,
+                                itemStack,
+                                (int) (5.0F + tension * this.rand.nextInt(18)));
+                    } catch (Exception ex) {
                         _SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
                         ex.printStackTrace();
                     }
                 }
                 this.setCurrentItemOrArmor(0, itemStack);
             }
-        }
-        else {
+        } else {
             if (this.rand.nextDouble() >= Entity_SpecialSkeleton.BOW_CHANCE) {
                 ItemStack itemStack = new ItemStack(Items.stone_sword);
                 float tension = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
                 if (this.rand.nextFloat() < 0.25F * tension) {
                     try {
-                        EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
-                    }
-                    catch (Exception ex) {
+                        EnchantmentHelper.addRandomEnchantment(
+                                this.rand,
+                                itemStack,
+                                (int) (5.0F + tension * this.rand.nextInt(18)));
+                    } catch (Exception ex) {
                         _SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
                         ex.printStackTrace();
                     }
@@ -155,7 +174,9 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float range) {
         EntityArrow arrow = new EntityArrow(this.worldObj, this, target, 1.6F, this.getTypeArrowSpread());
-        arrow.setDamage(range * this.getSpecialData().arrowDamage + this.rand.nextGaussian() * 0.25 + this.worldObj.difficultySetting.getDifficultyId() * 0.11F);
+        arrow.setDamage(
+                range * this.getSpecialData().arrowDamage + this.rand.nextGaussian() * 0.25
+                        + this.worldObj.difficultySetting.getDifficultyId() * 0.11F);
 
         int power = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, this.getHeldItem());
         int punch = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, this.getHeldItem());
@@ -165,7 +186,8 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
         if (punch > 0) {
             arrow.setKnockbackStrength(punch);
         }
-        if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, this.getHeldItem()) > 0 || this.getSkeletonType() == 1) {
+        if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, this.getHeldItem()) > 0
+                || this.getSkeletonType() == 1) {
             arrow.setFire(100);
         }
 
@@ -175,7 +197,8 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
 
     /// Overridden to modify the base arrow variance.
     protected float getTypeArrowSpread() {
-        return this.getSpecialData().arrowSpread - this.worldObj.difficultySetting.getDifficultyId() * (this.getSpecialData().arrowSpread / 4.0F + 0.5F);
+        return this.getSpecialData().arrowSpread
+                - this.worldObj.difficultySetting.getDifficultyId() * (this.getSpecialData().arrowSpread / 4.0F + 0.5F);
     }
 
     /// Called each tick while this entity is alive.
@@ -201,9 +224,10 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
     public boolean getChild() {
         return this.dataWatcher.getWatchableObjectByte(Entity_SpecialSkeleton.DW_IS_BABY) == 1;
     }
+
     /// Sets this mob as a baby.
     public void setChild(boolean value) {
-        this.dataWatcher.updateObject(Entity_SpecialSkeleton.DW_IS_BABY, Byte.valueOf((byte)(value ? 1 : 0)));
+        this.dataWatcher.updateObject(Entity_SpecialSkeleton.DW_IS_BABY, Byte.valueOf((byte) (value ? 1 : 0)));
         if (this.worldObj != null && !this.worldObj.isRemote) {
             IAttributeInstance attribute = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
             attribute.removeModifier(Entity_SpecialSkeleton.babySpeedBoostModifier);
@@ -230,6 +254,7 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
     protected void updateScale() {
         this.updateScale(this.isChild());
     }
+
     protected void updateScale(boolean isChild) {
         float scale = !this.worldObj.isRemote && this.isChild() ? 0.5F : 1.0F;
         super.setSize(this.adultWidth * scale, this.adultHeight * scale);
@@ -260,8 +285,7 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
         ItemStack itemStack = this.getHeldItem();
         if (itemStack != null && itemStack.getItem() instanceof ItemBow) {
             this.tasks.addTask(4, this.aiArrowAttack);
-        }
-        else {
+        } else {
             this.tasks.addTask(4, this.aiAttackOnCollide);
         }
     }
@@ -284,8 +308,7 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
         NBTTagCompound saveTag = SpecialMobData.getSaveLocation(tag);
         if (saveTag.hasKey("IsBaby")) {
             this.setChild(saveTag.getBoolean("IsBaby"));
-        }
-        else if (tag.hasKey("IsBaby")) {
+        } else if (tag.hasKey("IsBaby")) {
             this.setChild(tag.getBoolean("IsBaby"));
         }
 
@@ -333,7 +356,7 @@ public class Entity_SpecialSkeleton extends EntitySkeleton implements ISpecialMo
 
     /// Sets the entity inside a web block.
     @Override
-    public void setInWeb()  {
+    public void setInWeb() {
         if (!this.getSpecialData().isImmuneToWebs) {
             super.setInWeb();
         }

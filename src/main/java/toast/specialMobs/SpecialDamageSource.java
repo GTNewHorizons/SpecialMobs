@@ -4,15 +4,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.EntityDamageSourceIndirect;
 
 /**
- * An ordinary damage source, only with all methods made public.
- * Why were they not in the first place?
+ * An ordinary damage source, only with all methods made public. Why were they not in the first place?
  */
-public class SpecialDamageSource extends EntityDamageSourceIndirect
-{
+public class SpecialDamageSource extends EntityDamageSourceIndirect {
+
     // This damage source's hunger damage.
     private float hungerDamage = 0.3F;
 
-    public SpecialDamageSource(String damageType, Entity directEntity, Entity indirectEntity){
+    public SpecialDamageSource(String damageType, Entity directEntity, Entity indirectEntity) {
         super(damageType, directEntity, indirectEntity);
     }
 

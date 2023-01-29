@@ -12,6 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.DataWatcherHelper;
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.EnchantmentSpecial;
@@ -19,8 +20,8 @@ import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.EntityAINinja;
 import toast.specialMobs.entity.INinja;
 
-public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinja
-{
+public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinja {
+
     // The data watcher key for whether this entity is frozen in place (hiding).
     public static final byte DW_FROZEN = DataWatcherHelper.instance.SKELETON_NINJA.nextKey();
     // The data watcher key for the block this is hiding as.
@@ -32,9 +33,8 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
     public static final byte HU_REVEAL_FX = 11;
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/ninja.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/ninja_wither.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/ninja.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "skeleton/ninja_wither.png") };
 
     public boolean canHide = true;
 
@@ -58,6 +58,7 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
     public boolean getFrozen() {
         return this.dataWatcher.getWatchableObjectByte(EntityNinjaSkeleton.DW_FROZEN) != 0;
     }
+
     // Sets the ninja as an immovable object.
     @Override
     public void setFrozen(boolean frozen) {
@@ -78,25 +79,25 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
             int id = this.dataWatcher.getWatchableObjectInt(EntityNinjaSkeleton.DW_HIDING_BLOCK);
             if (id > 0) {
                 Block block = Block.getBlockById(id);
-                if (block != Blocks.air)
-                    return block;
+                if (block != Blocks.air) return block;
             }
         }
         return null;
     }
+
     // Gets the metadata of the block being hidden as, if any.
     @Override
     public int getHidingData() {
         return this.dataWatcher.getWatchableObjectByte(EntityNinjaSkeleton.DW_HIDING_DATA);
     }
+
     // Sets the block being hidden as, set to null or air to cancel hiding.
     @Override
     public void setHidingBlock(Block block, int data) {
         int id;
         if (block == null) {
             id = 0;
-        }
-        else {
+        } else {
             id = Block.getIdFromBlock(block);
         }
         if (id != this.dataWatcher.getWatchableObjectInt(EntityNinjaSkeleton.DW_HIDING_BLOCK)) {
@@ -126,8 +127,7 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
             ItemStack sword = new ItemStack(Items.iron_sword);
             try {
                 EffectHelper.enchantItem(this.rand, sword, 30);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
             EffectHelper.setItemName(sword, "Katana");
@@ -142,9 +142,11 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
         if (!this.worldObj.isRemote) {
             if (this.canHide) {
                 this.setHiding();
-            }
-            else {
-                if (this.onGround && (this.getEntityToAttack() == null || this.getEntityToAttack() instanceof EntityPlayer && ((EntityPlayer) this.getEntityToAttack()).capabilities.isCreativeMode) && this.getHidingBlock() == null) {
+            } else {
+                if (this.onGround
+                        && (this.getEntityToAttack() == null || this.getEntityToAttack() instanceof EntityPlayer
+                                && ((EntityPlayer) this.getEntityToAttack()).capabilities.isCreativeMode)
+                        && this.getHidingBlock() == null) {
                     this.canHide = true;
                 }
             }
@@ -197,8 +199,7 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
     public void moveEntity(double x, double y, double z) {
         if (!this.getFrozen()) {
             super.moveEntity(x, y, z);
-        }
-        else {
+        } else {
             this.motionY = 0.0;
         }
     }
@@ -229,13 +230,11 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
             EffectHelper.enchantItem(this.rand, drop, 30);
             if (EnchantmentSpecial.painSword != null) {
                 EffectHelper.overrideEnchantment(drop, EnchantmentSpecial.painSword, 2);
-            }
-            else {
+            } else {
                 EffectHelper.overrideEnchantment(drop, Enchantment.sharpness, 2);
             }
             EffectHelper.overrideEnchantment(drop, Enchantment.unbreaking, 5);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         EffectHelper.setItemName(drop, "Kusanagi-no-Tsurugi", 0xd);
@@ -246,8 +245,7 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
     public void handleHealthUpdate(byte b) {
         if (b == EntityNinjaSkeleton.HU_REVEAL_FX) {
             this.spawnExplosionParticle();
-        }
-        else {
+        } else {
             super.handleHealthUpdate(b);
         }
     }
@@ -260,8 +258,7 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
         if (hidingBlock != null) {
             tag.setString("HidingBlock", Block.blockRegistry.getNameForObject(hidingBlock));
             tag.setByte("HidingData", (byte) (this.getHidingData() & 0xf));
-        }
-        else {
+        } else {
             tag.setString("HidingBlock", "\f");
             tag.setByte("HidingData", (byte) 0);
         }
@@ -275,8 +272,7 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
             String hidingBlock = tag.getString("HidingBlock");
             if (hidingBlock.equals("\f")) {
                 this.setHidingBlock(null, 0);
-            }
-            else {
+            } else {
                 this.setHidingBlock(Block.getBlockFromName(hidingBlock), tag.getByte("HidingData"));
             }
         }
@@ -312,8 +308,7 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
         hidingBlock = this.worldObj.getBlock(x, y, z);
         if (hidingBlock == Blocks.air) {
             // Do nothing
-        }
-        else if (hidingBlock == Blocks.stone) {
+        } else if (hidingBlock == Blocks.stone) {
             switch (this.rand.nextInt(32)) {
                 case 0:
                     this.setHidingBlock(hidingBlock, 0);
@@ -343,8 +338,7 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
                     this.setHidingBlock(Blocks.emerald_ore, 0);
                     return;
             }
-        }
-        else if (hidingBlock == Blocks.grass) {
+        } else if (hidingBlock == Blocks.grass) {
             switch (this.rand.nextInt(10)) {
                 case 0:
                     this.setHidingBlock(hidingBlock, 0);
@@ -365,8 +359,7 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
                     this.setHidingBlock(Blocks.leaves, this.rand.nextInt(4));
                     return;
             }
-        }
-        else if (hidingBlock == Blocks.sand) {
+        } else if (hidingBlock == Blocks.sand) {
             switch (this.rand.nextInt(6)) {
                 case 0:
                     this.setHidingBlock(hidingBlock, 0);

@@ -11,14 +11,14 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityWindWitch extends Entity_SpecialWitch
-{
+public class EntityWindWitch extends Entity_SpecialWitch {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/wind.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/wind.png") };
 
     /// Ticks before this entity can teleport.
     public int teleportDelay;
@@ -46,9 +46,9 @@ public class EntityWindWitch extends Entity_SpecialWitch
         float tension = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
         if (this.rand.nextFloat() < 0.25F * tension) {
             try {
-                EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
-            }
-            catch (Exception ex) {
+                EnchantmentHelper
+                        .addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
+            } catch (Exception ex) {
                 _SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
                 ex.printStackTrace();
             }
@@ -59,7 +59,10 @@ public class EntityWindWitch extends Entity_SpecialWitch
     /// Called every tick while this entity is alive.
     @Override
     public void onLivingUpdate() {
-        if (!this.worldObj.isRemote && this.isEntityAlive() && this.teleportDelay-- <= 0 && this.getAttackTarget() != null && this.rand.nextInt(20) == 0) {
+        if (!this.worldObj.isRemote && this.isEntityAlive()
+                && this.teleportDelay-- <= 0
+                && this.getAttackTarget() != null
+                && this.rand.nextInt(20) == 0) {
             if (this.getAttackTarget().getDistanceSqToEntity(this) > 36.0) {
                 this.removePotionEffect(Potion.invisibility.id);
                 for (int i = 0; i < 16; i++) {
@@ -68,8 +71,7 @@ public class EntityWindWitch extends Entity_SpecialWitch
                         break;
                     }
                 }
-            }
-            else {
+            } else {
                 this.addPotionEffect(new PotionEffect(Potion.invisibility.id, 30));
                 for (int i = 0; i < 16; i++) {
                     if (this.teleportRandomly()) {
@@ -86,7 +88,8 @@ public class EntityWindWitch extends Entity_SpecialWitch
     @Override
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
         if (!this.worldObj.isRemote && damageSource.getEntity() != null) {
-            if ((this.teleportDelay -= 15) <= 0 && (damageSource instanceof EntityDamageSourceIndirect || this.rand.nextBoolean())) {
+            if ((this.teleportDelay -= 15) <= 0
+                    && (damageSource instanceof EntityDamageSourceIndirect || this.rand.nextBoolean())) {
                 double xI = this.posX;
                 double yI = this.posY;
                 double zI = this.posZ;
@@ -95,8 +98,7 @@ public class EntityWindWitch extends Entity_SpecialWitch
                     if (this.teleportRandomly()) {
                         this.teleportDelay = 30;
                         this.addPotionEffect(new PotionEffect(Potion.invisibility.id, 30));
-                        if (damageSource instanceof EntityDamageSourceIndirect)
-                            return true;
+                        if (damageSource instanceof EntityDamageSourceIndirect) return true;
                         boolean hit = super.attackEntityFrom(damageSource, damage);
 
                         if (this.getHealth() <= 0.0F) {
@@ -105,8 +107,7 @@ public class EntityWindWitch extends Entity_SpecialWitch
                         return hit;
                     }
                 }
-            }
-            else {
+            } else {
                 this.removePotionEffect(Potion.invisibility.id);
             }
         }
@@ -154,7 +155,8 @@ public class EntityWindWitch extends Entity_SpecialWitch
         double yI = this.posY;
         double zI = this.posZ;
         this.setPosition(x, y, z);
-        if (this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() != 0 || this.worldObj.isAnyLiquid(this.boundingBox)) {
+        if (this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() != 0
+                || this.worldObj.isAnyLiquid(this.boundingBox)) {
             this.setPosition(xI, yI, zI);
             return false;
         }

@@ -6,13 +6,14 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
 import toast.specialMobs.DataWatcherHelper;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.EntitySpecialFishHook;
 import toast.specialMobs.entity.IAngler;
 
-public class EntityFishingPigZombie extends Entity_SpecialPigZombie implements IAngler
-{
+public class EntityFishingPigZombie extends Entity_SpecialPigZombie implements IAngler {
+
     /// The position of hasFishingRod within the data watcher.
     private static final byte DW_FISHING_ROD = DataWatcherHelper.instance.PIG_ZOMBIE_FISHING.nextKey();
 
@@ -44,9 +45,9 @@ public class EntityFishingPigZombie extends Entity_SpecialPigZombie implements I
         float tension = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
         if (this.rand.nextFloat() < 0.25F * tension) {
             try {
-                EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
-            }
-            catch (Exception ex) {
+                EnchantmentHelper
+                        .addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
+            } catch (Exception ex) {
                 _SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
                 ex.printStackTrace();
             }
@@ -60,6 +61,7 @@ public class EntityFishingPigZombie extends Entity_SpecialPigZombie implements I
         this.fishHook = hook;
         this.setFishingRod(hook == null);
     }
+
     @Override /// IAngler
     public EntitySpecialFishHook getFishHook() {
         return this.fishHook;
@@ -67,8 +69,9 @@ public class EntityFishingPigZombie extends Entity_SpecialPigZombie implements I
 
     /// Get/set functions for heldItem. fishing rod == true, stick == false.
     public void setFishingRod(boolean rod) {
-        this.dataWatcher.updateObject(EntityFishingPigZombie.DW_FISHING_ROD, Byte.valueOf(rod ? (byte)1 : (byte)0));
+        this.dataWatcher.updateObject(EntityFishingPigZombie.DW_FISHING_ROD, Byte.valueOf(rod ? (byte) 1 : (byte) 0));
     }
+
     public boolean getFishingRod() {
         return this.dataWatcher.getWatchableObjectByte(EntityFishingPigZombie.DW_FISHING_ROD) == 1;
     }
@@ -76,8 +79,7 @@ public class EntityFishingPigZombie extends Entity_SpecialPigZombie implements I
     /// Returns the heldItem.
     @Override
     public ItemStack getHeldItem() {
-        if (this.worldObj.isRemote && !this.getFishingRod())
-            return new ItemStack(Items.stick);
+        if (this.worldObj.isRemote && !this.getFishingRod()) return new ItemStack(Items.stick);
         return super.getHeldItem();
     }
 

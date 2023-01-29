@@ -7,21 +7,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class EntityFaintGhast extends EntityMeleeGhast
-{
+public class EntityFaintGhast extends EntityMeleeGhast {
+
     /// Useful properties for this class.
     private static final boolean XRAY_GHOSTS = Properties.getBoolean(Properties.STATS, "xray_ghosts");
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/faint.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/faint_shooting.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/faint.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "ghast/faint_shooting.png") };
 
     public EntityFaintGhast(World world) {
         super(world);
@@ -53,8 +53,7 @@ public class EntityFaintGhast extends EntityMeleeGhast
             if (this.targetedEntity != null) {
                 if (EntityFaintGhast.XRAY_GHOSTS || this.canEntityBeSeen(this.targetedEntity)) {
                     this.aggroCooldown = 20;
-                }
-                else {
+                } else {
                     this.targetedEntity = null;
                 }
             }

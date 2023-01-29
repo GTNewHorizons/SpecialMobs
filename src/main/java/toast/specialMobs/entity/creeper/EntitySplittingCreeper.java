@@ -6,14 +6,14 @@ import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class EntitySplittingCreeper extends Entity_SpecialCreeper
-{
+public class EntitySplittingCreeper extends Entity_SpecialCreeper {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/splitting.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/splitting.png") };
 
     /// The number of extra mini creepers spawned on explosion.
     private byte babies;
@@ -35,7 +35,7 @@ public class EntitySplittingCreeper extends Entity_SpecialCreeper
     /// The explosion caused by this creeper.
     @Override
     public void explodeByType(boolean powered, boolean griefing) {
-        float power = powered ? this.explosionRadius * 2.0F : (float)this.explosionRadius;
+        float power = powered ? this.explosionRadius * 2.0F : (float) this.explosionRadius;
         this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, power - 1.0F, false);
         if (!this.worldObj.isRemote) {
             EntityMiniCreeper baby = null;
@@ -43,13 +43,13 @@ public class EntitySplittingCreeper extends Entity_SpecialCreeper
                 baby = new EntityMiniCreeper(this.worldObj);
                 baby.copyLocationAndAnglesFrom(this);
                 baby.setAttackTarget(this.getAttackTarget());
-                baby.onSpawnWithEgg((IEntityLivingData)null);
+                baby.onSpawnWithEgg((IEntityLivingData) null);
                 baby.motionX = (this.rand.nextDouble() - 0.5) * power / 3.0;
-                ///baby.motionY = 0.3 + 0.3 * rand.nextDouble(); Causes floor clip bug
+                /// baby.motionY = 0.3 + 0.3 * rand.nextDouble(); Causes floor clip bug
                 baby.motionZ = (this.rand.nextDouble() - 0.5) * power / 3.0;
                 baby.onGround = false;
                 if (powered) {
-                    baby.getDataWatcher().updateObject(17, Byte.valueOf((byte)1));
+                    baby.getDataWatcher().updateObject(17, Byte.valueOf((byte) 1));
                 }
                 this.worldObj.spawnEntityInWorld(baby);
             }
@@ -81,8 +81,7 @@ public class EntitySplittingCreeper extends Entity_SpecialCreeper
         NBTTagCompound saveTag = SpecialMobData.getSaveLocation(tag);
         if (saveTag.hasKey("Babies")) {
             this.babies = saveTag.getByte("Babies");
-        }
-        else if (tag.hasKey("Babies")) {
+        } else if (tag.hasKey("Babies")) {
             this.babies = tag.getByte("Babies");
         }
     }

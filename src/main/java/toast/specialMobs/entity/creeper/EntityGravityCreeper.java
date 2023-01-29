@@ -10,13 +10,13 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
 public class EntityGravityCreeper extends Entity_SpecialCreeper {
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/gravity.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/gravity.png") };
 
     public EntityGravityCreeper(World world) {
         super(world);
@@ -40,7 +40,9 @@ public class EntityGravityCreeper extends Entity_SpecialCreeper {
             float radius = powered ? this.explosionRadius * 3.0F : this.explosionRadius * 1.5F;
             Entity entityHit;
             double vX, vZ, v;
-            List<?> entitiesInRange = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(radius * 2.0, radius * 2.0, radius * 2.0));
+            List<?> entitiesInRange = this.worldObj.getEntitiesWithinAABBExcludingEntity(
+                    this,
+                    this.boundingBox.expand(radius * 2.0, radius * 2.0, radius * 2.0));
             for (int i = 0; i < entitiesInRange.size(); i++) {
                 entityHit = (Entity) entitiesInRange.get(i);
                 if (this.getDistanceSqToEntity(entityHit) <= radius * radius) {
@@ -52,9 +54,9 @@ public class EntityGravityCreeper extends Entity_SpecialCreeper {
                     entityHit.onGround = false;
                     if (entityHit instanceof EntityPlayerMP) {
                         try {
-                            ((EntityPlayerMP) entityHit).playerNetServerHandler.sendPacket(new S12PacketEntityVelocity(entityHit));
-                        }
-                        catch (Exception ex) {
+                            ((EntityPlayerMP) entityHit).playerNetServerHandler
+                                    .sendPacket(new S12PacketEntityVelocity(entityHit));
+                        } catch (Exception ex) {
                             ex.printStackTrace();
                         }
                     }
@@ -66,7 +68,7 @@ public class EntityGravityCreeper extends Entity_SpecialCreeper {
     // The explosion caused by this creeper.
     @Override
     public void explodeByType(boolean powered, boolean griefing) {
-        float power = powered ? (this.explosionRadius + 2) * 2.0F : (float)(this.explosionRadius + 2);
+        float power = powered ? (this.explosionRadius + 2) * 2.0F : (float) (this.explosionRadius + 2);
         this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, power, griefing);
     }
 

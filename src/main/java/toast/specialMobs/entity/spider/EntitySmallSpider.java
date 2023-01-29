@@ -3,8 +3,8 @@ package toast.specialMobs.entity.spider;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.world.World;
 
-public class EntitySmallSpider extends Entity_SpecialSpider
-{
+public class EntitySmallSpider extends Entity_SpecialSpider {
+
     public EntitySmallSpider(World world) {
         super(world);
         this.setSize(0.7F, 0.5F);

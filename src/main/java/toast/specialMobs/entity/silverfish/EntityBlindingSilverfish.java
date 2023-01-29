@@ -7,13 +7,13 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityBlindingSilverfish extends Entity_SpecialSilverfish
-{
+public class EntityBlindingSilverfish extends Entity_SpecialSilverfish {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "silverfish/blinding.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "silverfish/blinding.png") };
 
     public EntityBlindingSilverfish(World world) {
         super(world);
@@ -39,8 +39,8 @@ public class EntityBlindingSilverfish extends Entity_SpecialSilverfish
                     time = 15;
             }
             time *= 20;
-            ((EntityLivingBase)target).addPotionEffect(new PotionEffect(Potion.blindness.id, time, 0));
-            ((EntityLivingBase)target).removePotionEffect(Potion.nightVision.id);
+            ((EntityLivingBase) target).addPotionEffect(new PotionEffect(Potion.blindness.id, time, 0));
+            ((EntityLivingBase) target).removePotionEffect(Potion.nightVision.id);
         }
     }
 

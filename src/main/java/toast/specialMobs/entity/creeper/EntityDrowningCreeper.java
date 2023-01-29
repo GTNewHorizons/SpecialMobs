@@ -6,15 +6,15 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityDrowningCreeper extends Entity_SpecialCreeper
-{
+public class EntityDrowningCreeper extends Entity_SpecialCreeper {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/drowning.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/drowning.png") };
 
     public EntityDrowningCreeper(World world) {
         super(world);
@@ -34,12 +34,11 @@ public class EntityDrowningCreeper extends Entity_SpecialCreeper
     /// The explosion caused by this creeper.
     @Override
     public void explodeByType(boolean powered, boolean griefing) {
-        float power = powered ? this.explosionRadius * 2.0F : (float)this.explosionRadius;
+        float power = powered ? this.explosionRadius * 2.0F : (float) this.explosionRadius;
         if (griefing) {
             this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 1.0F, true);
-            MobHelper.drowningExplode(this, (int)power);
-        }
-        else {
+            MobHelper.drowningExplode(this, (int) power);
+        } else {
             this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, power, false);
         }
     }

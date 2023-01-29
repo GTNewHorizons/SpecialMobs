@@ -8,6 +8,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.DataWatcherHelper;
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
@@ -30,7 +31,8 @@ public class Entity_SpecialCreeper extends EntityCreeper implements ISpecialMob 
     // The shift to get the bit for "explodes if shot".
     public static final byte DW_EXPLODE_WHEN_SHOT = 2;
 
-    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation("textures/entity/creeper/creeper.png") };
+    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
+            new ResourceLocation("textures/entity/creeper/creeper.png") };
 
     // Fields taking the place of the private fields from EntityCreeper.
     // Ticks since this creeper has ignited.
@@ -41,7 +43,8 @@ public class Entity_SpecialCreeper extends EntityCreeper implements ISpecialMob 
     public int fuseTime = 30;
     // Explosion radius for this creeper.
     public int explosionRadius = 3;
-    // Causes the next call to isEntityAlive() to return false. Used to prevent EntityCreeper from exploding instead of this.
+    // Causes the next call to isEntityAlive() to return false. Used to prevent EntityCreeper from exploding instead of
+    // this.
     private boolean playingDead = false;
 
     // This mob's special mob data.
@@ -67,37 +70,52 @@ public class Entity_SpecialCreeper extends EntityCreeper implements ISpecialMob 
 
     // Sets this creeper to be unable to explode while wet.
     public boolean canNotExplodeWhenWet() {
-        return (this.dataWatcher.getWatchableObjectByte(Entity_SpecialCreeper.DW_EXPLODE_STATS) & 1 << Entity_SpecialCreeper.DW_CAN_EXPLODE_IN_WATER) != 0;
+        return (this.dataWatcher.getWatchableObjectByte(Entity_SpecialCreeper.DW_EXPLODE_STATS)
+                & 1 << Entity_SpecialCreeper.DW_CAN_EXPLODE_IN_WATER) != 0;
     }
 
     // Sets this creeper to be unable to explode while wet.
     public void setCanNotExplodeWhenWet(boolean value) {
         if (value != this.canNotExplodeWhenWet()) {
-            this.dataWatcher.updateObject(Entity_SpecialCreeper.DW_EXPLODE_STATS, Byte.valueOf((byte) (this.dataWatcher.getWatchableObjectByte(Entity_SpecialCreeper.DW_EXPLODE_STATS) ^ 1 << Entity_SpecialCreeper.DW_CAN_EXPLODE_IN_WATER)));
+            this.dataWatcher.updateObject(
+                    Entity_SpecialCreeper.DW_EXPLODE_STATS,
+                    Byte.valueOf(
+                            (byte) (this.dataWatcher.getWatchableObjectByte(Entity_SpecialCreeper.DW_EXPLODE_STATS)
+                                    ^ 1 << Entity_SpecialCreeper.DW_CAN_EXPLODE_IN_WATER)));
         }
     }
 
     // Sets this creeper to be unable to explode while wet.
     public boolean explodesWhenBurning() {
-        return (this.dataWatcher.getWatchableObjectByte(Entity_SpecialCreeper.DW_EXPLODE_STATS) & 1 << Entity_SpecialCreeper.DW_EXPLODE_ON_FIRE) != 0;
+        return (this.dataWatcher.getWatchableObjectByte(Entity_SpecialCreeper.DW_EXPLODE_STATS)
+                & 1 << Entity_SpecialCreeper.DW_EXPLODE_ON_FIRE) != 0;
     }
 
     // Sets this creeper to be unable to explode while wet.
     public void setExplodesWhenBurning(boolean value) {
         if (value != this.explodesWhenBurning()) {
-            this.dataWatcher.updateObject(Entity_SpecialCreeper.DW_EXPLODE_STATS, Byte.valueOf((byte) (this.dataWatcher.getWatchableObjectByte(Entity_SpecialCreeper.DW_EXPLODE_STATS) ^ 1 << Entity_SpecialCreeper.DW_EXPLODE_ON_FIRE)));
+            this.dataWatcher.updateObject(
+                    Entity_SpecialCreeper.DW_EXPLODE_STATS,
+                    Byte.valueOf(
+                            (byte) (this.dataWatcher.getWatchableObjectByte(Entity_SpecialCreeper.DW_EXPLODE_STATS)
+                                    ^ 1 << Entity_SpecialCreeper.DW_EXPLODE_ON_FIRE)));
         }
     }
 
     // Sets this creeper to be unable to explode while wet.
     public boolean explodesWhenShot() {
-        return (this.dataWatcher.getWatchableObjectByte(Entity_SpecialCreeper.DW_EXPLODE_STATS) & 1 << Entity_SpecialCreeper.DW_EXPLODE_WHEN_SHOT) != 0;
+        return (this.dataWatcher.getWatchableObjectByte(Entity_SpecialCreeper.DW_EXPLODE_STATS)
+                & 1 << Entity_SpecialCreeper.DW_EXPLODE_WHEN_SHOT) != 0;
     }
 
     // Sets this creeper to be unable to explode while wet.
     public void setExplodesWhenShot(boolean value) {
         if (value != this.explodesWhenShot()) {
-            this.dataWatcher.updateObject(Entity_SpecialCreeper.DW_EXPLODE_STATS, Byte.valueOf((byte) (this.dataWatcher.getWatchableObjectByte(Entity_SpecialCreeper.DW_EXPLODE_STATS) ^ 1 << Entity_SpecialCreeper.DW_EXPLODE_WHEN_SHOT)));
+            this.dataWatcher.updateObject(
+                    Entity_SpecialCreeper.DW_EXPLODE_STATS,
+                    Byte.valueOf(
+                            (byte) (this.dataWatcher.getWatchableObjectByte(Entity_SpecialCreeper.DW_EXPLODE_STATS)
+                                    ^ 1 << Entity_SpecialCreeper.DW_EXPLODE_WHEN_SHOT)));
         }
     }
 
@@ -121,8 +139,7 @@ public class Entity_SpecialCreeper extends EntityCreeper implements ISpecialMob 
     // Checks whether target entity is alive.
     @Override
     public boolean isEntityAlive() {
-        if (this.playingDead)
-            return this.playingDead = false;
+        if (this.playingDead) return this.playingDead = false;
         return super.isEntityAlive();
     }
 
@@ -132,8 +149,7 @@ public class Entity_SpecialCreeper extends EntityCreeper implements ISpecialMob 
         if (this.isEntityAlive()) {
             if (this.isWet() && this.canNotExplodeWhenWet()) {
                 this.setCreeperState(-1);
-            }
-            else if (this.func_146078_ca() /*ignited*/|| this.isBurning() && this.explodesWhenBurning()) {
+            } else if (this.func_146078_ca() /* ignited */ || this.isBurning() && this.explodesWhenBurning()) {
                 this.setCreeperState(1);
             }
 
@@ -152,7 +168,9 @@ public class Entity_SpecialCreeper extends EntityCreeper implements ISpecialMob 
             if (this.timeSinceIgnited >= this.fuseTime) {
                 this.timeSinceIgnited = this.fuseTime;
                 if (!this.worldObj.isRemote) {
-                    this.explodeByType(this.getPowered(), this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"));
+                    this.explodeByType(
+                            this.getPowered(),
+                            this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"));
                     this.setDead();
                 }
             }
@@ -188,7 +206,8 @@ public class Entity_SpecialCreeper extends EntityCreeper implements ISpecialMob 
     // Damages this entity from the damageSource by the given amount. Returns true if this entity is damaged.
     @Override
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
-        if (damageSource != null && damageSource.getSourceOfDamage() != damageSource.getEntity() && this.explodesWhenShot()) {
+        if (damageSource != null && damageSource.getSourceOfDamage() != damageSource.getEntity()
+                && this.explodesWhenShot()) {
             this.func_146079_cb(); // ignite
         }
         return super.attackEntityFrom(damageSource, damage);
@@ -224,6 +243,7 @@ public class Entity_SpecialCreeper extends EntityCreeper implements ISpecialMob 
         tag.setShort("Fuse", (short) this.fuseTime);
         tag.setByte("ExplosionRadius", (byte) this.explosionRadius);
     }
+
     // Reads this entity from NBT.
     @Override
     public void readEntityFromNBT(NBTTagCompound tag) {
@@ -231,20 +251,17 @@ public class Entity_SpecialCreeper extends EntityCreeper implements ISpecialMob 
         NBTTagCompound saveTag = SpecialMobData.getSaveLocation(tag);
         if (saveTag.hasKey("DryExplode")) {
             this.setCanNotExplodeWhenWet(saveTag.getBoolean("DryExplode"));
-        }
-        else if (tag.hasKey("DryExplode")) {
+        } else if (tag.hasKey("DryExplode")) {
             this.setCanNotExplodeWhenWet(tag.getBoolean("DryExplode"));
         }
         if (saveTag.hasKey("BurningExplode")) {
             this.setExplodesWhenBurning(saveTag.getBoolean("BurningExplode"));
-        }
-        else if (tag.hasKey("BurningExplode")) {
+        } else if (tag.hasKey("BurningExplode")) {
             this.setExplodesWhenBurning(tag.getBoolean("BurningExplode"));
         }
         if (saveTag.hasKey("ShotExplode")) {
             this.setExplodesWhenShot(saveTag.getBoolean("ShotExplode"));
-        }
-        else if (tag.hasKey("ShotExplode")) {
+        } else if (tag.hasKey("ShotExplode")) {
             this.setExplodesWhenShot(tag.getBoolean("ShotExplode"));
         }
 
@@ -264,7 +281,8 @@ public class Entity_SpecialCreeper extends EntityCreeper implements ISpecialMob 
     @SideOnly(Side.CLIENT)
     @Override
     public float getCreeperFlashIntensity(float partialTick) {
-        return (this.lastActiveTime + (this.timeSinceIgnited - this.lastActiveTime) * partialTick) / (this.fuseTime - 2);
+        return (this.lastActiveTime + (this.timeSinceIgnited - this.lastActiveTime) * partialTick)
+                / (this.fuseTime - 2);
     }
 
     // Called when this entity is killed.

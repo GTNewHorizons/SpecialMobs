@@ -4,8 +4,8 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.world.World;
 
-public class EntityGiantSkeleton extends Entity_SpecialSkeleton
-{
+public class EntityGiantSkeleton extends Entity_SpecialSkeleton {
+
     public EntityGiantSkeleton(World world) {
         super(world);
         this.stepHeight = 1.0F;
@@ -52,8 +52,7 @@ public class EntityGiantSkeleton extends Entity_SpecialSkeleton
         super.setSkeletonType(type);
         if (type == 1) {
             this.setSize(0.95F, 3.24F);
-        }
-        else {
+        } else {
             this.setSize(0.9F, 2.7F);
         }
         this.updateScale();

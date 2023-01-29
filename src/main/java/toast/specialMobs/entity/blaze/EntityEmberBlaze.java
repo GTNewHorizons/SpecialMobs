@@ -7,15 +7,16 @@ import net.minecraft.init.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityEmberBlaze extends Entity_SpecialBlaze
-{
+public class EntityEmberBlaze extends Entity_SpecialBlaze {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/ember.png")
-    };
-    
-    public static DamageSource cookedSource = new DamageSource("cooked").setDamageAllowedInCreativeMode().setDamageBypassesArmor().setDamageIsAbsolute();
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/ember.png") };
+
+    public static DamageSource cookedSource = new DamageSource("cooked").setDamageAllowedInCreativeMode()
+            .setDamageBypassesArmor().setDamageIsAbsolute();
 
     public EntityEmberBlaze(World world) {
         super(world);
@@ -48,7 +49,7 @@ public class EntityEmberBlaze extends Entity_SpecialBlaze
         this.onTypeAttack(target);
         return true;
     }
-    
+
     /// Overridden to modify attack effects.
     @Override
     protected void onTypeAttack(Entity target) {

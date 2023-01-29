@@ -6,13 +6,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityDeathCreeper extends Entity_SpecialCreeper
-{
+public class EntityDeathCreeper extends Entity_SpecialCreeper {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/death.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/death.png") };
 
     public EntityDeathCreeper(World world) {
         super(world);
@@ -30,7 +30,7 @@ public class EntityDeathCreeper extends Entity_SpecialCreeper
     /// The explosion caused by this creeper.
     @Override
     public void explodeByType(boolean powered, boolean griefing) {
-        float power = powered ? (this.explosionRadius + 2) * 2.0F : (float)(this.explosionRadius + 2);
+        float power = powered ? (this.explosionRadius + 2) * 2.0F : (float) (this.explosionRadius + 2);
         this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, power, griefing);
     }
 
@@ -42,7 +42,7 @@ public class EntityDeathCreeper extends Entity_SpecialCreeper
             this.dropItem(Items.gunpowder, 1);
         }
         if (hit && this.isBurning() && looting > 0) {
-            //this.dropItem(Items.record_13 + this.rand.nextInt(Items.record_wait - Items.record_13 + 1), 1);
+            // this.dropItem(Items.record_13 + this.rand.nextInt(Items.record_wait - Items.record_13 + 1), 1);
         }
     }
 

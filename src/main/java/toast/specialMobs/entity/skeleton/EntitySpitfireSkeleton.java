@@ -12,9 +12,11 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 
 public class EntitySpitfireSkeleton extends Entity_SpecialSkeleton {
+
     public EntitySpitfireSkeleton(World world) {
         super(world);
         this.getNavigator().setAvoidsWater(true);
@@ -38,10 +40,15 @@ public class EntitySpitfireSkeleton extends Entity_SpecialSkeleton {
         ItemStack itemStack = this.getHeldItem();
         if (itemStack != null) {
             if (itemStack.getItem() instanceof ItemBow) {
-                EffectHelper.overrideEnchantment(itemStack, Enchantment.flame, this.rand.nextInt(Enchantment.flame.getMaxLevel()) + 1);
-            }
-            else {
-                EffectHelper.overrideEnchantment(itemStack, Enchantment.fireAspect, this.rand.nextInt(Enchantment.fireAspect.getMaxLevel()) + 1);
+                EffectHelper.overrideEnchantment(
+                        itemStack,
+                        Enchantment.flame,
+                        this.rand.nextInt(Enchantment.flame.getMaxLevel()) + 1);
+            } else {
+                EffectHelper.overrideEnchantment(
+                        itemStack,
+                        Enchantment.fireAspect,
+                        this.rand.nextInt(Enchantment.fireAspect.getMaxLevel()) + 1);
             }
         }
     }
@@ -61,10 +68,16 @@ public class EntitySpitfireSkeleton extends Entity_SpecialSkeleton {
         double dY = target.boundingBox.minY + target.height / 2.0F - this.posY - this.height / 2.0F;
         double dZ = target.posZ - this.posZ;
         float spread = (float) Math.sqrt(range) * this.getSpecialData().arrowSpread;
-        this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1009, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
+        this.worldObj
+                .playAuxSFXAtEntity((EntityPlayer) null, 1009, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
         EntitySmallFireball fireball;
         for (int i = 0; i < 4; i++) {
-            fireball = new EntitySmallFireball(this.worldObj, this, dX + this.rand.nextGaussian() * spread, dY, dZ + this.rand.nextGaussian() * spread);
+            fireball = new EntitySmallFireball(
+                    this.worldObj,
+                    this,
+                    dX + this.rand.nextGaussian() * spread,
+                    dY,
+                    dZ + this.rand.nextGaussian() * spread);
             fireball.posY = this.posY + this.height / 2.0F + 0.5;
             this.worldObj.spawnEntityInWorld(fireball);
         }
@@ -113,8 +126,7 @@ public class EntitySpitfireSkeleton extends Entity_SpecialSkeleton {
         super.setSkeletonType(type);
         if (type == 1) {
             this.setSize(0.95F, 3.24F);
-        }
-        else {
+        } else {
             this.setSize(0.9F, 2.7F);
         }
         this.updateScale();

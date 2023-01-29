@@ -10,18 +10,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityGhostSpider extends Entity_SpecialSpider
-{
+public class EntityGhostSpider extends Entity_SpecialSpider {
+
     /// Useful properties for this class.
     private static final boolean XRAY_GHOSTS = Properties.getBoolean(Properties.STATS, "xray_ghosts");
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/ghost.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/ghost_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/ghost.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/ghost_eyes.png") };
 
     public EntityGhostSpider(World world) {
         super(world);
@@ -45,18 +45,21 @@ public class EntityGhostSpider extends Entity_SpecialSpider
     public void onLivingUpdate() {
         if (this.worldObj.isDaytime() && !this.worldObj.isRemote) {
             float brightness = this.getBrightness(1.0F);
-            if (brightness > 0.5F && this.rand.nextFloat() * 30.0F < (brightness - 0.4F) * 2.0F && this.worldObj.canBlockSeeTheSky((int)Math.floor(this.posX), (int)Math.floor(this.posY), (int)Math.floor(this.posZ))) {
+            if (brightness > 0.5F && this.rand.nextFloat() * 30.0F < (brightness - 0.4F) * 2.0F
+                    && this.worldObj.canBlockSeeTheSky(
+                            (int) Math.floor(this.posX),
+                            (int) Math.floor(this.posY),
+                            (int) Math.floor(this.posZ))) {
                 ItemStack helmet = this.getEquipmentInSlot(4);
                 if (helmet != null) {
                     if (helmet.isItemStackDamageable()) {
                         helmet.setItemDamage(helmet.getItemDamageForDisplay() + this.rand.nextInt(2));
                         if (helmet.getItemDamageForDisplay() >= helmet.getMaxDamage()) {
                             this.renderBrokenItemStack(helmet);
-                            this.setCurrentItemOrArmor(4, (ItemStack)null);
+                            this.setCurrentItemOrArmor(4, (ItemStack) null);
                         }
                     }
-                }
-                else {
+                } else {
                     this.setFire(8);
                 }
             }
@@ -80,8 +83,8 @@ public class EntityGhostSpider extends Entity_SpecialSpider
         double yI = y;
         boolean shouldFall = false;
         if (this.entityToAttack != null && this.entityToAttack.boundingBox.maxY <= this.boundingBox.minY) {
-            float dX = (float)(this.entityToAttack.posX - this.posX);
-            float dZ = (float)(this.entityToAttack.posZ - this.posZ);
+            float dX = (float) (this.entityToAttack.posX - this.posX);
+            float dZ = (float) (this.entityToAttack.posZ - this.posZ);
             float range = (this.entityToAttack.width + this.width) / 2.0F;
             if (dX * dX + dZ * dZ < range * range) {
                 shouldFall = true;
@@ -90,7 +93,7 @@ public class EntityGhostSpider extends Entity_SpecialSpider
         if (y < 0.0 && !shouldFall) {
             List<?> list = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(x, y, z));
             for (int i = 0; i < list.size(); ++i) {
-                y = ((AxisAlignedBB)list.get(i)).calculateYOffset(this.boundingBox, y);
+                y = ((AxisAlignedBB) list.get(i)).calculateYOffset(this.boundingBox, y);
             }
         }
         super.moveEntity(x, y, z);

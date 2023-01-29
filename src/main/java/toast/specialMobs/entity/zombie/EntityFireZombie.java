@@ -9,11 +9,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
 public class EntityFireZombie extends Entity_SpecialZombie {
-    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "zombie/fire.png"), new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "zombie/fire_villager.png") };
+
+    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "zombie/fire.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "zombie/fire_villager.png") };
 
     public EntityFireZombie(World world) {
         super(world);
@@ -30,10 +34,15 @@ public class EntityFireZombie extends Entity_SpecialZombie {
         ItemStack itemStack = this.getHeldItem();
         if (itemStack != null) {
             if (itemStack.getItem() instanceof ItemBow) {
-                EffectHelper.overrideEnchantment(itemStack, Enchantment.flame, this.rand.nextInt(Enchantment.flame.getMaxLevel()) + 1);
-            }
-            else {
-                EffectHelper.overrideEnchantment(itemStack, Enchantment.fireAspect, this.rand.nextInt(Enchantment.fireAspect.getMaxLevel()) + 1);
+                EffectHelper.overrideEnchantment(
+                        itemStack,
+                        Enchantment.flame,
+                        this.rand.nextInt(Enchantment.flame.getMaxLevel()) + 1);
+            } else {
+                EffectHelper.overrideEnchantment(
+                        itemStack,
+                        Enchantment.fireAspect,
+                        this.rand.nextInt(Enchantment.fireAspect.getMaxLevel()) + 1);
             }
         }
     }

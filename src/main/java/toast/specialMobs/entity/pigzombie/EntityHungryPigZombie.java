@@ -9,15 +9,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityHungryPigZombie extends Entity_SpecialPigZombie
-{
+public class EntityHungryPigZombie extends Entity_SpecialPigZombie {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "pigzombie/hungry.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "pigzombie/hungry.png") };
 
     public EntityHungryPigZombie(World world) {
         super(world);
@@ -44,12 +44,11 @@ public class EntityHungryPigZombie extends Entity_SpecialPigZombie
     @Override
     protected void onTypeAttack(Entity target) {
         if (target instanceof EntityPlayer) {
-            ItemStack itemStack = MobHelper.removeRandomItem((EntityPlayer)target);
+            ItemStack itemStack = MobHelper.removeRandomItem((EntityPlayer) target);
             if (itemStack != null) {
                 if (itemStack.getItem() instanceof ItemFood) {
-                    this.heal(((ItemFood)itemStack.getItem()).func_150905_g(itemStack) * itemStack.stackSize);
-                }
-                else {
+                    this.heal(((ItemFood) itemStack.getItem()).func_150905_g(itemStack) * itemStack.stackSize);
+                } else {
                     this.entityDropItem(itemStack, 0.0F);
                 }
                 this.worldObj.playSoundAtEntity(this, "random.burp", 0.5F, this.rand.nextFloat() * 0.1F + 0.9F);
@@ -77,8 +76,7 @@ public class EntityHungryPigZombie extends Entity_SpecialPigZombie
             EffectHelper.addPotionEffect(itemStack, Potion.regeneration, 1200, 0);
             EffectHelper.addPotionEffect(itemStack, Potion.hunger, 600, 1);
             this.entityDropItem(itemStack, 0.0F);
-        }
-        else {
+        } else {
             this.dropItem(Items.golden_apple, 1);
         }
     }

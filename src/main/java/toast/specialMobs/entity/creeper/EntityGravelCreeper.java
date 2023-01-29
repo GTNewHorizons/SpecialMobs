@@ -6,11 +6,14 @@ import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
 
 public class EntityGravelCreeper extends Entity_SpecialCreeper {
-    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/gravel.png") };
+
+    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/gravel.png") };
 
     public EntityGravelCreeper(World world) {
         super(world);

@@ -13,8 +13,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderSpecialSlime extends RenderSlime
-{
+public class RenderSpecialSlime extends RenderSlime {
+
     public RenderSpecialSlime() {
         super(new ModelSlime(16), new ModelSlime(0), 0.25F);
     }

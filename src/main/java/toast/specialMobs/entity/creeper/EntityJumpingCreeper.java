@@ -7,14 +7,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityJumpingCreeper extends Entity_SpecialCreeper
-{
+public class EntityJumpingCreeper extends Entity_SpecialCreeper {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/jumping.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/jumping.png") };
 
     public EntityJumpingCreeper(World world) {
         super(world);

@@ -5,14 +5,14 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityDirtCreeper extends Entity_SpecialCreeper
-{
+public class EntityDirtCreeper extends Entity_SpecialCreeper {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/dirt.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/dirt.png") };
 
     public EntityDirtCreeper(World world) {
         super(world);

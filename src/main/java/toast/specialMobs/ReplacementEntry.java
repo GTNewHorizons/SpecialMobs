@@ -5,10 +5,11 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.nbt.NBTTagCompound;
+
 import toast.specialMobs.entity.ISpecialMob;
 
-public class ReplacementEntry
-{
+public class ReplacementEntry {
+
     public EntityLiving entity = null;
 
     public ReplacementEntry(EntityLiving e) {
@@ -21,14 +22,10 @@ public class ReplacementEntry
         if (this.entity instanceof IMob) {
             this.entity.getEntityData().setByte("smi", (byte) 1);
             int key = _SpecialMobs.monsterKey(EntityList.getEntityString(this.entity));
-            if (key < 0 || !Properties.monsterSpawn()[key])
-                return;
+            if (key < 0 || !Properties.monsterSpawn()[key]) return;
             replacement = RandomHelper.nextMonster(key, this.entity.worldObj);
-            if (replacement == null)
-                return;
-        }
-        else
-            return;
+            if (replacement == null) return;
+        } else return;
 
         NBTTagCompound entityData = new NBTTagCompound();
         this.entity.writeToNBT(entityData);

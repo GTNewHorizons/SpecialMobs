@@ -7,13 +7,13 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityPoisonSilverfish extends Entity_SpecialSilverfish
-{
+public class EntityPoisonSilverfish extends Entity_SpecialSilverfish {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "silverfish/poison.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "silverfish/poison.png") };
 
     public EntityPoisonSilverfish(World world) {
         super(world);
@@ -40,7 +40,7 @@ public class EntityPoisonSilverfish extends Entity_SpecialSilverfish
                     time = 15;
             }
             time *= 20;
-            ((EntityLivingBase)target).addPotionEffect(new PotionEffect(Potion.poison.id, time, 0));
+            ((EntityLivingBase) target).addPotionEffect(new PotionEffect(Potion.poison.id, time, 0));
         }
     }
 

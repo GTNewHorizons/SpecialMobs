@@ -3,8 +3,8 @@ package toast.specialMobs.entity.enderman;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.world.World;
 
-public class EntityMiniEnderman extends Entity_SpecialEnderman
-{
+public class EntityMiniEnderman extends Entity_SpecialEnderman {
+
     public EntityMiniEnderman(World world) {
         super(world);
         this.stepHeight = 0.5F;

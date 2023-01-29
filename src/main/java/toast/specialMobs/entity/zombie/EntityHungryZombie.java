@@ -9,16 +9,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityHungryZombie extends Entity_SpecialZombie
-{
+public class EntityHungryZombie extends Entity_SpecialZombie {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "zombie/hungry.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "zombie/hungry_villager.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "zombie/hungry.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "zombie/hungry_villager.png") };
 
     public EntityHungryZombie(World world) {
         super(world);
@@ -42,9 +42,10 @@ public class EntityHungryZombie extends Entity_SpecialZombie
             ItemStack itemStack = MobHelper.removeRandomItem((EntityPlayer) target);
             if (itemStack != null) {
                 if (itemStack.getItem() instanceof ItemFood) {
-                    this.heal((float) ((ItemFood) itemStack.getItem()).func_150905_g(itemStack) * (float) itemStack.stackSize);
-                }
-                else {
+                    this.heal(
+                            (float) ((ItemFood) itemStack.getItem()).func_150905_g(itemStack)
+                                    * (float) itemStack.stackSize);
+                } else {
                     this.entityDropItem(itemStack, 0.0F);
                 }
                 this.worldObj.playSoundAtEntity(this, "random.burp", 0.5F, this.rand.nextFloat() * 0.1F + 0.9F);

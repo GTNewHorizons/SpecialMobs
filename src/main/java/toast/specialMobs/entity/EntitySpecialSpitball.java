@@ -10,12 +10,13 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
 import toast.specialMobs.SpecialDamageSource;
 import toast.specialMobs.entity.cavespider.Entity_SpecialCaveSpider;
 import toast.specialMobs.entity.spider.Entity_SpecialSpider;
 
-public class EntitySpecialSpitball extends Entity
-{
+public class EntitySpecialSpitball extends Entity {
+
     public EntityLiving shootingEntity = null;
 
     // The amount of damage this deals.
@@ -28,21 +29,31 @@ public class EntitySpecialSpitball extends Entity
     public EntitySpecialSpitball(World world, EntityLiving entity, Entity target, float speed, float spread) {
         super(world);
         this.shootingEntity = entity;
-        this.setLocationAndAngles(entity.posX, entity.posY + entity.getEyeHeight() - 0.1, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-        this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F;
+        this.setLocationAndAngles(
+                entity.posX,
+                entity.posY + entity.getEyeHeight() - 0.1,
+                entity.posZ,
+                entity.rotationYaw,
+                entity.rotationPitch);
+        this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
         this.posY -= 0.1;
-        this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F;
+        this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
         this.setPosition(this.posX, this.posY, this.posZ);
         this.motionX = (target.posX - entity.posX) * 0.7;
         this.motionY = (target.posY + target.getEyeHeight() - 0.7 - this.posY) * 0.7;
         this.motionZ = (target.posZ - entity.posZ) * 0.7;
         double vH = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
         if (vH >= 1E-7) {
-            this.rotationYaw = (float)(Math.atan2(this.motionZ, this.motionX) * 180.0 / Math.PI) - 90.0F;
-            this.rotationPitch = (float)(-Math.atan2(this.motionY, vH) * 180.0 / Math.PI);
+            this.rotationYaw = (float) (Math.atan2(this.motionZ, this.motionX) * 180.0 / Math.PI) - 90.0F;
+            this.rotationPitch = (float) (-Math.atan2(this.motionY, vH) * 180.0 / Math.PI);
             double dX = this.motionX / vH;
             double dZ = this.motionZ / vH;
-            this.setLocationAndAngles(entity.posX + dX, this.posY, entity.posZ + dZ, this.rotationYaw, this.rotationPitch);
+            this.setLocationAndAngles(
+                    entity.posX + dX,
+                    this.posY,
+                    entity.posZ + dZ,
+                    this.rotationYaw,
+                    this.rotationPitch);
             this.yOffset = 0.0F;
             this.calculateVelocity(this.motionX, this.motionY + vH * 0.2, this.motionZ, speed, spread);
         }
@@ -74,8 +85,8 @@ public class EntitySpecialSpitball extends Entity
         this.motionY = vY;
         this.motionZ = vZ;
         float vH = MathHelper.sqrt_double(vX * vX + vZ * vZ);
-        this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(vX, vZ) * 180.0 / Math.PI);
-        this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(vY, vH) * 180.0 / Math.PI);
+        this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(vX, vZ) * 180.0 / Math.PI);
+        this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(vY, vH) * 180.0 / Math.PI);
     }
 
     @Override
@@ -85,8 +96,8 @@ public class EntitySpecialSpitball extends Entity
         this.motionZ = vZ;
         if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
             float vH = MathHelper.sqrt_double(vX * vX + vZ * vZ);
-            this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(vX, vZ) * 180.0 / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(vY, vH) * 180.0 / Math.PI);
+            this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(vX, vZ) * 180.0 / Math.PI);
+            this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(vY, vH) * 180.0 / Math.PI);
         }
     }
 
@@ -97,23 +108,28 @@ public class EntitySpecialSpitball extends Entity
         this.lastTickPosZ = this.posZ;
         super.onUpdate();
         if (!this.worldObj.isRemote) {
-            if (this.shootingEntity == null || this.shootingEntity.isDead || this.getDistanceSqToEntity(this.shootingEntity) > 1024.0) {
+            if (this.shootingEntity == null || this.shootingEntity.isDead
+                    || this.getDistanceSqToEntity(this.shootingEntity) > 1024.0) {
                 this.setDead();
                 return;
             }
             Vec3 posVec = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-            Vec3 motionVec = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+            Vec3 motionVec = Vec3
+                    .createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
             MovingObjectPosition object = this.worldObj.rayTraceBlocks(posVec, motionVec);
             posVec = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-            motionVec = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+            motionVec = Vec3
+                    .createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
             if (object != null) {
                 motionVec = Vec3.createVectorHelper(object.hitVec.xCoord, object.hitVec.yCoord, object.hitVec.zCoord);
             }
             Entity entityHit = null;
-            List<?> entitiesInPath = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0, 1.0, 1.0));
+            List<?> entitiesInPath = this.worldObj.getEntitiesWithinAABBExcludingEntity(
+                    this,
+                    this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0, 1.0, 1.0));
             double d = Double.POSITIVE_INFINITY;
             for (int i = 0; i < entitiesInPath.size(); i++) {
-                Entity entityInPath = (Entity)entitiesInPath.get(i);
+                Entity entityInPath = (Entity) entitiesInPath.get(i);
                 if (entityInPath.canBeCollidedWith() && !entityInPath.isEntityEqual(this.shootingEntity)) {
                     AxisAlignedBB aabb = entityInPath.boundingBox.expand(0.3, 0.3, 0.3);
                     MovingObjectPosition object1 = aabb.calculateIntercept(posVec, motionVec);
@@ -137,8 +153,9 @@ public class EntitySpecialSpitball extends Entity
         this.posY += this.motionY;
         this.posZ += this.motionZ;
         float var16 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0 / Math.PI);
-        for (this.rotationPitch = (float)(Math.atan2(this.motionY, var16) * 180.0 / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
+        this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0 / Math.PI);
+        for (this.rotationPitch = (float) (Math.atan2(this.motionY, var16) * 180.0 / Math.PI); this.rotationPitch
+                - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
             // Do nothing
         }
         while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
@@ -165,13 +182,15 @@ public class EntitySpecialSpitball extends Entity
 
     public void onImpact(MovingObjectPosition object) {
         if (object.entityHit != null) {
-            SpecialDamageSource damageSource = this.shootingEntity == null ? new SpecialDamageSource("generic", this, this) : new SpecialDamageSource("generic", this, this.shootingEntity);
-            damageSource.setProjectile().setDamageBypassesArmor().setMagicDamage().setDifficultyScaled().setHungerDamage(0.6F);
+            SpecialDamageSource damageSource = this.shootingEntity == null
+                    ? new SpecialDamageSource("generic", this, this)
+                    : new SpecialDamageSource("generic", this, this.shootingEntity);
+            damageSource.setProjectile().setDamageBypassesArmor().setMagicDamage().setDifficultyScaled()
+                    .setHungerDamage(0.6F);
             if (object.entityHit.attackEntityFrom(damageSource, this.getDamage())) {
                 if (this.shootingEntity instanceof Entity_SpecialSpider) {
                     ((Entity_SpecialSpider) this.shootingEntity).onTypeAttack(object.entityHit);
-                }
-                else if (this.shootingEntity instanceof Entity_SpecialCaveSpider) {
+                } else if (this.shootingEntity instanceof Entity_SpecialCaveSpider) {
                     ((Entity_SpecialCaveSpider) this.shootingEntity).onTypeAttack(object.entityHit);
                 }
             }
@@ -183,6 +202,7 @@ public class EntitySpecialSpitball extends Entity
     public float getDamage() {
         return this.damage;
     }
+
     public void setDamage(float value) {
         this.damage = value;
     }
@@ -200,6 +220,7 @@ public class EntitySpecialSpitball extends Entity
     public void writeEntityToNBT(NBTTagCompound tag) {
         // Nothing to save
     }
+
     @Override
     public void readEntityFromNBT(NBTTagCompound tag) {
         // Nothing to load

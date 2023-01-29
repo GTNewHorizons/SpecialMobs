@@ -6,10 +6,11 @@ import net.minecraft.init.Items;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+
 import toast.specialMobs.entity.cavespider.Entity_SpecialCaveSpider;
 
-public class EntityPoisonSpider extends Entity_SpecialSpider
-{
+public class EntityPoisonSpider extends Entity_SpecialSpider {
+
     public EntityPoisonSpider(World world) {
         super(world);
         this.getSpecialData().setTextures(Entity_SpecialCaveSpider.TEXTURES);
@@ -34,7 +35,7 @@ public class EntityPoisonSpider extends Entity_SpecialSpider
                     time = 15;
             }
             time *= 20;
-            ((EntityLivingBase)target).addPotionEffect(new PotionEffect(Potion.poison.id, time, 0));
+            ((EntityLivingBase) target).addPotionEffect(new PotionEffect(Potion.poison.id, time, 0));
         }
     }
 

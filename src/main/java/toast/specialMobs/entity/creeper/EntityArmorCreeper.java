@@ -4,13 +4,13 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityArmorCreeper extends Entity_SpecialCreeper
-{
+public class EntityArmorCreeper extends Entity_SpecialCreeper {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/armor.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/armor.png") };
 
     public EntityArmorCreeper(World world) {
         super(world);

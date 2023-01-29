@@ -7,14 +7,14 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityPaleSpider extends Entity_SpecialSpider
-{
+public class EntityPaleSpider extends Entity_SpecialSpider {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/pale.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/pale_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/pale.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "spider/pale_eyes.png") };
 
     public EntityPaleSpider(World world) {
         super(world);
@@ -46,7 +46,7 @@ public class EntityPaleSpider extends Entity_SpecialSpider
                     time = 15;
             }
             time *= 20;
-            ((EntityLivingBase)target).addPotionEffect(new PotionEffect(Potion.weakness.id, time, 2));
+            ((EntityLivingBase) target).addPotionEffect(new PotionEffect(Potion.weakness.id, time, 2));
         }
     }
 

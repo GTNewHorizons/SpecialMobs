@@ -6,15 +6,15 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.EnchantmentSpecial;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityBrutishPigZombie extends Entity_SpecialPigZombie
-{
+public class EntityBrutishPigZombie extends Entity_SpecialPigZombie {
+
     public static final ResourceLocation[] TEXTURES1 = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "pigzombie/brutish.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "pigzombie/brutish.png") };
 
     public EntityBrutishPigZombie(World world) {
         super(world);
@@ -35,11 +35,16 @@ public class EntityBrutishPigZombie extends Entity_SpecialPigZombie
         if (itemStack != null) {
             if (itemStack.getItem() instanceof ItemBow) {
                 if (EnchantmentSpecial.painBow != null) {
-                    EffectHelper.overrideEnchantment(itemStack, EnchantmentSpecial.painBow, this.rand.nextInt(EnchantmentSpecial.painBow.getMaxLevel()) + 1);
+                    EffectHelper.overrideEnchantment(
+                            itemStack,
+                            EnchantmentSpecial.painBow,
+                            this.rand.nextInt(EnchantmentSpecial.painBow.getMaxLevel()) + 1);
                 }
-            }
-            else if (EnchantmentSpecial.painSword != null) {
-                EffectHelper.overrideEnchantment(itemStack, EnchantmentSpecial.painSword, this.rand.nextInt(EnchantmentSpecial.painSword.getMaxLevel()) + 1);
+            } else if (EnchantmentSpecial.painSword != null) {
+                EffectHelper.overrideEnchantment(
+                        itemStack,
+                        EnchantmentSpecial.painSword,
+                        this.rand.nextInt(EnchantmentSpecial.painSword.getMaxLevel()) + 1);
             }
         }
     }

@@ -6,14 +6,14 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityJoltBlaze extends Entity_SpecialBlaze
-{
+public class EntityJoltBlaze extends Entity_SpecialBlaze {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/jolt.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "blaze/jolt.png") };
 
     public EntityJoltBlaze(World world) {
         super(world);
@@ -24,7 +24,10 @@ public class EntityJoltBlaze extends Entity_SpecialBlaze
     /// Called every tick while this entity is alive.
     @Override
     public void onLivingUpdate() {
-        if (!this.worldObj.isRemote && this.isEntityAlive() && this.entityToAttack != null && this.rand.nextInt(10) == 0 && this.entityToAttack.getDistanceSqToEntity(this) > 256.0) {
+        if (!this.worldObj.isRemote && this.isEntityAlive()
+                && this.entityToAttack != null
+                && this.rand.nextInt(10) == 0
+                && this.entityToAttack.getDistanceSqToEntity(this) > 256.0) {
             this.teleportToEntity(this.entityToAttack);
             this.attackTime = Math.max(20, this.attackTime);
         }
@@ -49,27 +52,26 @@ public class EntityJoltBlaze extends Entity_SpecialBlaze
             double xI = this.posX;
             double yI = this.posY;
             double zI = this.posZ;
-            
-            // Reworking Jolt logic.  
+
+            // Reworking Jolt logic.
             // Jolt will take damage/5 & teleport if hit by indirect damage
             // Jolt will not teleport from other damage sources
             if (damageSource instanceof EntityDamageSourceIndirect) {
-                damage = damage/5;
+                damage = damage / 5;
                 this.teleportRandomly();
             }
             boolean hit = super.attackEntityFrom(damageSource, damage);
 
             if (this.getHealth() > 0.0F) {
                 MobHelper.lightningExplode(this, xI, yI, zI, 0);
-            }
-            else {
+            } else {
                 this.setPosition(xI, yI, zI);
             }
             return hit;
         }
         return super.attackEntityFrom(damageSource, damage);
     }
-    
+
     /// Teleports this enderman to a random nearby location. Returns true if this entity teleports.
     protected boolean teleportRandomly() {
         double x = this.posX + (this.rand.nextDouble() - 0.5) * 16.0;
@@ -92,7 +94,8 @@ public class EntityJoltBlaze extends Entity_SpecialBlaze
         double yI = this.posY;
         double zI = this.posZ;
         this.setPosition(x, y, z);
-        if (this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() != 0 || this.worldObj.isAnyLiquid(this.boundingBox)) {
+        if (this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() != 0
+                || this.worldObj.isAnyLiquid(this.boundingBox)) {
             this.setPosition(xI, yI, zI);
             return false;
         }

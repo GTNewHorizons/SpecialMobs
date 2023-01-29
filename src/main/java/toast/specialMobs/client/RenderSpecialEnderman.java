@@ -14,8 +14,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderSpecialEnderman extends RenderEnderman
-{
+public class RenderSpecialEnderman extends RenderEnderman {
+
     public RenderSpecialEnderman() {
         super();
     }
@@ -23,14 +23,14 @@ public class RenderSpecialEnderman extends RenderEnderman
     /// Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
-        return ((ISpecialMob)entity).getSpecialData().getTexture();
+        return ((ISpecialMob) entity).getSpecialData().getTexture();
     }
 
     /// Allows the render to do any OpenGL state modifications necessary before the model is rendered.
     @Override
     protected void preRenderCallback(EntityLivingBase entity, float partialTick) {
         super.preRenderCallback(entity, partialTick);
-        float scale = ((ISpecialMob)entity).getSpecialData().getRenderScale();
+        float scale = ((ISpecialMob) entity).getSpecialData().getRenderScale();
         this.shadowSize = 0.5F * scale;
         GL11.glScalef(scale, scale, scale);
     }
@@ -39,7 +39,7 @@ public class RenderSpecialEnderman extends RenderEnderman
     @Override
     protected int shouldRenderPass(EntityEnderman entity, int renderPass, float partialTick) {
         if (renderPass == 0) {
-            this.bindTexture(((ISpecialMob)entity).getSpecialData().getTexture(1));
+            this.bindTexture(((ISpecialMob) entity).getSpecialData().getTexture(1));
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
             GL11.glDisable(GL11.GL_LIGHTING);

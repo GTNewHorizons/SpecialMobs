@@ -12,8 +12,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderSpecialSilverfish extends RenderSilverfish
-{
+public class RenderSpecialSilverfish extends RenderSilverfish {
+
     public RenderSpecialSilverfish() {
         super();
     }
@@ -21,14 +21,14 @@ public class RenderSpecialSilverfish extends RenderSilverfish
     /// Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
-        return ((ISpecialMob)entity).getSpecialData().getTexture();
+        return ((ISpecialMob) entity).getSpecialData().getTexture();
     }
 
     /// Allows the render to do any OpenGL state modifications necessary before the model is rendered.
     @Override
     protected void preRenderCallback(EntityLivingBase entity, float partialTick) {
         super.preRenderCallback(entity, partialTick);
-        float scale = ((ISpecialMob)entity).getSpecialData().getRenderScale();
+        float scale = ((ISpecialMob) entity).getSpecialData().getRenderScale();
         this.shadowSize = 0.3F * scale;
         GL11.glScalef(scale, scale, scale);
     }

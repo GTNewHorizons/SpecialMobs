@@ -13,6 +13,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+
 import toast.specialMobs.DataWatcherHelper;
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
@@ -21,8 +22,8 @@ import toast.specialMobs.network.MessageTexture;
 /**
  * Helper class used to store data that is common to all different mod species.
  */
-public class SpecialMobData
-{
+public class SpecialMobData {
+
     // Useful properties for this class.
     /** The maximum multiple of difference between differently sized mobs. */
     private static final float RANDOM_SCALING = (float) Properties.getDouble(Properties.GENERAL, "random_scaling");
@@ -35,8 +36,10 @@ public class SpecialMobData
         // Do nothing
     }
 
-    /** @param tag The mob's base nbt tag
-     * @return The nbt tag to save special mob data to. */
+    /**
+     * @param tag The mob's base nbt tag
+     * @return The nbt tag to save special mob data to.
+     */
     public static NBTTagCompound getSaveLocation(NBTTagCompound tag) {
         if (!tag.hasKey("ForgeData")) {
             tag.setTag("ForgeData", new NBTTagCompound());
@@ -97,17 +100,21 @@ public class SpecialMobData
     public HashSet<Integer> immuneToPotions = new HashSet<Integer>();
 
     /**
-     * Constructs a SpecialMobData to store generic data about a mob, initialized with the mob's
-     * texture(s).
+     * Constructs a SpecialMobData to store generic data about a mob, initialized with the mob's texture(s).
      *
-     * @param entity The entity to store data for.
+     * @param entity       The entity to store data for.
      * @param baseTextures The entity's default textures.
      */
     public SpecialMobData(EntityLiving entity, ResourceLocation... baseTextures) {
         this.theEntity = entity;
         this.textures = baseTextures;
 
-        this.theEntity.getDataWatcher().addObject(SpecialMobData.SCALE, Float.valueOf(SpecialMobData.RANDOM_SCALING > 0.0F ? 1.0F + (entity.getRNG().nextFloat() - 0.5F) * SpecialMobData.RANDOM_SCALING : 1.0F));
+        this.theEntity.getDataWatcher().addObject(
+                SpecialMobData.SCALE,
+                Float.valueOf(
+                        SpecialMobData.RANDOM_SCALING > 0.0F
+                                ? 1.0F + (entity.getRNG().nextFloat() - 0.5F) * SpecialMobData.RANDOM_SCALING
+                                : 1.0F));
         if (entity.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD) {
             this.immuneToPotions.add(Potion.regeneration.id);
             this.immuneToPotions.add(Potion.poison.id);
@@ -137,7 +144,7 @@ public class SpecialMobData
     /**
      * Handles the onSpawnWithEgg method to initialize the entity.
      *
-     * @param data Entity group data. Generally unused.
+     * @param data  Entity group data. Generally unused.
      * @param proxy A fake, vanilla version of the entity this data is saved to.
      * @return The new data object, if any. Otherwise, returns the original.
      */
@@ -150,7 +157,7 @@ public class SpecialMobData
         entityData = new NBTTagCompound();
         proxy.writeToNBT(entityData);
         this.theEntity.readFromNBT(entityData);
-        ((ISpecialMob)this.theEntity).adjustEntityAttributes();
+        ((ISpecialMob) this.theEntity).adjustEntityAttributes();
 
         if (proxy.riddenByEntity != null) {
             proxy.riddenByEntity.mountEntity(this.theEntity);
@@ -160,25 +167,27 @@ public class SpecialMobData
     }
 
     /**
-     * Alters the entity's base attribute by adding an amount to it.
-     * Do NOT use this for move speed, instead use {@link SpecialMobData#multAttribute(IAttribute, double)}
+     * Alters the entity's base attribute by adding an amount to it. Do NOT use this for move speed, instead use
+     * {@link SpecialMobData#multAttribute(IAttribute, double)}
      *
      * @param attribute the attribute to modify
-     * @param amount the amount to add to the attribute
+     * @param amount    the amount to add to the attribute
      */
     public void addAttribute(IAttribute attribute, double amount) {
-        this.theEntity.getEntityAttribute(attribute).setBaseValue(this.theEntity.getEntityAttribute(attribute).getAttributeValue() + amount);
+        this.theEntity.getEntityAttribute(attribute)
+                .setBaseValue(this.theEntity.getEntityAttribute(attribute).getAttributeValue() + amount);
     }
 
     /**
-     * Alters the entity's base attribute by multiplying it by an amount.
-     * Only use this for move speed, for other attributes use {@link SpecialMobData#addAttribute(IAttribute, double)}
+     * Alters the entity's base attribute by multiplying it by an amount. Only use this for move speed, for other
+     * attributes use {@link SpecialMobData#addAttribute(IAttribute, double)}
      *
      * @param attribute the attribute to modify
-     * @param amount the amount to multiply the attribute by
+     * @param amount    the amount to multiply the attribute by
      */
     public void multAttribute(IAttribute attribute, double amount) {
-        this.theEntity.getEntityAttribute(attribute).setBaseValue(this.theEntity.getEntityAttribute(attribute).getAttributeValue() * amount);
+        this.theEntity.getEntityAttribute(attribute)
+                .setBaseValue(this.theEntity.getEntityAttribute(attribute).getAttributeValue() * amount);
     }
 
     /**
@@ -201,6 +210,7 @@ public class SpecialMobData
     public ResourceLocation getTexture() {
         return this.textures[0];
     }
+
     /**
      * @param index The index of the texture to get.
      * @return The texture for the entity with a specific index.
@@ -222,6 +232,7 @@ public class SpecialMobData
     public void setTextures(ResourceLocation... tex) {
         this.textures = tex;
     }
+
     /**
      * @param tex The new texture(s) to load for the entity. Called when loaded from NBT or packet.
      */
@@ -232,16 +243,14 @@ public class SpecialMobData
                 if (!this.textures[i].toString().equals(tex[i])) {
                     this.updateTextures = true;
                     newTextures[i] = new ResourceLocation(tex[i]);
-                }
-                else {
+                } else {
                     newTextures[i] = this.textures[i];
                 }
             }
             if (this.updateTextures) {
                 this.setTextures(newTextures);
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             _SpecialMobs.console("Failed to load textures!");
         }
     }
@@ -269,7 +278,13 @@ public class SpecialMobData
      */
     public void resetRenderScale(float scale) {
         if (!this.theEntity.worldObj.isRemote) {
-            this.theEntity.getDataWatcher().updateObject(SpecialMobData.SCALE, Float.valueOf(SpecialMobData.RANDOM_SCALING > 0.0F ? scale + (this.theEntity.getRNG().nextFloat() - 0.5F) * SpecialMobData.RANDOM_SCALING : scale));
+            this.theEntity.getDataWatcher().updateObject(
+                    SpecialMobData.SCALE,
+                    Float.valueOf(
+                            SpecialMobData.RANDOM_SCALING > 0.0F
+                                    ? scale + (this.theEntity.getRNG().nextFloat() - 0.5F)
+                                            * SpecialMobData.RANDOM_SCALING
+                                    : scale));
         }
     }
 
@@ -349,8 +364,7 @@ public class SpecialMobData
                     newTextures[i] = textureTag.getStringTagAt(i);
                 }
                 this.loadTextures(newTextures);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 _SpecialMobs.console("Failed to load textures from NBT! " + this.theEntity.toString());
             }
         }

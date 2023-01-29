@@ -16,25 +16,29 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.EntitySpecialSpitball;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class Entity_SpecialCaveSpider extends EntityCaveSpider implements ISpecialMob, IRangedAttackMob
-{
+public class Entity_SpecialCaveSpider extends EntityCaveSpider implements ISpecialMob, IRangedAttackMob {
+
     /// Useful properties for this class.
     private static final double HOSTILE_CHANCE = Properties.getDouble(Properties.STATS, "hostile_cavespiders");
     private static final double SPIT_CHANCE = Properties.getDouble(Properties.STATS, "spit_chance_cavespider");
     /// Attacking speed boost modifier.
     private static final UUID stopModifierUUID = UUID.fromString("70A57A49-7EC5-45BA-B886-3B90B23A1718");
-    private static final AttributeModifier stopModifier = new AttributeModifier(Entity_SpecialCaveSpider.stopModifierUUID, "Attacking speed boost", -1.0, 2).setSaved(false);
+    private static final AttributeModifier stopModifier = new AttributeModifier(
+            Entity_SpecialCaveSpider.stopModifierUUID,
+            "Attacking speed boost",
+            -1.0,
+            2).setSaved(false);
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation("textures/entity/spider/cave_spider.png"),
-        new ResourceLocation("textures/entity/spider_eyes.png")
-    };
+            new ResourceLocation("textures/entity/spider/cave_spider.png"),
+            new ResourceLocation("textures/entity/spider_eyes.png") };
 
     /// If true, this spider will attack regardless of light level.
     public boolean isHostile;
@@ -112,7 +116,8 @@ public class Entity_SpecialCaveSpider extends EntityCaveSpider implements ISpeci
     protected void updateEntityActionState() {
         super.updateEntityActionState();
         if (this.isHostile && !this.hasPath()) {
-            this.rotationYaw = MathHelper.wrapAngleTo180_float(this.rotationYaw + (float) this.rand.nextGaussian() * 20.0F);
+            this.rotationYaw = MathHelper
+                    .wrapAngleTo180_float(this.rotationYaw + (float) this.rand.nextGaussian() * 20.0F);
         }
     }
 
@@ -134,7 +139,9 @@ public class Entity_SpecialCaveSpider extends EntityCaveSpider implements ISpeci
             if (!this.worldObj.isRemote && this.spitDelay <= 0 && distance < this.getSpecialData().arrowRange) {
                 if (target instanceof EntityLivingBase && this.spitDelay <= 0) {
                     float damage = distance / this.getSpecialData().arrowRange;
-                    this.spitDelay = (int) (damage * (this.getSpecialData().arrowRefireMax - this.getSpecialData().arrowRefireMin) + this.getSpecialData().arrowRefireMin);
+                    this.spitDelay = (int) (damage
+                            * (this.getSpecialData().arrowRefireMax - this.getSpecialData().arrowRefireMin)
+                            + this.getSpecialData().arrowRefireMin);
                     damage = Math.max(0.1F, Math.min(1.0F, damage));
                     this.attackEntityWithRangedAttack((EntityLivingBase) target, damage);
                 }
@@ -145,17 +152,14 @@ public class Entity_SpecialCaveSpider extends EntityCaveSpider implements ISpeci
                 if (stopped != shouldStop) {
                     if (shouldStop) {
                         attribute.applyModifier(Entity_SpecialCaveSpider.stopModifier);
-                    }
-                    else {
+                    } else {
                         attribute.removeModifier(Entity_SpecialCaveSpider.stopModifier);
                     }
                 }
-            }
-            else {
+            } else {
                 this.sightDelay = 20;
             }
-        }
-        else {
+        } else {
             if (stopped) {
                 attribute.removeModifier(Entity_SpecialCaveSpider.stopModifier);
             }
@@ -169,8 +173,15 @@ public class Entity_SpecialCaveSpider extends EntityCaveSpider implements ISpeci
     /// Attack the specified entity using a ranged attack.
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float range) {
-        EntitySpecialSpitball spitball = new EntitySpecialSpitball(this.worldObj, this, target, 1.6F, this.getTypeArrowSpread());
-        spitball.setDamage(range * this.getSpecialData().arrowDamage + (float) this.rand.nextGaussian() * 0.25F + this.worldObj.difficultySetting.getDifficultyId() * 0.11F);
+        EntitySpecialSpitball spitball = new EntitySpecialSpitball(
+                this.worldObj,
+                this,
+                target,
+                1.6F,
+                this.getTypeArrowSpread());
+        spitball.setDamage(
+                range * this.getSpecialData().arrowDamage + (float) this.rand.nextGaussian() * 0.25F
+                        + this.worldObj.difficultySetting.getDifficultyId() * 0.11F);
 
         this.playSound("mob.slimeattack", 1.0F, 1.0F / (this.rand.nextFloat() * 0.4F + 0.8F));
         this.worldObj.spawnEntityInWorld(spitball);
@@ -178,7 +189,8 @@ public class Entity_SpecialCaveSpider extends EntityCaveSpider implements ISpeci
 
     /// Overridden to modify the base arrow variance.
     protected float getTypeArrowSpread() {
-        return this.getSpecialData().arrowSpread - this.worldObj.difficultySetting.getDifficultyId() * (this.getSpecialData().arrowSpread / 4.0F + 0.5F);
+        return this.getSpecialData().arrowSpread
+                - this.worldObj.difficultySetting.getDifficultyId() * (this.getSpecialData().arrowSpread / 4.0F + 0.5F);
     }
 
     /// Gets how bright this entity is.
@@ -232,8 +244,7 @@ public class Entity_SpecialCaveSpider extends EntityCaveSpider implements ISpeci
         NBTTagCompound saveTag = SpecialMobData.getSaveLocation(tag);
         if (saveTag.hasKey("SMAnger")) {
             this.isHostile = saveTag.getBoolean("SMAnger");
-        }
-        else if (tag.hasKey("SMAnger")) {
+        } else if (tag.hasKey("SMAnger")) {
             this.isHostile = tag.getBoolean("SMAnger");
         }
 
@@ -273,7 +284,7 @@ public class Entity_SpecialCaveSpider extends EntityCaveSpider implements ISpeci
 
     /// Sets the entity inside a web block.
     @Override
-    public void setInWeb()  {
+    public void setInWeb() {
         if (!this.getSpecialData().isImmuneToWebs) {
             super.setInWeb();
         }

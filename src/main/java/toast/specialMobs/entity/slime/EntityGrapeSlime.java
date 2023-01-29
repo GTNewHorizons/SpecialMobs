@@ -6,14 +6,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityGrapeSlime extends Entity_SpecialSlime
-{
+public class EntityGrapeSlime extends Entity_SpecialSlime {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "slime/grape.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "slime/grape.png") };
 
     public EntityGrapeSlime(World world) {
         super(world);

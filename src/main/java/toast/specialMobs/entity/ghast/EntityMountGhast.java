@@ -11,10 +11,11 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+
 import toast.specialMobs.MobHelper;
 
-public class EntityMountGhast extends Entity_SpecialGhast
-{
+public class EntityMountGhast extends Entity_SpecialGhast {
+
     /// The target rider.
     public EntityLiving targetedRider;
     /// Whether the target was in range last tick.
@@ -37,7 +38,7 @@ public class EntityMountGhast extends Entity_SpecialGhast
         // Determine goal: melee attack, float in range, or pickup rider.
         float distanceSq = Float.POSITIVE_INFINITY;
         if (this.targetedEntity != null) {
-            distanceSq = (float)this.targetedEntity.getDistanceSqToEntity(this);
+            distanceSq = (float) this.targetedEntity.getDistanceSqToEntity(this);
         }
         boolean inRange = false;
         if (this.riddenByEntity != null) {
@@ -45,23 +46,30 @@ public class EntityMountGhast extends Entity_SpecialGhast
                 inRange = distanceSq < 64.0;
             }
             this.targetedRider = null;
-        }
-        else if (this.targetedEntity == null && (this.targetedRider == null || this.targetedRider.ridingEntity != null || !this.targetedRider.isEntityAlive()) && this.rand.nextInt(100) == 0) {
-            List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(100.0, 100.0, 100.0));
-            double closestDistance = Double.POSITIVE_INFINITY;
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i) instanceof EntityLiving) {
-                    EntityLiving entity = (EntityLiving)list.get(i);
-                    if (entity instanceof IMob && !(entity instanceof EntityFlying) && entity.ridingEntity == null && entity.riddenByEntity == null && entity != this.targetedEntity && this.getEntitySenses().canSee(entity)) {
-                        double distance = entity.getDistanceSqToEntity(this);
-                        if (distance < closestDistance) {
-                            this.targetedRider = entity;
-                            closestDistance = distance;
+        } else if (this.targetedEntity == null
+                && (this.targetedRider == null || this.targetedRider.ridingEntity != null
+                        || !this.targetedRider.isEntityAlive())
+                && this.rand.nextInt(100) == 0) {
+                    List<?> list = this.worldObj
+                            .getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(100.0, 100.0, 100.0));
+                    double closestDistance = Double.POSITIVE_INFINITY;
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i) instanceof EntityLiving) {
+                            EntityLiving entity = (EntityLiving) list.get(i);
+                            if (entity instanceof IMob && !(entity instanceof EntityFlying)
+                                    && entity.ridingEntity == null
+                                    && entity.riddenByEntity == null
+                                    && entity != this.targetedEntity
+                                    && this.getEntitySenses().canSee(entity)) {
+                                double distance = entity.getDistanceSqToEntity(this);
+                                if (distance < closestDistance) {
+                                    this.targetedRider = entity;
+                                    closestDistance = distance;
+                                }
+                            }
                         }
                     }
                 }
-            }
-        }
         // Perform movement.
         double vX = this.waypointX - this.posX;
         double vY = this.waypointY - this.posY;
@@ -70,26 +78,29 @@ public class EntityMountGhast extends Entity_SpecialGhast
         if (v < 0.1 || v > 3600.0 || inRange != this.prevInRange) {
             if (inRange) {
                 this.setRandomWaypoints(4.0F);
-            }
-            else if (this.targetedRider != null) {
+            } else if (this.targetedRider != null) {
                 this.waypointX = this.targetedRider.posX;
                 this.waypointY = this.targetedRider.posY + this.targetedRider.height / 2.0F;
                 this.waypointZ = this.targetedRider.posZ;
                 if (!this.isCourseTraversable(Math.sqrt(v))) {
                     this.setRandomWaypoints(32.0F);
                 }
-            }
-            else if (this.targetedEntity != null) {
+            } else if (this.targetedEntity != null) {
                 this.waypointX = this.targetedEntity.posX;
                 this.waypointY = this.targetedEntity.posY + this.targetedEntity.height / 2.0F;
                 this.waypointZ = this.targetedEntity.posZ;
                 if (!this.isCourseTraversable(Math.sqrt(v))) {
                     this.setRandomWaypoints(32.0F);
                 }
-            }
-            else {
+            } else {
                 this.setRandomWaypoints(32.0F);
-                this.waypointY = Math.max(this.waypointY, Math.max(70.0, this.worldObj.getHeightValue((int)Math.floor(this.waypointX), (int)Math.floor(this.waypointZ)) + 16.0));
+                this.waypointY = Math.max(
+                        this.waypointY,
+                        Math.max(
+                                70.0,
+                                this.worldObj.getHeightValue(
+                                        (int) Math.floor(this.waypointX),
+                                        (int) Math.floor(this.waypointZ)) + 16.0));
             }
         }
         if (this.courseChangeCooldown-- <= 0) {
@@ -103,8 +114,7 @@ public class EntityMountGhast extends Entity_SpecialGhast
                 this.motionX += vX * speed;
                 this.motionY += vY * speed;
                 this.motionZ += vZ * speed;
-            }
-            else {
+            } else {
                 this.setRandomWaypoints(8.0F);
             }
         }
@@ -113,20 +123,29 @@ public class EntityMountGhast extends Entity_SpecialGhast
             this.attackCounter--;
         }
         if (this.targetedRider != null) {
-            this.renderYawOffset = this.rotationYaw = (float)Math.atan2(this.targetedRider.posX - this.posX, this.targetedRider.posZ - this.posZ) * -180.0F / (float)Math.PI;
+            this.renderYawOffset = this.rotationYaw = (float) Math
+                    .atan2(this.targetedRider.posX - this.posX, this.targetedRider.posZ - this.posZ) * -180.0F
+                    / (float) Math.PI;
 
             double reach = this.width * this.width * 4.0F + this.targetedRider.width;
-            if (this.getDistanceSq(this.targetedRider.posX, this.targetedRider.posY + this.targetedRider.height / 2.0F, this.targetedRider.posZ) <= reach) {
+            if (this.getDistanceSq(
+                    this.targetedRider.posX,
+                    this.targetedRider.posY + this.targetedRider.height / 2.0F,
+                    this.targetedRider.posZ) <= reach) {
                 this.targetedRider.mountEntity(this);
                 this.targetedRider = null;
             }
-        }
-        else if (this.targetedEntity != null) {
-            this.renderYawOffset = this.rotationYaw = (float)Math.atan2(this.targetedEntity.posX - this.posX, this.targetedEntity.posZ - this.posZ) * -180.0F / (float)Math.PI;
+        } else if (this.targetedEntity != null) {
+            this.renderYawOffset = this.rotationYaw = (float) Math
+                    .atan2(this.targetedEntity.posX - this.posX, this.targetedEntity.posZ - this.posZ) * -180.0F
+                    / (float) Math.PI;
 
             if (this.attackCounter <= 0) {
                 double reach = this.width * this.width * 4.0F + this.targetedEntity.width;
-                if (this.getDistanceSq(this.targetedEntity.posX, this.targetedEntity.posY + this.targetedEntity.height / 2.0F, this.targetedEntity.posZ) <= reach) {
+                if (this.getDistanceSq(
+                        this.targetedEntity.posX,
+                        this.targetedEntity.posY + this.targetedEntity.height / 2.0F,
+                        this.targetedEntity.posZ) <= reach) {
                     this.attackCounter = 20;
                     this.swingItem();
                     this.attackEntityAsMob(this.targetedEntity);
@@ -135,15 +154,15 @@ public class EntityMountGhast extends Entity_SpecialGhast
 
             if (this.riddenByEntity instanceof EntityLiving) {
                 if (this.targetedEntity instanceof EntityLivingBase) {
-                    ((EntityLiving)this.riddenByEntity).setAttackTarget((EntityLivingBase)this.targetedEntity);
+                    ((EntityLiving) this.riddenByEntity).setAttackTarget((EntityLivingBase) this.targetedEntity);
                 }
                 if (this.riddenByEntity instanceof EntityCreature) {
-                    ((EntityCreature)this.riddenByEntity).setTarget(this.targetedEntity);
+                    ((EntityCreature) this.riddenByEntity).setTarget(this.targetedEntity);
                 }
             }
-        }
-        else {
-            this.renderYawOffset = this.rotationYaw = -((float)Math.atan2(this.motionX, this.motionZ)) * 180.0F / (float)Math.PI;
+        } else {
+            this.renderYawOffset = this.rotationYaw = -((float) Math.atan2(this.motionX, this.motionZ)) * 180.0F
+                    / (float) Math.PI;
         }
         this.prevInRange = inRange;
     }
@@ -167,7 +186,9 @@ public class EntityMountGhast extends Entity_SpecialGhast
                 this.aggroCooldown = 20;
             }
         }
-        if (this.targetedRider != null && (this.targetedRider.ridingEntity != null || this.targetedRider.riddenByEntity != null || !this.targetedRider.isEntityAlive())) {
+        if (this.targetedRider != null
+                && (this.targetedRider.ridingEntity != null || this.targetedRider.riddenByEntity != null
+                        || !this.targetedRider.isEntityAlive())) {
             this.targetedRider = null;
         }
     }
@@ -175,7 +196,8 @@ public class EntityMountGhast extends Entity_SpecialGhast
     /// Returns true if the rider has a ranged attack.
     public boolean isRiderRanged() {
         if (this.lastRiddenByEntity != this.riddenByEntity) {
-            this.riderIsRanged = this.riddenByEntity instanceof EntityLiving && MobHelper.hasRangedAttack((EntityLiving)this.riddenByEntity);
+            this.riderIsRanged = this.riddenByEntity instanceof EntityLiving
+                    && MobHelper.hasRangedAttack((EntityLiving) this.riddenByEntity);
             this.lastRiddenByEntity = this.riddenByEntity;
         }
         return this.riderIsRanged;
@@ -193,16 +215,14 @@ public class EntityMountGhast extends Entity_SpecialGhast
             aabb = this.riddenByEntity.boundingBox.copy();
             for (int i = 1; i < v; i++) {
                 aabb.offset(dX, dY, dZ);
-                if (!this.worldObj.getCollidingBoundingBoxes(this.riddenByEntity, aabb).isEmpty())
-                    return false;
+                if (!this.worldObj.getCollidingBoundingBoxes(this.riddenByEntity, aabb).isEmpty()) return false;
             }
         }
         /// Check for self.
         aabb = this.boundingBox.copy();
         for (int i = 1; i < v; i++) {
             aabb.offset(dX, dY, dZ);
-            if (!this.worldObj.getCollidingBoundingBoxes(this, aabb).isEmpty())
-                return false;
+            if (!this.worldObj.getCollidingBoundingBoxes(this, aabb).isEmpty()) return false;
         }
         return true;
     }

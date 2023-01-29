@@ -8,19 +8,19 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class Entity_SpecialSilverfish extends EntitySilverfish implements ISpecialMob
-{
+public class Entity_SpecialSilverfish extends EntitySilverfish implements ISpecialMob {
+
     /// Useful properties for this class.
     private static final double HOSTILE_CHANCE = Properties.getDouble(Properties.STATS, "hostile_silverfish");
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation("textures/entity/silverfish.png")
-    };
+            new ResourceLocation("textures/entity/silverfish.png") };
 
     /// This mob's special mob data.
     private SpecialMobData specialData;
@@ -142,7 +142,7 @@ public class Entity_SpecialSilverfish extends EntitySilverfish implements ISpeci
 
     /// Sets the entity inside a web block.
     @Override
-    public void setInWeb()  {
+    public void setInWeb() {
         if (!this.getSpecialData().isImmuneToWebs) {
             super.setInWeb();
         }

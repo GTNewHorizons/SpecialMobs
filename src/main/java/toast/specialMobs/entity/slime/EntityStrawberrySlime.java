@@ -5,13 +5,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityStrawberrySlime extends Entity_SpecialSlime
-{
+public class EntityStrawberrySlime extends Entity_SpecialSlime {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "slime/strawberry.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "slime/strawberry.png") };
 
     public EntityStrawberrySlime(World world) {
         super(world);

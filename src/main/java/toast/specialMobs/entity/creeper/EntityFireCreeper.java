@@ -7,10 +7,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
 public class EntityFireCreeper extends Entity_SpecialCreeper {
-    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/fire.png") };
+
+    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/fire.png") };
 
     public EntityFireCreeper(World world) {
         super(world);

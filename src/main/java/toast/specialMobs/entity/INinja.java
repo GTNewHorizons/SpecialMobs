@@ -3,11 +3,11 @@ package toast.specialMobs.entity;
 import net.minecraft.block.Block;
 
 /**
- * A mob must implement this interface to use EntityAINinja.
- * This allows get and set methods for the hiding block so the AI knows when it should freeze.
+ * A mob must implement this interface to use EntityAINinja. This allows get and set methods for the hiding block so the
+ * AI knows when it should freeze.
  */
-public interface INinja
-{
+public interface INinja {
+
     // Gets whether the ninja should not move.
     public boolean getFrozen();
 

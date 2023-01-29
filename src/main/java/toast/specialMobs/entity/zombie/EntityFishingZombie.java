@@ -7,13 +7,14 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
 import toast.specialMobs.DataWatcherHelper;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.EntitySpecialFishHook;
 import toast.specialMobs.entity.IAngler;
 
-public class EntityFishingZombie extends Entity_SpecialZombie implements IAngler
-{
+public class EntityFishingZombie extends Entity_SpecialZombie implements IAngler {
+
     /// The position of hasFishingRod within the data watcher.
     private static final byte DW_FISHING_ROD = DataWatcherHelper.instance.ZOMBIE_FISHING.nextKey();
 
@@ -44,9 +45,9 @@ public class EntityFishingZombie extends Entity_SpecialZombie implements IAngler
         float tension = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
         if (this.rand.nextFloat() < 0.25F * tension) {
             try {
-                EnchantmentHelper.addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
-            }
-            catch (Exception ex) {
+                EnchantmentHelper
+                        .addRandomEnchantment(this.rand, itemStack, (int) (5.0F + tension * this.rand.nextInt(18)));
+            } catch (Exception ex) {
                 _SpecialMobs.console("Error applying enchantments! entity:" + this.toString());
                 ex.printStackTrace();
             }
@@ -60,6 +61,7 @@ public class EntityFishingZombie extends Entity_SpecialZombie implements IAngler
         this.fishHook = hook;
         this.setFishingRod(hook == null);
     }
+
     @Override /// IAngler
     public EntitySpecialFishHook getFishHook() {
         return this.fishHook;
@@ -67,8 +69,9 @@ public class EntityFishingZombie extends Entity_SpecialZombie implements IAngler
 
     /// Get/set functions for heldItem. fishing rod == true, stick == false.
     public void setFishingRod(boolean rod) {
-        this.dataWatcher.updateObject(EntityFishingZombie.DW_FISHING_ROD, Byte.valueOf((byte)(rod ? 1 : 0)));
+        this.dataWatcher.updateObject(EntityFishingZombie.DW_FISHING_ROD, Byte.valueOf((byte) (rod ? 1 : 0)));
     }
+
     public boolean getFishingRod() {
         return this.dataWatcher.getWatchableObjectByte(EntityFishingZombie.DW_FISHING_ROD) == 1;
     }
@@ -91,11 +94,12 @@ public class EntityFishingZombie extends Entity_SpecialZombie implements IAngler
         if (!this.worldObj.isRemote && this.rodTime <= 0 && this.getFishingRod()) {
             Entity target = this.getAttackTarget();
             if (target != null) {
-                float distanceSq = (float)this.getDistanceSqToEntity(target);
+                float distanceSq = (float) this.getDistanceSqToEntity(target);
                 if (distanceSq > 9.0F && distanceSq < 100.0F && this.getEntitySenses().canSee(target)) {
                     new EntitySpecialFishHook(this.worldObj, this, target);
                     this.worldObj.spawnEntityInWorld(this.getFishHook());
-                    this.worldObj.playSoundAtEntity(this, "random.bow", 0.5F, 0.4F / (this.rand.nextFloat() * 0.4F + 0.8F));
+                    this.worldObj
+                            .playSoundAtEntity(this, "random.bow", 0.5F, 0.4F / (this.rand.nextFloat() * 0.4F + 0.8F));
                     this.setFishingRod(false);
                     this.rodTime = this.rand.nextInt(11) + 32;
                 }

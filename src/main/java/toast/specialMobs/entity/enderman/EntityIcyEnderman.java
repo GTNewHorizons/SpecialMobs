@@ -9,14 +9,14 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityIcyEnderman extends Entity_SpecialEnderman
-{
+public class EntityIcyEnderman extends Entity_SpecialEnderman {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/icy.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/icy_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/icy.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/icy_eyes.png") };
 
     public EntityIcyEnderman(World world) {
         super(world);
@@ -49,7 +49,7 @@ public class EntityIcyEnderman extends Entity_SpecialEnderman
                     time = 12;
             }
             time *= 20;
-            ((EntityLivingBase)target).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, time, 5));
+            ((EntityLivingBase) target).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, time, 5));
         }
     }
 

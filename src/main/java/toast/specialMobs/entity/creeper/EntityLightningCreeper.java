@@ -3,11 +3,14 @@ package toast.specialMobs.entity.creeper;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
 
 public class EntityLightningCreeper extends Entity_SpecialCreeper {
-    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] { new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/lightning.png") };
+
+    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "creeper/lightning.png") };
 
     public EntityLightningCreeper(World world) {
         super(world);
@@ -25,7 +28,8 @@ public class EntityLightningCreeper extends Entity_SpecialCreeper {
 
         if (powered) {
             int duration = this.rand.nextInt(12000) + 3600;
-            if (!this.worldObj.getWorldInfo().isThundering() || this.worldObj.getWorldInfo().getThunderTime() < duration) {
+            if (!this.worldObj.getWorldInfo().isThundering()
+                    || this.worldObj.getWorldInfo().getThunderTime() < duration) {
                 this.worldObj.getWorldInfo().setThunderTime(duration);
                 this.worldObj.getWorldInfo().setThundering(true);
             }

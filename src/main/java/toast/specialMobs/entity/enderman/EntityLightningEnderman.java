@@ -6,16 +6,16 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityLightningEnderman extends Entity_SpecialEnderman
-{
+public class EntityLightningEnderman extends Entity_SpecialEnderman {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/lightning.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/lightning_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/lightning.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/lightning_eyes.png") };
 
     public EntityLightningEnderman(World world) {
         super(world);

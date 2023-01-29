@@ -11,15 +11,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
-public class EntityThiefEnderman extends Entity_SpecialEnderman
-{
+public class EntityThiefEnderman extends Entity_SpecialEnderman {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/thief.png"),
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/thief_eyes.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/thief.png"),
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "enderman/thief_eyes.png") };
 
     public EntityThiefEnderman(World world) {
         super(world);
@@ -37,7 +37,7 @@ public class EntityThiefEnderman extends Entity_SpecialEnderman
     @Override
     protected void onTypeAttack(Entity target) {
         if (target instanceof EntityLivingBase) {
-            for (int i = 64; i-- > 0;) if (this.teleportTarget((EntityLivingBase)target)) {
+            for (int i = 64; i-- > 0;) if (this.teleportTarget((EntityLivingBase) target)) {
                 break;
             }
         }
@@ -56,12 +56,8 @@ public class EntityThiefEnderman extends Entity_SpecialEnderman
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.
     @Override
     protected void dropRareDrop(int superRare) {
-        Item[] armor = {
-                Items.leather_helmet, Items.leather_chestplate, Items.leather_leggings, Items.leather_boots
-        };
-        String[] armorNames = {
-                "Helmet", "Chestplate", "Leggings", "Boots"
-        };
+        Item[] armor = { Items.leather_helmet, Items.leather_chestplate, Items.leather_leggings, Items.leather_boots };
+        String[] armorNames = { "Helmet", "Chestplate", "Leggings", "Boots" };
         int choice = this.rand.nextInt(armor.length);
         ItemStack itemStack = new ItemStack(armor[choice]);
         String name = armorNames[choice];
@@ -85,9 +81,9 @@ public class EntityThiefEnderman extends Entity_SpecialEnderman
         target.posY += this.rand.nextInt(32) - 16;
         target.posZ += (this.rand.nextDouble() - 0.5) * 32.0;
         boolean canTeleport = false;
-        int blockX = (int)Math.floor(target.posX);
-        int blockY = (int)Math.floor(target.posY);
-        int blockZ = (int)Math.floor(target.posZ);
+        int blockX = (int) Math.floor(target.posX);
+        int blockY = (int) Math.floor(target.posY);
+        int blockZ = (int) Math.floor(target.posZ);
         if (this.worldObj.blockExists(blockX, blockY, blockZ)) {
             boolean grounded = false;
             Block block;
@@ -102,7 +98,8 @@ public class EntityThiefEnderman extends Entity_SpecialEnderman
             }
             if (grounded) {
                 target.setPosition(target.posX, target.posY, target.posZ);
-                if (target.worldObj.getCollidingBoundingBoxes(target, target.boundingBox).isEmpty() && !target.worldObj.isAnyLiquid(target.boundingBox)) {
+                if (target.worldObj.getCollidingBoundingBoxes(target, target.boundingBox).isEmpty()
+                        && !target.worldObj.isAnyLiquid(target.boundingBox)) {
                     canTeleport = true;
                 }
             }
@@ -111,7 +108,8 @@ public class EntityThiefEnderman extends Entity_SpecialEnderman
             target.setPosition(xI, yI, zI);
             return false;
         }
-        if (!(target instanceof EntityPlayerMP) || ((EntityPlayerMP)target).playerNetServerHandler.func_147362_b().isChannelOpen()) {
+        if (!(target instanceof EntityPlayerMP)
+                || ((EntityPlayerMP) target).playerNetServerHandler.func_147362_b().isChannelOpen()) {
             target.setPositionAndUpdate(target.posX, target.posY, target.posZ);
         }
 

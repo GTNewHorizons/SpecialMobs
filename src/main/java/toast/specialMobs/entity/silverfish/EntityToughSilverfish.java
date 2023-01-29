@@ -4,13 +4,13 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import toast.specialMobs._SpecialMobs;
 
-public class EntityToughSilverfish extends Entity_SpecialSilverfish
-{
+public class EntityToughSilverfish extends Entity_SpecialSilverfish {
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "silverfish/tough.png")
-    };
+            new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "silverfish/tough.png") };
 
     public EntityToughSilverfish(World world) {
         super(world);
