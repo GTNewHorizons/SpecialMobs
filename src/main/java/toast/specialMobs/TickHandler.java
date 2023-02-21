@@ -14,6 +14,8 @@ public class TickHandler {
     // Stack of entities that need to be spawned.
     public static ArrayDeque<ReplacementEntry> entityStack = new ArrayDeque<>();
 
+    private long lastStackTrimmedMessageTime = 0;
+
     public TickHandler() {
         FMLCommonHandler.instance().bus().register(this);
     }
@@ -35,6 +37,18 @@ public class TickHandler {
                         break;
                     }
                     entry.replace();
+                }
+                // If processing the entity queue would take longer than a minute, drop the list to avoid running out of
+                // memory
+                if (TickHandler.entityStack.size() > 10 * 20 * 60) {
+                    long now = System.currentTimeMillis();
+                    if (Math.abs(now - lastStackTrimmedMessageTime) > 10_000) {
+                        _SpecialMobs.console(
+                                "Entity transformation list reached a size of " + TickHandler.entityStack.size()
+                                        + ", force-clearing.");
+                        lastStackTrimmedMessageTime = now;
+                    }
+                    TickHandler.entityStack.clear();
                 }
             }
         }
