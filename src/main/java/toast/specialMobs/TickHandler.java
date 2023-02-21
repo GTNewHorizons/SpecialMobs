@@ -42,7 +42,7 @@ public class TickHandler {
                 // memory
                 if (TickHandler.entityStack.size() > 10 * 20 * 60) {
                     long now = System.currentTimeMillis();
-                    if (Math.abs(now - lastStackTrimmedMessageTime) < 10_000) {
+                    if (Math.abs(now - lastStackTrimmedMessageTime) > 10_000) {
                         _SpecialMobs.console(
                                 "Entity transformation list reached a size of " + TickHandler.entityStack.size()
                                         + ", force-clearing.");
