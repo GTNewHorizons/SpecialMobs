@@ -386,11 +386,8 @@ public class _SpecialMobs {
 
         int id = 0;
         _SpecialMobs.CHANNEL = NetworkRegistry.INSTANCE.newSimpleChannel("SM|EX");
-        if (event.getSide() == Side.CLIENT) {
-            _SpecialMobs.CHANNEL
-                    .registerMessage(MessageExplosion.Handler.class, MessageExplosion.class, id++, Side.CLIENT);
-            _SpecialMobs.CHANNEL.registerMessage(MessageTexture.Handler.class, MessageTexture.class, id++, Side.CLIENT);
-        }
+        _SpecialMobs.CHANNEL.registerMessage(MessageExplosion.Handler.class, MessageExplosion.class, id++, Side.CLIENT);
+        _SpecialMobs.CHANNEL.registerMessage(MessageTexture.Handler.class, MessageTexture.class, id++, Side.CLIENT);
     }
 
     /**
