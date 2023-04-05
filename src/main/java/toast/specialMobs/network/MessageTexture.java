@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -74,7 +73,8 @@ public class MessageTexture implements IMessage {
         @Override
         public IMessage onMessage(MessageTexture message, MessageContext ctx) {
             try {
-                World world = FMLClientHandler.instance().getWorldClient();
+                World world = _SpecialMobs.proxy.getClientWorld();
+                if(world == null) return null;
                 ISpecialMob mob = (ISpecialMob) world.getEntityByID(message.entityId);
                 if (mob != null) {
                     SpecialMobData data = mob.getSpecialData();

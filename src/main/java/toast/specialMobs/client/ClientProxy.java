@@ -1,7 +1,9 @@
 package toast.specialMobs.client;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.renderer.RenderBlocks;
 
+import net.minecraft.world.World;
 import toast.specialMobs.CommonProxy;
 import toast.specialMobs.entity.EntityLavaMonster;
 import toast.specialMobs.entity.EntitySpecialFishHook;
@@ -47,5 +49,9 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntitySpecialFishHook.class, new RenderSpecialFishHook());
         RenderingRegistry.registerEntityRenderingHandler(EntitySpecialSpitball.class, new RenderSpecialSpitball());
         RenderingRegistry.registerEntityRenderingHandler(EntityLavaMonster.class, new RenderLavaMonster());
+    }
+
+    public World getClientWorld() {
+        return FMLClientHandler.instance().getWorldClient();
     }
 }
