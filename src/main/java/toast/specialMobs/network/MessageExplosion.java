@@ -6,11 +6,11 @@ import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
+import toast.specialMobs._SpecialMobs;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import toast.specialMobs._SpecialMobs;
 
 public class MessageExplosion implements IMessage {
 
@@ -162,7 +162,7 @@ public class MessageExplosion implements IMessage {
         public IMessage onMessage(MessageExplosion message, MessageContext ctx) {
             try {
                 World world = _SpecialMobs.proxy.getClientWorld();
-                if(world==null) return null;
+                if (world == null) return null;
                 if (message.type == ExplosionType.LIGHTNING) {
                     if (message.size < 0.0F) {
                         message.size = 0.0F;
