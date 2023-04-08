@@ -74,7 +74,7 @@ public class MessageTexture implements IMessage {
         public IMessage onMessage(MessageTexture message, MessageContext ctx) {
             try {
                 World world = _SpecialMobs.proxy.getClientWorld();
-                if(world == null) return null;
+                if (world == null) return null;
                 ISpecialMob mob = (ISpecialMob) world.getEntityByID(message.entityId);
                 if (mob != null) {
                     SpecialMobData data = mob.getSpecialData();
