@@ -1,13 +1,16 @@
 package toast.specialMobs.entity.creeper;
 
+import java.util.List;
 import java.util.UUID;
 
 import net.minecraft.block.Block;
+import net.minecraft.command.IEntitySelector;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -152,6 +155,11 @@ public class EntityEnderCreeper extends Entity_SpecialCreeper {
             this.entityToAttack = null;
             this.teleportRandomly();
         }
+        if (catNearby(this)) {
+            this.entityToAttack = null;
+            this.teleportRandomly();
+        }
+
         this.isJumping = false;
         if (this.entityToAttack != null) {
             if (this.entityToAttack.getDistanceSqToEntity(this) < 9.0 && this.canEntityBeSeen(this.entityToAttack)) {
@@ -262,4 +270,16 @@ public class EntityEnderCreeper extends Entity_SpecialCreeper {
         this.worldObj.playSoundAtEntity(this, "mob.endermen.portal", 1.0F, 1.0F);
         return true;
     }
+
+    public boolean catNearby(Entity enderCreeper) {
+        List list = enderCreeper.worldObj.selectEntitiesWithinAABB(
+                EntityOcelot.class,
+                this.boundingBox.expand(8.0F, 3.0, 8.0F),
+                this.entitySelector);
+        return !list.isEmpty();
+    }
+
+    public final IEntitySelector entitySelector = target -> target.isEntityAlive()
+            && EntityEnderCreeper.this.getEntitySenses().canSee(target);
+
 }
