@@ -16,6 +16,7 @@ public class EntityMiniCreeper extends Entity_SpecialCreeper {
     @Override
     protected void adjustTypeAttributes() {
         this.getSpecialData().multAttribute(SharedMonsterAttributes.movementSpeed, 1.3);
+        this.getSpecialData().addAttribute(SharedMonsterAttributes.maxHealth, -12.0);
     }
 
     /// The explosion caused by this creeper.
