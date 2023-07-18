@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Random;
 
-import cpw.mods.fml.common.event.FMLInterModComms;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityList.EntityEggInfo;
 import net.minecraft.entity.EnumCreatureType;
@@ -23,6 +22,7 @@ import toast.specialMobs.network.MessageTexture;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
