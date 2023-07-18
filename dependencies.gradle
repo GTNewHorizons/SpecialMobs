@@ -1,5 +1,7 @@
 // Add your dependencies here
 
 dependencies {
+    api("com.github.GTNewHorizons:waila:1.6.0:dev")
+    api("com.github.GTNewHorizons:NotEnoughItems:2.3.63-GTNH:dev")
 
 }

@@ -25,6 +25,7 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
 
@@ -255,5 +256,9 @@ public abstract class MobHelper {
     public static boolean canReplace(EntityLiving entity) {
         return !entity.isNoDespawnRequired() && !(entity instanceof ISpecialMob)
                 && entity.getEntityData().getByte("smi") == 0;
+    }
+
+    public static String getDisplayNameForEntity(String mobName) {
+        return StatCollector.translateToLocal("entity." + mobName + ".name");
     }
 }

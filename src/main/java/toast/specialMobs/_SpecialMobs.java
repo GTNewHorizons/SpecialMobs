@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Random;
 
+import cpw.mods.fml.common.event.FMLInterModComms;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityList.EntityEggInfo;
 import net.minecraft.entity.EnumCreatureType;
@@ -388,6 +389,8 @@ public class _SpecialMobs {
         _SpecialMobs.CHANNEL = NetworkRegistry.INSTANCE.newSimpleChannel("SM|EX");
         _SpecialMobs.CHANNEL.registerMessage(MessageExplosion.Handler.class, MessageExplosion.class, id++, Side.CLIENT);
         _SpecialMobs.CHANNEL.registerMessage(MessageTexture.Handler.class, MessageTexture.class, id++, Side.CLIENT);
+
+        FMLInterModComms.sendMessage("Waila", "register", "toast.specialMobs.waila.WailaCompat.load");
     }
 
     /**
