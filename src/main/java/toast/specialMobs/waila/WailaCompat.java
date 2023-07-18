@@ -2,11 +2,6 @@ package toast.specialMobs.waila;
 
 import java.util.List;
 
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaEntityAccessor;
-import mcp.mobius.waila.api.IWailaEntityProvider;
-import mcp.mobius.waila.api.IWailaRegistrar;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -14,6 +9,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaEntityAccessor;
+import mcp.mobius.waila.api.IWailaEntityProvider;
+import mcp.mobius.waila.api.IWailaRegistrar;
 import toast.specialMobs.entity.ISpecialMob;
 
 public class WailaCompat implements IWailaEntityProvider {

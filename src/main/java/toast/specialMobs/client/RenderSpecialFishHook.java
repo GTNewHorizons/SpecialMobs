@@ -11,9 +11,9 @@ import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import toast.specialMobs.entity.EntitySpecialFishHook;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import toast.specialMobs.entity.EntitySpecialFishHook;
 
 @SideOnly(Side.CLIENT)
 public class RenderSpecialFishHook extends Render {

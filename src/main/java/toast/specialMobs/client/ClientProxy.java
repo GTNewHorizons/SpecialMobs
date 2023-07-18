@@ -3,6 +3,10 @@ package toast.specialMobs.client;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.World;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import toast.specialMobs.CommonProxy;
 import toast.specialMobs.entity.EntityLavaMonster;
 import toast.specialMobs.entity.EntitySpecialFishHook;
@@ -19,10 +23,6 @@ import toast.specialMobs.entity.slime.Entity_SpecialSlime;
 import toast.specialMobs.entity.spider.Entity_SpecialSpider;
 import toast.specialMobs.entity.witch.Entity_SpecialWitch;
 import toast.specialMobs.entity.zombie.Entity_SpecialZombie;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {

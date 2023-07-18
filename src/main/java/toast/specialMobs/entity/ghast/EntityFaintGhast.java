@@ -8,11 +8,11 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityFaintGhast extends EntityMeleeGhast {
 

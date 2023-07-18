@@ -8,9 +8,9 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import toast.specialMobs._SpecialMobs;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import toast.specialMobs._SpecialMobs;
 
 @SideOnly(Side.CLIENT)
 public class RenderSpecialSpitball extends Render {
