@@ -22,6 +22,7 @@ import toast.specialMobs.network.MessageTexture;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -388,6 +389,8 @@ public class _SpecialMobs {
         _SpecialMobs.CHANNEL = NetworkRegistry.INSTANCE.newSimpleChannel("SM|EX");
         _SpecialMobs.CHANNEL.registerMessage(MessageExplosion.Handler.class, MessageExplosion.class, id++, Side.CLIENT);
         _SpecialMobs.CHANNEL.registerMessage(MessageTexture.Handler.class, MessageTexture.class, id++, Side.CLIENT);
+
+        FMLInterModComms.sendMessage("Waila", "register", "toast.specialMobs.waila.WailaCompat.load");
     }
 
     /**

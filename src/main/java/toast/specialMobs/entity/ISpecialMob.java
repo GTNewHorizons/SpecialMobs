@@ -6,6 +6,7 @@ import java.util.Random;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.ChatComponentText;
@@ -22,7 +23,7 @@ import cpw.mods.fml.relauncher.Side;
  * This interface is implemented by all monsters in this mod. It allows for commonly used data to be stored conveniently
  * and for attribute changes to be appropriately applied.
  */
-public interface ISpecialMob {
+public interface ISpecialMob extends IMob {
 
     public static final boolean CHAT_ENABLED = Properties.getBoolean(Properties.GENERAL, "chat_enabled");
     public static final int CHAT_RANGE = Properties.getInt(Properties.GENERAL, "chat_range");

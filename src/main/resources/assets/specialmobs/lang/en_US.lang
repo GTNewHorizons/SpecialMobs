@@ -142,7 +142,7 @@ entity.SpecialMobs.UnholyGhast.snark.2=You really want a piece of me?
 entity.SpecialMobs.UnholyGhast.snark.3=Tis but a flesh wound.
 entity.SpecialMobs.UnholyGhast.snark.4=It says "unholy" right in the name.
 entity.SpecialMobs.UnholyGhast.snark.5=Kaping!
-entity.SpecialMobs.UnholyGhast.snark.6=<Geralt voice> Hmmm...... 
+entity.SpecialMobs.UnholyGhast.snark.6=<Geralt voice> Hmmm......
 entity.SpecialMobs.UnholyGhast.snark.7=Heh heh heh... "ouch".
 entity.SpecialMobs.UnholyGhast.snark.8=This place is great except for all the ghasts.
 entity.SpecialMobs.UnholyGhast.snark.9=What are you, stupid?
@@ -190,7 +190,7 @@ entity.SpecialMobs.VampirePigZombie.snark.2=You really want a piece of me?
 entity.SpecialMobs.VampirePigZombie.snark.3=Tis but a flesh wound.
 entity.SpecialMobs.VampirePigZombie.snark.4=Buffy Summers would be ashamed.
 entity.SpecialMobs.VampirePigZombie.snark.5=Really, have you never read any vampire books?
-entity.SpecialMobs.VampirePigZombie.snark.6=<Geralt voice> Hmmm...... 
+entity.SpecialMobs.VampirePigZombie.snark.6=<Geralt voice> Hmmm......
 entity.SpecialMobs.VampirePigZombie.snark.7=Heh heh heh... "ouch".
 entity.SpecialMobs.VampirePigZombie.snark.8=This place is great except for all the vampires.
 entity.SpecialMobs.VampirePigZombie.snark.9=What are you, stupid?
@@ -286,3 +286,150 @@ enchantment.SpecialMobs.poisonSword=Poison Aspect
 
 death.attack.pain=§c%1$s§f writhed in pain
 death.attack.cooked=§c%1$s§f cooked from the inside out
+
+//---------Waila---------//
+
+//Lava Monster
+entity.SpecialMobs.LavaMonster.desc.1=Spits fireballs at foes
+entity.SpecialMobs.LavaMonster.desc.2=Spawns in lava lakes
+
+//Blazes
+entity.SpecialMobs.CinderBlaze.desc.1=Melee Blaze
+entity.SpecialMobs.CinderBlaze.desc.2=Ignites on hit
+entity.SpecialMobs.ConflagrationBlaze.desc.1=Unextinguishable Blaze
+entity.SpecialMobs.ConflagrationBlaze.desc.2=Susceptible only to snow or water
+entity.SpecialMobs.EmberBlaze.desc.1=Melee Blaze
+entity.SpecialMobs.HellfireBlaze.desc.1=Shoots explosive fireballs
+entity.SpecialMobs.InfernoBlaze.desc.1=Shoots a volley of fireballs
+entity.SpecialMobs.JoltBlaze.desc.1=Summons lightning
+entity.SpecialMobs.JoltBlaze.desc.2=Teleports when hit
+entity.SpecialMobs.SmolderBlaze.desc.1=Shoots blinding fireballs
+entity.SpecialMobs.WildfireBlaze.desc.1=Summons swarms of cinders
+
+//Cave Spiders
+entity.SpecialMobs.FlyingCaveSpider.desc.1=Can fly for short distances
+entity.SpecialMobs.MotherCaveSpider.desc.1=Summons swarms of baby spiders
+entity.SpecialMobs.ToughCaveSpider.desc.1=Increased armor from thicker carapace
+entity.SpecialMobs.WebCaveSpider.desc.1=Ensnares targets in webs
+entity.SpecialMobs.WitchCaveSpider.desc.1=Amplifies all incoming damage on hit
+entity.SpecialMobs.WitchCaveSpider.desc.2=Immune to potions and arrows
+
+//Creepers
+entity.SpecialMobs.ArmorCreeper.desc.1=Tougher armor-wearing creeper
+entity.SpecialMobs.DarkCreeper.desc.1=Explosions destroy light-sources
+entity.SpecialMobs.DarkCreeper.desc.2=on detonation
+entity.SpecialMobs.DeathCreeper.desc.1==Larger and deadlier explosion
+entity.SpecialMobs.DirtCreeper.desc.1=Explodes into a dirt ball
+entity.SpecialMobs.DoomCreeper.desc.1=Explodes on death
+entity.SpecialMobs.DoomCreeper.desc.2=No block damage when killed
+entity.SpecialMobs.DrowningCreeper.desc.1=Explodes into an infested water geode
+entity.SpecialMobs.EnderCreeper.desc.1=Teleporting creeper
+entity.SpecialMobs.EnderCreeper.desc.2=Acts as an enderman
+entity.SpecialMobs.FireCreeper.desc.1=Explosion spreads fire
+entity.SpecialMobs.GravelCreeper.desc.1=Explosion spreads gravel
+entity.SpecialMobs.GravityCreeper.desc.1=Attracts nearby entities on detonation
+entity.SpecialMobs.JumpingCreeper.desc.1=Can jump up to 4 blocks high
+entity.SpecialMobs.LightningCreeper.desc.1=Summons lightning
+entity.SpecialMobs.MiniCreeper.desc.1=Tiny but fast creepers
+entity.SpecialMobs.SplittingCreeper.desc.1=Explodes into mini creepers
+
+//Endermen
+entity.SpecialMobs.BlindingEnderman.desc.1=Blinds nearby targets
+entity.SpecialMobs.CursedEnderman.desc.1=Applies stacking weakening and
+entity.SpecialMobs.CursedEnderman.desc.2=mining fatigue debuffs on hit
+entity.SpecialMobs.IcyEnderman.desc.1=Freezes on hit
+entity.SpecialMobs.LightningEnderman.desc.1=Summons lighning on hit
+entity.SpecialMobs.MirageEnderman.desc.1=Summons illusions
+entity.SpecialMobs.ThiefEnderman.desc.1=Teleports on hit
+
+entity.SpecialMobs.BabyGhast.desc.1=Melee Ghast
+entity.SpecialMobs.FaintGhast.desc.1=Can phase through blocks
+entity.SpecialMobs.FighterGhast.desc.1=Melee Ghast
+entity.SpecialMobs.KingGhast.desc.1=Increased explosion blast
+entity.SpecialMobs.MiniGhast.desc.1=Melee Ghast
+entity.SpecialMobs.MiniGhast.desc.2=Picks up hostile mobs
+entity.SpecialMobs.QueenGhast.desc.1=Summons swarms of baby ghasts
+entity.SpecialMobs.UnholyGhast.desc.1=Immune to most damage
+entity.SpecialMobs.UnholyGhast.desc.2=Weak to Smite enchantment
+
+
+//Pigmen
+entity.SpecialMobs.BrutishPigZombie.desc.1=Inflicts armor-piercing damage
+entity.SpecialMobs.FishingPigZombie.desc.1=Reels targets with its fishing rod
+entity.SpecialMobs.GiantPigZombie.desc.1=Increased size and damage
+entity.SpecialMobs.HungryPigZombie.desc.1=Steals food on hit
+entity.SpecialMobs.PlaguePigZombie.desc.1=Infects random debuffs on hit
+entity.SpecialMobs.VampirePigZombie.desc.1=Immune to most damage
+entity.SpecialMobs.VampirePigZombie.desc.2=Weak to wooden weapons
+
+//Silverfish
+entity.SpecialMobs.BlindingSilverfish.desc.1=Blinds on hit
+entity.SpecialMobs.FishingSilverfish.desc.1=Reels targets with its fishing rod
+entity.SpecialMobs.FlyingSilverfish.desc.1=Can fly for short distances
+entity.SpecialMobs.PoisonSilverfish.desc.1=Applies poison on hit
+entity.SpecialMobs.ToughSilverfish.desc.1=Increased armor from thicker carapace
+
+//Skeletons
+entity.SpecialMobs.BrutishSkeleton.desc.1=Inflicts armor-piercing damage
+entity.SpecialMobs.FireSkeleton.desc.1=Ignites on hit
+entity.SpecialMobs.GatlingSkeleton.desc.1=Shoots in rapid succession
+entity.SpecialMobs.GiantSkeleton.desc.1=Increased size and damage
+entity.SpecialMobs.NinjaSkeleton.desc.1=Camouflages into nearby blocks
+entity.SpecialMobs.PoisonSkeleton.desc.1=Applies poison on hit
+entity.SpecialMobs.SniperSkeleton.desc.1=Shoots at further distances
+entity.SpecialMobs.SpitfireSkeleton.desc.1=Fires a volley of fireballs
+entity.SpecialMobs.ThiefSkeleton.desc.1=Disarms on hit
+
+//Slimes
+entity.SpecialMobs.BlackberrySlime.desc.1=Detonates on targets
+entity.SpecialMobs.BlueberrySlime.desc.1=Moves freely in water
+entity.SpecialMobs.BlueberrySlime.desc.2=Immune to drowning
+entity.SpecialMobs.CaramelSlime.desc.1=Attaches to targets
+entity.SpecialMobs.GrapeSlime.desc.1=Increased bouncing height
+entity.SpecialMobs.GrapeSlime.desc.2=Immune to fall damage
+entity.SpecialMobs.LemonSlime.desc.1=Summons lightning on hit
+entity.SpecialMobs.LemonSlime.desc.2=Teleports away on hit
+entity.SpecialMobs.StrawberrySlime.desc.1=Ignites on hit
+entity.SpecialMobs.StrawberrySlime.desc.2=Immune to fire
+entity.SpecialMobs.WatermelonSlime.desc.1=Lunges at targets
+entity.SpecialMobs.WatermelonSlime.desc.2=Increased knockback
+
+//Spiders
+entity.SpecialMobs.DesertSpider.desc.1=Applies Nausea, Blindness and Slowness on hit
+entity.SpecialMobs.DesertSpider.desc.2=Amplifies all incoming damage on hit
+entity.SpecialMobs.FlyingSpider.desc.1=Can fly for short distances
+entity.SpecialMobs.GhostSpider.desc.1=Can phase through blocks
+entity.SpecialMobs.GiantSpider.desc.1=Increased size and damage
+entity.SpecialMobs.HungrySpider.desc.1=Steals food on hit
+entity.SpecialMobs.MotherSpider.desc.1=Summons swarms of baby spiders
+entity.SpecialMobs.PaleSpider.desc.1=Applies Weakness on hit
+entity.SpecialMobs.PoisonSpider.desc.1=Applies Poison on hit
+entity.SpecialMobs.SmallSpider.desc.1=Smaller and faster
+entity.SpecialMobs.ToughSpider.desc.1=Increased armor from thicker carapace
+entity.SpecialMobs.WebSpider.desc.1=Ensnares targets in webs
+entity.SpecialMobs.WitchSpider.desc.1=Amplifies all incoming damage on hit
+entity.SpecialMobs.WitchSpider.desc.2=Immune to potions and arrows
+
+//Witches
+entity.SpecialMobs.DominationWitch.desc.1=Melee Witch
+entity.SpecialMobs.DominationWitch.desc.2=Applies Wither on hit
+entity.SpecialMobs.RageWitch.desc.1=Melee Witch
+entity.SpecialMobs.RageWitch.desc.2=Drinks Strength and Resistance potions
+entity.SpecialMobs.ShadowsWitch.desc.1=Throws Blindness and
+entity.SpecialMobs.ShadowsWitch.desc.2=Instant Damage potions
+entity.SpecialMobs.UndeadWitch.desc.1=Summons undead minions
+entity.SpecialMobs.UndeadWitch.desc.2=Throws Instant Damage potions
+entity.SpecialMobs.WildsWitch.desc.1=Summons a poisonous spider mount
+entity.SpecialMobs.WildsWitch.desc.2=that summons baby spiders
+entity.SpecialMobs.WindWitch.desc.1=Melee Witch
+entity.SpecialMobs.WindWitch.desc.2=Drinks Speed and Invisibility potions
+entity.SpecialMobs.WindWitch.desc.3=Teleports on hit
+
+//Zombies
+entity.SpecialMobs.BrutishZombie.desc.1=Inflicts armor-piercing damage
+entity.SpecialMobs.FireZombie.desc.1=Ignites on hit
+entity.SpecialMobs.FireZombie.desc.2=Immune to fire
+entity.SpecialMobs.FishingZombie.desc.1=Reels targets with its fishing rod
+entity.SpecialMobs.GiantZombie.desc.1=Increased size and damage
+entity.SpecialMobs.HungryZombie.desc.1=Steals food on hit
+entity.SpecialMobs.PlagueZombie.desc.1=Infects random debuffs on hit
