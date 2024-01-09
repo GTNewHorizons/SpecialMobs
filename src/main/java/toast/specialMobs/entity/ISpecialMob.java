@@ -15,9 +15,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.FakePlayer;
 
-import toast.specialMobs.Properties;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
+import toast.specialMobs.Properties;
 
 /**
  * This interface is implemented by all monsters in this mod. It allows for commonly used data to be stored conveniently

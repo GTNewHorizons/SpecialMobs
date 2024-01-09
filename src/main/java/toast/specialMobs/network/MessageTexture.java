@@ -4,13 +4,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-import toast.specialMobs._SpecialMobs;
-import toast.specialMobs.entity.ISpecialMob;
-import toast.specialMobs.entity.SpecialMobData;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import toast.specialMobs._SpecialMobs;
+import toast.specialMobs.entity.ISpecialMob;
+import toast.specialMobs.entity.SpecialMobData;
 
 public class MessageTexture implements IMessage {
 

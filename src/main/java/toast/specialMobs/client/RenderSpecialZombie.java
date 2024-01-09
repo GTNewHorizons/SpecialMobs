@@ -11,10 +11,10 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import toast.specialMobs.entity.INinja;
-import toast.specialMobs.entity.ISpecialMob;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import toast.specialMobs.entity.INinja;
+import toast.specialMobs.entity.ISpecialMob;
 
 @SideOnly(Side.CLIENT)
 public class RenderSpecialZombie extends RenderZombie {

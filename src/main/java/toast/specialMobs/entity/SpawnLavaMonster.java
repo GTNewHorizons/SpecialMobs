@@ -17,13 +17,13 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.ForgeEventFactory;
 
-import toast.specialMobs.Properties;
-import toast.specialMobs._SpecialMobs;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import toast.specialMobs.Properties;
+import toast.specialMobs._SpecialMobs;
 
 public class SpawnLavaMonster {
 
