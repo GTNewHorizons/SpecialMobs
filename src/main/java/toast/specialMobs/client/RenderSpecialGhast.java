@@ -7,10 +7,10 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import toast.specialMobs.entity.ISpecialMob;
-import toast.specialMobs.entity.ghast.Entity_SpecialGhast;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import toast.specialMobs.entity.ISpecialMob;
+import toast.specialMobs.entity.ghast.Entity_SpecialGhast;
 
 @SideOnly(Side.CLIENT)
 public class RenderSpecialGhast extends RenderGhast {

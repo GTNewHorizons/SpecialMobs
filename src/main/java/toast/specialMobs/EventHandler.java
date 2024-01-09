@@ -17,13 +17,13 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import toast.specialMobs.entity.blaze.EntitySmolderBlaze;
 import toast.specialMobs.entity.pigzombie.EntityPlaguePigZombie;
 import toast.specialMobs.entity.skeleton.EntityPoisonSkeleton;
 import toast.specialMobs.entity.witch.EntityUndeadWitch;
 import toast.specialMobs.entity.zombie.EntityPlagueZombie;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EventHandler {
 

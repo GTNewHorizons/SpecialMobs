@@ -9,13 +9,13 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import toast.specialMobs.DataWatcherHelper;
 import toast.specialMobs.Properties;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class Entity_SpecialCreeper extends EntityCreeper implements ISpecialMob {
 

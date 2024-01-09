@@ -10,15 +10,6 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.config.Configuration;
 
-import toast.specialMobs.entity.EntityLavaMonster;
-import toast.specialMobs.entity.EntitySpecialFishHook;
-import toast.specialMobs.entity.EntitySpecialSpitball;
-import toast.specialMobs.entity.SpawnLavaMonster;
-import toast.specialMobs.entity.creeper.EntityEnderCreeper;
-import toast.specialMobs.entity.creeper.EntityFireCreeper;
-import toast.specialMobs.entity.ghast.EntityMiniGhast;
-import toast.specialMobs.network.MessageExplosion;
-import toast.specialMobs.network.MessageTexture;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -29,6 +20,15 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.relauncher.Side;
+import toast.specialMobs.entity.EntityLavaMonster;
+import toast.specialMobs.entity.EntitySpecialFishHook;
+import toast.specialMobs.entity.EntitySpecialSpitball;
+import toast.specialMobs.entity.SpawnLavaMonster;
+import toast.specialMobs.entity.creeper.EntityEnderCreeper;
+import toast.specialMobs.entity.creeper.EntityFireCreeper;
+import toast.specialMobs.entity.ghast.EntityMiniGhast;
+import toast.specialMobs.network.MessageExplosion;
+import toast.specialMobs.network.MessageTexture;
 
 /**
  * This is the mod class. Everything the mod does is initialized by this class.
