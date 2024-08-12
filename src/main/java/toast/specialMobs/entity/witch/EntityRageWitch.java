@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 
 import com.kuba6000.mobsinfo.api.MobDrop;
 
+import cpw.mods.fml.common.Optional;
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
@@ -79,6 +80,7 @@ public class EntityRageWitch extends Entity_SpecialWitch {
         this.entityDropItem(this.makeRagePotion(), 0.0F);
     }
 
+    @Optional.Method(modid = "mobsinfo")
     @Override
     public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
         super.provideDropsInformation(drops);

@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 
 import com.kuba6000.mobsinfo.api.MobDrop;
 
+import cpw.mods.fml.common.Optional;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.SpecialMobData;
 import toast.specialMobs.entity.skeleton.Entity_SpecialSkeleton;
@@ -131,6 +132,7 @@ public class EntityUndeadWitch extends Entity_SpecialWitch {
         this.dropItem(Items.skull, 1);
     }
 
+    @Optional.Method(modid = "mobsinfo")
     @Override
     public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
         super.provideDropsInformation(drops);

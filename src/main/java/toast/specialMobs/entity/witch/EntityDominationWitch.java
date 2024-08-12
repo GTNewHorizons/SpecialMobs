@@ -189,10 +189,11 @@ public class EntityDominationWitch extends Entity_SpecialWitch {
         int mindamage = (int) (0.6d * Items.golden_helmet.getMaxDamage());
         int maxdamage = (int) (mindamage + 0.3d * (Items.golden_helmet.getMaxDamage() - 1));
         for (int i = 1; i <= 3; i++) {
-            drop.addEnchantment(Enchantment.unbreaking, i);
-            drops.add(MobDrop.create(drop.copy()).withChance(chance * 0.2d));
+            ItemStack stack = drop.copy();
+            stack.addEnchantment(Enchantment.unbreaking, i);
+            drops.add(MobDrop.create(stack).withType(MobDrop.DropType.Rare).withChance(chance * 0.2d));
             drops.add(
-                    MobDrop.create(drop.copy()).withType(MobDrop.DropType.Rare).withChance(chance * 0.8d)
+                    MobDrop.create(stack.copy()).withType(MobDrop.DropType.Rare).withChance(chance * 0.8d)
                             .withRandomDamage(mindamage, maxdamage));
         }
     }

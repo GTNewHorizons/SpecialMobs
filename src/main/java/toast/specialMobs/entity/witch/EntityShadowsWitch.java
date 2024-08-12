@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 
 import com.kuba6000.mobsinfo.api.MobDrop;
 
+import cpw.mods.fml.common.Optional;
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.SpecialMobData;
@@ -80,6 +81,7 @@ public class EntityShadowsWitch extends Entity_SpecialWitch {
         this.entityDropItem(this.makeShadowPotion(), 0.0F);
     }
 
+    @Optional.Method(modid = "mobsinfo")
     @Override
     public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
         super.provideDropsInformation(drops);
