@@ -412,10 +412,12 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob, IMo
 
         // super:
         final Item[] witchDrops = new Item[] { Items.glowstone_dust, Items.sugar, Items.redstone, Items.spider_eye,
-                Items.glass_bottle, Items.gunpowder, Items.stick, Items.stick };
+                Items.glass_bottle, Items.gunpowder, Items.stick };
         double chance = MobDrop.getChanceBasedOnFromTo(1, 3) * MobDrop.getChanceBasedOnFromTo(0, 2) / witchDrops.length;
         for (Item witchDrop : witchDrops) {
-            drops.add(MobDrop.create(new ItemStack(witchDrop)).withChance(chance).withLooting());
+            drops.add(
+                    MobDrop.create(new ItemStack(witchDrop)).withChance(witchDrop == Items.stick ? chance * 2d : chance)
+                            .withLooting());
         }
     }
 

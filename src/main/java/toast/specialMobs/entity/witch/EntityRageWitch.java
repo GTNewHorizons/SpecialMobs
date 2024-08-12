@@ -1,5 +1,9 @@
 package toast.specialMobs.entity.witch;
 
+import java.util.ArrayList;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
@@ -7,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
+import com.kuba6000.mobsinfo.api.MobDrop;
 
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
@@ -59,6 +65,7 @@ public class EntityRageWitch extends Entity_SpecialWitch {
     /// Called when this entity is killed.
     @Override
     protected void dropFewItems(boolean hit, int looting) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         super.dropFewItems(hit, looting);
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
             this.dropItem(Items.blaze_powder, 1);
@@ -68,7 +75,16 @@ public class EntityRageWitch extends Entity_SpecialWitch {
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.
     @Override
     protected void dropRareDrop(int superRare) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         this.entityDropItem(this.makeRagePotion(), 0.0F);
+    }
+
+    @Override
+    public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
+        super.provideDropsInformation(drops);
+        drops.add(MobDrop.create(new ItemStack(Items.blaze_powder)).withChance(0.3333d * 1.5d).withLooting());
+
+        drops.add(MobDrop.create(this.makeRagePotion()).withType(MobDrop.DropType.Rare).withChance(0.025d));
     }
 
     private ItemStack makeRagePotion() {

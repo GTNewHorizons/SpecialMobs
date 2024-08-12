@@ -1,7 +1,10 @@
 package toast.specialMobs.entity.witch;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.annotation.Nonnull;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -18,6 +21,9 @@ import net.minecraft.world.World;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 
+import com.kuba6000.mobsinfo.api.MobDrop;
+
+import cpw.mods.fml.common.Optional;
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
@@ -139,6 +145,7 @@ public class EntityDominationWitch extends Entity_SpecialWitch {
     /// Called when this entity is killed.
     @Override
     protected void dropFewItems(boolean hit, int looting) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         super.dropFewItems(hit, looting);
         for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
             this.dropItem(Items.experience_bottle, 1);
@@ -148,6 +155,7 @@ public class EntityDominationWitch extends Entity_SpecialWitch {
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.
     @Override
     protected void dropRareDrop(int superRare) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         int damage;
         if (superRare > 0) {
             damage = 0;
@@ -162,5 +170,30 @@ public class EntityDominationWitch extends Entity_SpecialWitch {
         drop.addEnchantment(Enchantment.unbreaking, this.rand.nextInt(3) + 1);
         drop.stackTagCompound.setBoolean("SM|MindProtect", true);
         this.entityDropItem(drop, 0.0F);
+    }
+
+    @Optional.Method(modid = "mobsinfo")
+    @Override
+    public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
+        super.provideDropsInformation(drops);
+        drops.add(
+                MobDrop.create(new ItemStack(Items.experience_bottle)).withChance(MobDrop.getChanceBasedOnFromTo(0, 2))
+                        .withLooting());
+
+        ItemStack drop = new ItemStack(Items.golden_helmet);
+        EffectHelper.setItemName(drop, "Helmet of Mind Protection", 0xd);
+        EffectHelper.addItemText(drop, "\u00a77Protects against");
+        EffectHelper.addItemText(drop, "\u00a77domination witches");
+        drop.stackTagCompound.setBoolean("SM|MindProtect", true);
+        double chance = 0.025d * 0.3333d;
+        int mindamage = (int) (0.6d * Items.golden_helmet.getMaxDamage());
+        int maxdamage = (int) (mindamage + 0.3d * (Items.golden_helmet.getMaxDamage() - 1));
+        for (int i = 1; i <= 3; i++) {
+            drop.addEnchantment(Enchantment.unbreaking, i);
+            drops.add(MobDrop.create(drop.copy()).withChance(chance * 0.2d));
+            drops.add(
+                    MobDrop.create(drop.copy()).withType(MobDrop.DropType.Rare).withChance(chance * 0.8d)
+                            .withRandomDamage(mindamage, maxdamage));
+        }
     }
 }

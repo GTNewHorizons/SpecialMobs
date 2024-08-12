@@ -16,7 +16,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-import com.kuba6000.mobsinfo.api.IMobInfoProvider;
 import com.kuba6000.mobsinfo.api.MobDrop;
 
 import cpw.mods.fml.common.Optional;
@@ -26,8 +25,7 @@ import toast.specialMobs.entity.spider.EntityBabySpider;
 import toast.specialMobs.entity.spider.EntitySmallSpider;
 import toast.specialMobs.entity.spider.Entity_SpecialSpider;
 
-@Optional.Interface(iface = "com.kuba6000.mobsinfo.api.IMobInfoProvider", modid = "mobsinfo")
-public class EntityWildsWitch extends Entity_SpecialWitch implements IMobInfoProvider {
+public class EntityWildsWitch extends Entity_SpecialWitch {
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
             new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "witch/wilds.png") };

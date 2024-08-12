@@ -1,12 +1,14 @@
 package toast.specialMobs.entity.witch;
 
+import java.util.ArrayList;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -14,6 +16,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
+import com.kuba6000.mobsinfo.api.MobDrop;
 
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.SpecialMobData;
@@ -113,18 +117,28 @@ public class EntityUndeadWitch extends Entity_SpecialWitch {
     /// Called when this entity is killed.
     @Override
     protected void dropFewItems(boolean hit, int looting) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         super.dropFewItems(hit, looting);
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-            this.entityDropItem(
-                    new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntitySkeleton(this.worldObj))),
-                    0.0F);
+            this.entityDropItem(new ItemStack(Items.spawn_egg, 1, 51 /* EntitySkeleton spawn egg */), 0.0F);
         }
     }
 
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.
     @Override
     protected void dropRareDrop(int superRare) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         this.dropItem(Items.skull, 1);
+    }
+
+    @Override
+    public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
+        super.provideDropsInformation(drops);
+        drops.add(
+                MobDrop.create(new ItemStack(Items.spawn_egg, 1, 51 /* EntitySkeleton spawn egg */))
+                        .withChance(0.3333d * 1.5d).withLooting());
+
+        drops.add(MobDrop.create(new ItemStack(Items.skull)).withType(MobDrop.DropType.Rare).withChance(0.025d));
     }
 
     /// Saves this entity to NBT.
