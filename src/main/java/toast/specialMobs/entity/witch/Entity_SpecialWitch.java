@@ -417,10 +417,6 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob, IMo
         for (Item witchDrop : witchDrops) {
             drops.add(MobDrop.create(new ItemStack(witchDrop)).withChance(chance).withLooting());
         }
-
-        if (_SpecialMobs.debug) {
-            this.dropRareDrop(Math.max(0, this.rand.nextInt(5) - 3));
-        }
     }
 
     @Override
