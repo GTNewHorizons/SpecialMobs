@@ -1,7 +1,10 @@
 package toast.specialMobs.entity.witch;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import javax.annotation.Nonnull;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -17,6 +20,7 @@ import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,13 +30,18 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import com.kuba6000.mobsinfo.api.IMobInfoProvider;
+import com.kuba6000.mobsinfo.api.MobDrop;
+
+import cpw.mods.fml.common.Optional;
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob {
+@Optional.Interface(iface = "com.kuba6000.mobsinfo.api.IMobInfoProvider", modid = "mobsinfo")
+public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob, IMobInfoProvider {
 
     // Drinking potion speed penalty modifier.
     private static final UUID drinkingSpeedPenaltyUUID = UUID.fromString("5CD17E52-A79A-43D3-A529-90FDE04B181E");
@@ -380,6 +389,7 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob {
     /// Called when this entity is killed.
     @Override
     protected void dropFewItems(boolean hit, int looting) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         if (this.drinkingPotion) {
             ItemStack potion = this.getHeldItem();
             this.drinkPotion(null);
@@ -389,6 +399,25 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob {
         }
 
         super.dropFewItems(hit, looting);
+        if (_SpecialMobs.debug) {
+            this.dropRareDrop(Math.max(0, this.rand.nextInt(5) - 3));
+        }
+    }
+
+    @Optional.Method(modid = "mobsinfo")
+    @Override
+    public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
+        // TODO: add a possibility in Mobs-Info to provide drops from vanilla mobs
+        // TODO: what to do with drinking potion ????
+
+        // super:
+        final Item[] witchDrops = new Item[] { Items.glowstone_dust, Items.sugar, Items.redstone, Items.spider_eye,
+                Items.glass_bottle, Items.gunpowder, Items.stick, Items.stick };
+        double chance = MobDrop.getChanceBasedOnFromTo(1, 3) * MobDrop.getChanceBasedOnFromTo(0, 2) / witchDrops.length;
+        for (Item witchDrop : witchDrops) {
+            drops.add(MobDrop.create(new ItemStack(witchDrop)).withChance(chance).withLooting());
+        }
+
         if (_SpecialMobs.debug) {
             this.dropRareDrop(Math.max(0, this.rand.nextInt(5) - 3));
         }
