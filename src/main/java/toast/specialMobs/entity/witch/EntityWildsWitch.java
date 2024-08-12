@@ -197,8 +197,8 @@ public class EntityWildsWitch extends Entity_SpecialWitch {
     public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
         super.provideDropsInformation(drops);
         // is this chance correct?
-        drops.add(MobDrop.create(new ItemStack(Items.spider_eye)).withChance(0.3333d * 1.5d).withLooting());
-        drops.add(MobDrop.create(new ItemStack(Items.fermented_spider_eye)).withChance(0.3333d * 1.5d).withLooting());
+        drops.add(MobDrop.create(new ItemStack(Items.spider_eye)).withChance(0.3333d).withLooting());
+        drops.add(MobDrop.create(new ItemStack(Items.fermented_spider_eye)).withChance(0.3333d).withLooting());
 
         drops.add(
                 MobDrop.create(new ItemStack(Items.spawn_egg, 1, 51 /* EntitySkeleton spawn egg */))

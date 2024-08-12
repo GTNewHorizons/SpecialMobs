@@ -146,7 +146,7 @@ public class EntityWindWitch extends Entity_SpecialWitch {
     @Override
     public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
         super.provideDropsInformation(drops);
-        drops.add(MobDrop.create(new ItemStack(Items.feather)).withChance(0.3333d * 1.5d).withLooting());
+        drops.add(MobDrop.create(new ItemStack(Items.feather)).withChance(0.3333d).withLooting());
 
         ItemStack potion = new ItemStack(Items.potionitem, 1, 8206);
         EffectHelper.setItemName(potion, "Potion of Hiding", 0xf);

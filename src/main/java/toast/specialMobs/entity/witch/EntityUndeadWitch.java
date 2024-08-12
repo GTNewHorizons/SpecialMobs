@@ -137,8 +137,8 @@ public class EntityUndeadWitch extends Entity_SpecialWitch {
     public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
         super.provideDropsInformation(drops);
         drops.add(
-                MobDrop.create(new ItemStack(Items.spawn_egg, 1, 51 /* EntitySkeleton spawn egg */))
-                        .withChance(0.3333d * 1.5d).withLooting());
+                MobDrop.create(new ItemStack(Items.spawn_egg, 1, 51 /* EntitySkeleton spawn egg */)).withChance(0.3333d)
+                        .withLooting());
 
         drops.add(MobDrop.create(new ItemStack(Items.skull)).withType(MobDrop.DropType.Rare).withChance(0.025d));
     }

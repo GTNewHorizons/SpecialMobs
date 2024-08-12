@@ -84,7 +84,7 @@ public class EntityRageWitch extends Entity_SpecialWitch {
     @Override
     public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
         super.provideDropsInformation(drops);
-        drops.add(MobDrop.create(new ItemStack(Items.blaze_powder)).withChance(0.3333d * 1.5d).withLooting());
+        drops.add(MobDrop.create(new ItemStack(Items.blaze_powder)).withChance(0.3333d).withLooting());
 
         drops.add(MobDrop.create(this.makeRagePotion()).withType(MobDrop.DropType.Rare).withChance(0.025d));
     }
