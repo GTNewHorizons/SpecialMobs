@@ -20,7 +20,6 @@ import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -407,19 +406,8 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob, IMo
     @Optional.Method(modid = "mobsinfo")
     @Override
     public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
-        // TODO: add a possibility in Mobs-Info to provide drops from vanilla mobs
+        IMobInfoProvider.provideSuperVanillaDrops(drops, EntityWitch.class);
         // TODO: what to do with drinking potion ????
-
-        // super:
-        final Item[] witchDrops = new Item[] { Items.glowstone_dust, Items.sugar, Items.redstone, Items.spider_eye,
-                Items.glass_bottle, Items.gunpowder, Items.stick };
-        double chance = MobDrop.getChanceBasedOnFromTo(1, 3) * MobDrop.getChanceBasedOnFromTo(0, 2)
-                / (witchDrops.length + 1);
-        for (Item witchDrop : witchDrops) {
-            drops.add(
-                    MobDrop.create(new ItemStack(witchDrop)).withChance(witchDrop == Items.stick ? chance * 2d : chance)
-                            .withLooting());
-        }
     }
 
     @Override
