@@ -95,6 +95,7 @@ public class EntityFishingPigZombie extends Entity_SpecialPigZombie implements I
     /// Called each tick this entity's attack target can be seen.
     @Override
     protected void attackEntity(Entity target, float distance) {
+        // TODO: Remove code duplication between EntityFishingZombie, EntityFishingPigZombie, EntityFishingSilverfish
         super.attackEntity(target, distance);
         if (!this.worldObj.isRemote && this.rodTime <= 0 && this.getFishingRod()) {
             if (distance > 3.0F && distance < 10.0F) {
