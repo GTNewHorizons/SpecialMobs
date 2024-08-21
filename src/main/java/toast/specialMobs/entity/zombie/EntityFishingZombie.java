@@ -88,10 +88,13 @@ public class EntityFishingZombie extends Entity_SpecialZombie implements IAngler
     /// Called every tick while this entity is alive.
     @Override
     public void onLivingUpdate() {
+        // TODO: Remove code duplication between EntityFishingZombie, EntityFishingPigZombie, EntityFishingSilverfish
+        // EntityFishingZombie is implemented via onLivingUpdate instead of attackEntity because Zombies use the new
+        // Mob AI. Could the fishing behavior be migrated to a Task in the new Mob AI system?
         if (this.rodTime > 0) {
             this.rodTime--;
         }
-        if (!this.worldObj.isRemote && this.rodTime <= 0 && this.getFishingRod()) {
+        if (!this.worldObj.isRemote && this.rodTime <= 0 && this.getFishingRod() && !this.isMovementBlocked()) {
             Entity target = this.getAttackTarget();
             if (target != null) {
                 float distanceSq = (float) this.getDistanceSqToEntity(target);
