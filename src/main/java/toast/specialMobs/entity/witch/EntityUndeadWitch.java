@@ -44,6 +44,7 @@ public class EntityUndeadWitch extends Entity_SpecialWitch {
     /// Overridden to modify inherited attributes.
     @Override
     public void adjustTypeAttributes() {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         this.getSpecialData().multAttribute(SharedMonsterAttributes.movementSpeed, 1.1);
 
         this.setCurrentItemOrArmor(0, new ItemStack(Items.bone));
@@ -146,6 +147,8 @@ public class EntityUndeadWitch extends Entity_SpecialWitch {
                         .withChance(0.3333d).withLooting());
 
         drops.add(MobDrop.create(new ItemStack(Items.skull)).withType(MobDrop.DropType.Rare).withChance(0.025d));
+
+        drops.add(MobDrop.create(Items.bone).withType(MobDrop.DropType.Additional).withChance(0.085d * 0.25d));
     }
 
     /// Saves this entity to NBT.

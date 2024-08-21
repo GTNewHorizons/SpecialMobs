@@ -407,7 +407,6 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob, IMo
     @Override
     public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
         IMobInfoProvider.provideSuperVanillaDrops(drops, EntityWitch.class);
-        // TODO: what to do with drinking potion ????
     }
 
     @Override

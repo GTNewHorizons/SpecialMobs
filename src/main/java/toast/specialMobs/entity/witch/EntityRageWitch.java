@@ -37,6 +37,7 @@ public class EntityRageWitch extends Entity_SpecialWitch {
     /// Overridden to modify inherited attributes.
     @Override
     public void adjustTypeAttributes() {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         this.getSpecialData().addAttribute(SharedMonsterAttributes.maxHealth, 4.0);
 
         ItemStack itemStack = new ItemStack(Items.golden_sword);
@@ -87,6 +88,13 @@ public class EntityRageWitch extends Entity_SpecialWitch {
         drops.add(MobDrop.create(new ItemStack(Items.blaze_powder)).withChance(0.3333d).withLooting());
 
         drops.add(MobDrop.create(this.makeRagePotion()).withType(MobDrop.DropType.Rare).withChance(0.025d));
+
+        int mindamage = 26;
+        int maxdamage = Items.golden_sword.getMaxDamage() - 25;
+        if (mindamage > maxdamage) mindamage = maxdamage;
+        drops.add(
+                MobDrop.create(Items.golden_sword).withType(MobDrop.DropType.Additional).withChance(0.085d * 0.25d)
+                        .withRandomEnchant(14).withRandomDamage(mindamage, maxdamage));
     }
 
     private ItemStack makeRagePotion() {

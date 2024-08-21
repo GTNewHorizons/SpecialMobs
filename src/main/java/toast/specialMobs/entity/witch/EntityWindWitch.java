@@ -46,6 +46,7 @@ public class EntityWindWitch extends Entity_SpecialWitch {
     /// Overridden to modify inherited attributes.
     @Override
     public void adjustTypeAttributes() {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         this.getSpecialData().addAttribute(SharedMonsterAttributes.attackDamage, 2.0);
         this.getSpecialData().multAttribute(SharedMonsterAttributes.movementSpeed, 1.2);
 
@@ -153,6 +154,13 @@ public class EntityWindWitch extends Entity_SpecialWitch {
         EffectHelper.addPotionEffect(potion, Potion.invisibility, 1200, 0);
         EffectHelper.addPotionEffect(potion, Potion.blindness, 1200, 0);
         drops.add(MobDrop.create(potion).withType(MobDrop.DropType.Rare).withChance(0.025d));
+
+        int mindamage = 26;
+        int maxdamage = Items.wooden_sword.getMaxDamage() - 25;
+        if (mindamage > maxdamage) mindamage = maxdamage;
+        drops.add(
+                MobDrop.create(Items.wooden_sword).withType(MobDrop.DropType.Additional).withChance(0.085d * 0.25d)
+                        .withRandomEnchant(14).withRandomDamage(mindamage, maxdamage));
     }
 
     /// Teleports this enderman to a random nearby location. Returns true if this entity teleports.
