@@ -1,7 +1,8 @@
 package toast.specialMobs.entity.ghast;
 
+import static net.minecraft.entity.EntityList.classToIDMapping;
+
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityGhast;
@@ -72,9 +73,7 @@ public class EntityQueenGhast extends Entity_SpecialGhast {
             this.dropItem(Items.emerald, 1);
         }
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-            this.entityDropItem(
-                    new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntityGhast(this.worldObj))),
-                    0.0F);
+            this.entityDropItem(new ItemStack(Items.spawn_egg, 1, (int) classToIDMapping.get(EntityGhast.class)), 0.0F);
         }
 
         if (!this.worldObj.isRemote) {

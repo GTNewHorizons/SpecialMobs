@@ -1,5 +1,7 @@
 package toast.specialMobs.entity.witch;
 
+import static net.minecraft.entity.EntityList.classToIDMapping;
+
 import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
@@ -8,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -189,19 +192,18 @@ public class EntityWildsWitch extends Entity_SpecialWitch {
     @Override
     protected void dropRareDrop(int superRare) {
         // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
-        this.entityDropItem(new ItemStack(Items.spawn_egg, 1, 51 /* EntitySkeleton spawn egg */), 0.0F);
+        this.entityDropItem(new ItemStack(Items.spawn_egg, 1, (int) classToIDMapping.get(EntitySkeleton.class)), 0.0F);
     }
 
     @Optional.Method(modid = "mobsinfo")
     @Override
     public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
         super.provideDropsInformation(drops);
-        // is this chance correct?
         drops.add(MobDrop.create(new ItemStack(Items.spider_eye)).withChance(0.3333d).withLooting());
         drops.add(MobDrop.create(new ItemStack(Items.fermented_spider_eye)).withChance(0.3333d).withLooting());
 
         drops.add(
-                MobDrop.create(new ItemStack(Items.spawn_egg, 1, 51 /* EntitySkeleton spawn egg */))
+                MobDrop.create(new ItemStack(Items.spawn_egg, 1, (int) classToIDMapping.get(EntitySkeleton.class)))
                         .withType(MobDrop.DropType.Rare).withChance(0.025d));
     }
 

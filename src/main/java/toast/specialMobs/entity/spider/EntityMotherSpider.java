@@ -1,5 +1,7 @@
 package toast.specialMobs.entity.spider;
 
+import static net.minecraft.entity.EntityList.classToIDMapping;
+
 import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
@@ -58,7 +60,9 @@ public class EntityMotherSpider extends Entity_SpecialSpider implements IMobInfo
         // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         super.dropFewItems(hit, looting);
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-            this.entityDropItem(new ItemStack(Items.spawn_egg, 1, 52 /* EntitySpider */), 0.0F);
+            this.entityDropItem(
+                    new ItemStack(Items.spawn_egg, 1, (int) classToIDMapping.get(EntitySpider.class)),
+                    0.0F);
         }
 
         if (!this.worldObj.isRemote) {
@@ -120,8 +124,8 @@ public class EntityMotherSpider extends Entity_SpecialSpider implements IMobInfo
     public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
         IMobInfoProvider.provideSuperVanillaDrops(drops, EntitySpider.class);
         drops.add(
-                MobDrop.create(new ItemStack(Items.spawn_egg, 1, 52 /* EntitySpider */)).withChance(0.3333d)
-                        .withLooting());
+                MobDrop.create(new ItemStack(Items.spawn_egg, 1, (int) classToIDMapping.get(EntitySpider.class)))
+                        .withChance(0.3333d).withLooting());
         final Item[] armor = { Items.chainmail_helmet, Items.chainmail_chestplate, Items.chainmail_leggings,
                 Items.chainmail_boots };
         final String[] armorNames = { "Helmet", "Chestplate", "Leggings", "Boots" };

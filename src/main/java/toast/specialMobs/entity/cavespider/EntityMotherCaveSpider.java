@@ -1,11 +1,12 @@
 package toast.specialMobs.entity.cavespider;
 
+import static net.minecraft.entity.EntityList.classToIDMapping;
+
 import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityCaveSpider;
@@ -58,7 +59,7 @@ public class EntityMotherCaveSpider extends Entity_SpecialCaveSpider implements 
         super.dropFewItems(hit, looting);
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
             this.entityDropItem(
-                    new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntityCaveSpider(this.worldObj))),
+                    new ItemStack(Items.spawn_egg, 1, (int) classToIDMapping.get(EntityCaveSpider.class)),
                     0.0F);
         }
 
@@ -121,8 +122,8 @@ public class EntityMotherCaveSpider extends Entity_SpecialCaveSpider implements 
     public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
         IMobInfoProvider.provideSuperVanillaDrops(drops, EntityCaveSpider.class);
         drops.add(
-                MobDrop.create(new ItemStack(Items.spawn_egg, 1, 59 /* EntityCaveSpider */)).withChance(0.3333d)
-                        .withLooting());
+                MobDrop.create(new ItemStack(Items.spawn_egg, 1, (int) classToIDMapping.get(EntityCaveSpider.class)))
+                        .withChance(0.3333d).withLooting());
         final Item[] armor = { Items.chainmail_helmet, Items.chainmail_chestplate, Items.chainmail_leggings,
                 Items.chainmail_boots };
         final String[] armorNames = { "Helmet", "Chestplate", "Leggings", "Boots" };
