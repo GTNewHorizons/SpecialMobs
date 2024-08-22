@@ -1,7 +1,10 @@
 package toast.specialMobs.entity.witch;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import javax.annotation.Nonnull;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -26,13 +29,18 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import com.kuba6000.mobsinfo.api.IMobInfoProvider;
+import com.kuba6000.mobsinfo.api.MobDrop;
+
+import cpw.mods.fml.common.Optional;
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs.MobHelper;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.SpecialMobData;
 
-public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob {
+@Optional.Interface(iface = "com.kuba6000.mobsinfo.api.IMobInfoProvider", modid = "mobsinfo")
+public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob, IMobInfoProvider {
 
     // Drinking potion speed penalty modifier.
     private static final UUID drinkingSpeedPenaltyUUID = UUID.fromString("5CD17E52-A79A-43D3-A529-90FDE04B181E");
@@ -380,6 +388,7 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob {
     /// Called when this entity is killed.
     @Override
     protected void dropFewItems(boolean hit, int looting) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         if (this.drinkingPotion) {
             ItemStack potion = this.getHeldItem();
             this.drinkPotion(null);
@@ -392,6 +401,12 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob {
         if (_SpecialMobs.debug) {
             this.dropRareDrop(Math.max(0, this.rand.nextInt(5) - 3));
         }
+    }
+
+    @Optional.Method(modid = "mobsinfo")
+    @Override
+    public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
+        IMobInfoProvider.provideSuperVanillaDrops(drops, EntityWitch.class);
     }
 
     @Override

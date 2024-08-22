@@ -1,7 +1,12 @@
 package toast.specialMobs.entity.witch;
 
+import static net.minecraft.entity.EntityList.classToIDMapping;
+
+import java.util.ArrayList;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -14,6 +19,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import com.kuba6000.mobsinfo.api.MobDrop;
+
+import cpw.mods.fml.common.Optional;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.SpecialMobData;
 import toast.specialMobs.entity.spider.EntityBabySpider;
@@ -170,6 +178,7 @@ public class EntityWildsWitch extends Entity_SpecialWitch {
     /// Called when this entity is killed.
     @Override
     protected void dropFewItems(boolean hit, int looting) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         super.dropFewItems(hit, looting);
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
             this.dropItem(Items.spider_eye, 1);
@@ -182,9 +191,20 @@ public class EntityWildsWitch extends Entity_SpecialWitch {
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.
     @Override
     protected void dropRareDrop(int superRare) {
-        this.entityDropItem(
-                new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntitySkeleton(this.worldObj))),
-                0.0F);
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
+        this.entityDropItem(new ItemStack(Items.spawn_egg, 1, (int) classToIDMapping.get(EntitySkeleton.class)), 0.0F);
+    }
+
+    @Optional.Method(modid = "mobsinfo")
+    @Override
+    public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
+        super.provideDropsInformation(drops);
+        drops.add(MobDrop.create(new ItemStack(Items.spider_eye)).withChance(0.3333d).withLooting());
+        drops.add(MobDrop.create(new ItemStack(Items.fermented_spider_eye)).withChance(0.3333d).withLooting());
+
+        drops.add(
+                MobDrop.create(new ItemStack(Items.spawn_egg, 1, (int) classToIDMapping.get(EntitySkeleton.class)))
+                        .withType(MobDrop.DropType.Rare).withChance(0.025d));
     }
 
     /// Saves this entity to NBT.

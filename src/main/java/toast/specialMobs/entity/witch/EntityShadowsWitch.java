@@ -1,5 +1,9 @@
 package toast.specialMobs.entity.witch;
 
+import java.util.ArrayList;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.init.Items;
@@ -9,6 +13,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import com.kuba6000.mobsinfo.api.MobDrop;
+
+import cpw.mods.fml.common.Optional;
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.SpecialMobData;
@@ -60,6 +67,7 @@ public class EntityShadowsWitch extends Entity_SpecialWitch {
     /// Called when this entity is killed.
     @Override
     protected void dropFewItems(boolean hit, int looting) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         super.dropFewItems(hit, looting);
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
             this.dropItem(Items.dye, 1); // Ink sac
@@ -69,7 +77,17 @@ public class EntityShadowsWitch extends Entity_SpecialWitch {
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.
     @Override
     protected void dropRareDrop(int superRare) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         this.entityDropItem(this.makeShadowPotion(), 0.0F);
+    }
+
+    @Optional.Method(modid = "mobsinfo")
+    @Override
+    public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
+        super.provideDropsInformation(drops);
+        drops.add(MobDrop.create(new ItemStack(Items.dye)).withChance(0.3333d).withLooting());
+
+        drops.add(MobDrop.create(this.makeShadowPotion()).withType(MobDrop.DropType.Rare).withChance(0.025d));
     }
 
     /// Saves this entity to NBT.

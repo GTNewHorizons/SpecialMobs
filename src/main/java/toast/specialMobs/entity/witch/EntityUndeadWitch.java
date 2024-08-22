@@ -1,7 +1,12 @@
 package toast.specialMobs.entity.witch;
 
+import static net.minecraft.entity.EntityList.classToIDMapping;
+
+import java.util.ArrayList;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
@@ -15,6 +20,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import com.kuba6000.mobsinfo.api.MobDrop;
+
+import cpw.mods.fml.common.Optional;
 import toast.specialMobs._SpecialMobs;
 import toast.specialMobs.entity.SpecialMobData;
 import toast.specialMobs.entity.skeleton.Entity_SpecialSkeleton;
@@ -36,6 +44,7 @@ public class EntityUndeadWitch extends Entity_SpecialWitch {
     /// Overridden to modify inherited attributes.
     @Override
     public void adjustTypeAttributes() {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         this.getSpecialData().multAttribute(SharedMonsterAttributes.movementSpeed, 1.1);
 
         this.setCurrentItemOrArmor(0, new ItemStack(Items.bone));
@@ -113,10 +122,11 @@ public class EntityUndeadWitch extends Entity_SpecialWitch {
     /// Called when this entity is killed.
     @Override
     protected void dropFewItems(boolean hit, int looting) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         super.dropFewItems(hit, looting);
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
             this.entityDropItem(
-                    new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntitySkeleton(this.worldObj))),
+                    new ItemStack(Items.spawn_egg, 1, (int) classToIDMapping.get(EntitySkeleton.class)),
                     0.0F);
         }
     }
@@ -124,7 +134,21 @@ public class EntityUndeadWitch extends Entity_SpecialWitch {
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.
     @Override
     protected void dropRareDrop(int superRare) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         this.dropItem(Items.skull, 1);
+    }
+
+    @Optional.Method(modid = "mobsinfo")
+    @Override
+    public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
+        super.provideDropsInformation(drops);
+        drops.add(
+                MobDrop.create(new ItemStack(Items.spawn_egg, 1, (int) classToIDMapping.get(EntitySkeleton.class)))
+                        .withChance(0.3333d).withLooting());
+
+        drops.add(MobDrop.create(new ItemStack(Items.skull)).withType(MobDrop.DropType.Rare).withChance(0.025d));
+
+        drops.add(MobDrop.create(Items.bone).withType(MobDrop.DropType.Additional).withChance(0.085d * 0.25d));
     }
 
     /// Saves this entity to NBT.

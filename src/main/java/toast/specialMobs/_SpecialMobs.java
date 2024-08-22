@@ -33,7 +33,7 @@ import toast.specialMobs.network.MessageTexture;
 /**
  * This is the mod class. Everything the mod does is initialized by this class.
  */
-@Mod(modid = _SpecialMobs.MODID, name = "Special Mobs", version = _SpecialMobs.VERSION)
+@Mod(modid = _SpecialMobs.MODID, name = "Special Mobs", version = Tags.VERSION)
 public class _SpecialMobs {
     /*
      * TO DO *\ >> CURRENT Magma cubes Water guardians (1.8) Shulker (1.9) Check into biome mod compatibility for added
@@ -42,8 +42,6 @@ public class _SpecialMobs {
 
     /** This mod's id. */
     public static final String MODID = "SpecialMobs";
-    /** This mod's version. */
-    public static final String VERSION = "GRADLETOKEN_VERSION";
 
     /** If true, this mod starts up in debug mode. */
     public static final boolean debug = false;

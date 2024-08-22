@@ -1,7 +1,8 @@
 package toast.specialMobs.entity.blaze;
 
+import static net.minecraft.entity.EntityList.classToIDMapping;
+
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityBlaze;
@@ -79,7 +80,7 @@ public class EntityWildfireBlaze extends Entity_SpecialBlaze {
             }
             if (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0) {
                 this.entityDropItem(
-                        new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(new EntityBlaze(this.worldObj))),
+                        new ItemStack(Items.spawn_egg, 1, (int) classToIDMapping.get(EntityBlaze.class)),
                         0.0F);
             }
         }

@@ -1,5 +1,9 @@
 package toast.specialMobs.entity.witch;
 
+import java.util.ArrayList;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -12,6 +16,9 @@ import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import com.kuba6000.mobsinfo.api.MobDrop;
+
+import cpw.mods.fml.common.Optional;
 import toast.specialMobs.EffectHelper;
 import toast.specialMobs._SpecialMobs;
 
@@ -39,6 +46,7 @@ public class EntityWindWitch extends Entity_SpecialWitch {
     /// Overridden to modify inherited attributes.
     @Override
     public void adjustTypeAttributes() {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         this.getSpecialData().addAttribute(SharedMonsterAttributes.attackDamage, 2.0);
         this.getSpecialData().multAttribute(SharedMonsterAttributes.movementSpeed, 1.2);
 
@@ -117,6 +125,7 @@ public class EntityWindWitch extends Entity_SpecialWitch {
     /// Called when this entity is killed.
     @Override
     protected void dropFewItems(boolean hit, int looting) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         super.dropFewItems(hit, looting);
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
             this.dropItem(Items.feather, 1);
@@ -126,11 +135,32 @@ public class EntityWindWitch extends Entity_SpecialWitch {
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.
     @Override
     protected void dropRareDrop(int superRare) {
+        // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         ItemStack potion = new ItemStack(Items.potionitem, 1, 8206);
         EffectHelper.setItemName(potion, "Potion of Hiding", 0xf);
         EffectHelper.addPotionEffect(potion, Potion.invisibility, 1200, 0);
         EffectHelper.addPotionEffect(potion, Potion.blindness, 1200, 0);
         this.entityDropItem(potion, 0.0F);
+    }
+
+    @Optional.Method(modid = "mobsinfo")
+    @Override
+    public void provideDropsInformation(@Nonnull ArrayList<MobDrop> drops) {
+        super.provideDropsInformation(drops);
+        drops.add(MobDrop.create(new ItemStack(Items.feather)).withChance(0.3333d).withLooting());
+
+        ItemStack potion = new ItemStack(Items.potionitem, 1, 8206);
+        EffectHelper.setItemName(potion, "Potion of Hiding", 0xf);
+        EffectHelper.addPotionEffect(potion, Potion.invisibility, 1200, 0);
+        EffectHelper.addPotionEffect(potion, Potion.blindness, 1200, 0);
+        drops.add(MobDrop.create(potion).withType(MobDrop.DropType.Rare).withChance(0.025d));
+
+        int mindamage = 26;
+        int maxdamage = Items.wooden_sword.getMaxDamage() - 25;
+        if (mindamage > maxdamage) mindamage = maxdamage;
+        drops.add(
+                MobDrop.create(Items.wooden_sword).withType(MobDrop.DropType.Additional).withChance(0.085d * 0.25d)
+                        .withRandomEnchant(14).withRandomDamage(mindamage, maxdamage));
     }
 
     /// Teleports this enderman to a random nearby location. Returns true if this entity teleports.
