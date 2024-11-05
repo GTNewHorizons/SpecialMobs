@@ -104,7 +104,7 @@ public class Entity_SpecialEnderman extends EntityEnderman implements ISpecialMo
     /// Called to remove this entity from the world.
     @Override
     public void setDead() {
-        if (!this.worldObj.isRemote) {
+        if (!this.worldObj.isRemote && this.getHealth() <= 0.0f) {
             Block carried = this.func_146080_bZ();
             if (carried != null) {
                 carried.dropBlockAsItem(
