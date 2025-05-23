@@ -1,5 +1,6 @@
 package toast.specialMobs;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
@@ -28,6 +29,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
+import net.minecraftforge.event.ForgeEventFactory;
 
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.pigzombie.Entity_SpecialPigZombie;
@@ -68,7 +70,7 @@ public abstract class MobHelper {
         }
     }
 
-    // Causes a creeper explosion that places dirt instead of destroying blocks.
+    // Causes a creeper explosion that destroys light emitting blocks.
     @SuppressWarnings("unchecked")
     public static void darkExplode(Entity exploder, int radius) {
         Explosion explosion = new Explosion(
@@ -115,6 +117,7 @@ public abstract class MobHelper {
             }
         }
         explosion.affectedBlockPositions.addAll(affectedBlocks);
+        ForgeEventFactory.onExplosionDetonate(exploder.worldObj, explosion, new ArrayList<Entity>(), radius * 2);
         explosion.doExplosionB(false);
         _SpecialMobs.CHANNEL.sendToDimension(new MessageExplosion(explosion), exploder.dimension);
     }
