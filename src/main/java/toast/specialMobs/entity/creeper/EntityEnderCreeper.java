@@ -237,7 +237,7 @@ public class EntityEnderCreeper extends Entity_SpecialCreeper {
             boolean canTeleportToBlock = false;
             while (!canTeleportToBlock && blockY > 0) {
                 block = this.worldObj.getBlock(blockX, blockY - 1, blockZ);
-                if (block != null && block.getMaterial().blocksMovement()) {
+                if (block != null && block.getMaterial().blocksMovement() && block.isNormalCube()) {
                     canTeleportToBlock = true;
                 } else {
                     --this.posY;
