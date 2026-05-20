@@ -25,9 +25,7 @@ public class EntityWitchCaveSpider extends Entity_SpecialCaveSpider {
     public EntityWitchCaveSpider(World world) {
         super(world);
         this.getSpecialData().setTextures(EntityWitchCaveSpider.TEXTURES);
-        for (int id = Potion.potionTypes.length; id-- > 0;) {
-            this.getSpecialData().immuneToPotions.add(id);
-        }
+        this.getSpecialData().immuneToAllPotions = true;
         this.experienceValue += 2;
     }
 

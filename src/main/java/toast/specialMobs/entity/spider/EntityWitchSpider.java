@@ -27,9 +27,7 @@ public class EntityWitchSpider extends Entity_SpecialSpider {
     public EntityWitchSpider(World world) {
         super(world);
         this.getSpecialData().setTextures(EntityWitchSpider.TEXTURES);
-        for (int id = Potion.potionTypes.length; id-- > 0;) {
-            this.getSpecialData().immuneToPotions.add(id);
-        }
+        this.getSpecialData().immuneToAllPotions = true;
         this.experienceValue += 2;
     }
 
