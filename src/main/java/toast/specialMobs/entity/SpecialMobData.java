@@ -53,7 +53,7 @@ public class SpecialMobData {
     }
 
     /** The entity this data is for. */
-    private EntityLiving theEntity;
+    private final EntityLiving theEntity;
     /** The texture(s) of the entity. */
     private ResourceLocation[] textures;
     /** True if the textures need to be sent to the client. */
@@ -90,14 +90,16 @@ public class SpecialMobData {
     public boolean isImmuneToFalling;
     /** Whether the entity does not trigger pressure plates. */
     public boolean ignorePressurePlates;
-    /** Whether the entity can breathe under water. */
+    /** Whether the entity can breathe underwater. */
     public boolean canBreatheInWater;
     /** Whether the entity can ignore pushing from flowing water. */
     public boolean ignoreWaterPush;
     /** Whether the entity is damaged when wet. */
     public boolean isDamagedByWater;
+    /** Whether the entity is immune to all potions. */
+    public boolean immuneToAllPotions;
     /** List of potions that can not be applied to the entity. */
-    public HashSet<Integer> immuneToPotions = new HashSet<Integer>();
+    public HashSet<Integer> immuneToPotions = new HashSet<>();
 
     /**
      * Constructs a SpecialMobData to store generic data about a mob, initialized with the mob's texture(s).
@@ -295,7 +297,7 @@ public class SpecialMobData {
      * @return True if the potion is allowed to be applied.
      */
     public boolean isPotionApplicable(PotionEffect effect) {
-        return !this.immuneToPotions.contains(effect.getPotionID());
+        return !this.immuneToAllPotions && !this.immuneToPotions.contains(effect.getPotionID());
     }
 
     /**
@@ -334,6 +336,7 @@ public class SpecialMobData {
         tag.setBoolean("SMWaterBreath", this.canBreatheInWater);
         tag.setBoolean("SMWaterPushImmune", this.ignoreWaterPush);
         tag.setBoolean("SMWaterDamage", this.isDamagedByWater);
+        tag.setBoolean("SMAllPotionImmune", this.immuneToAllPotions);
 
         int[] potionIds = new int[this.immuneToPotions.size()];
         int i = 0;
@@ -419,6 +422,9 @@ public class SpecialMobData {
         }
         if (tag.hasKey("SMWaterDamage")) {
             this.isDamagedByWater = tag.getBoolean("SMWaterDamage");
+        }
+        if (tag.hasKey("SMAllPotionImmune")) {
+            this.immuneToAllPotions = tag.getBoolean("SMAllPotionImmune");
         }
 
         if (tag.hasKey("SMPotionImmune")) {
