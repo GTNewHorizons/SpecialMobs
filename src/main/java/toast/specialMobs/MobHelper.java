@@ -18,6 +18,7 @@ import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityFallingBlock;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
@@ -257,7 +258,12 @@ public abstract class MobHelper {
 
     // Returns true if the entity can be replaced by a special version.
     public static boolean canReplace(EntityLiving entity) {
-        return !entity.isNoDespawnRequired() && !(entity instanceof ISpecialMob)
+        // Check IMob first: ReplacementEntry only replaces hostiles, but getEntityData() lazily creates and
+        // permanently attaches a ForgeData compound. Reading "smi" before this check gave every non-hostile
+        // entity an otherwise-empty NBTTagCompound (written to the chunk on save) plus a ReplacementEntry
+        // discarded on the next tick
+        return entity instanceof IMob && !entity.isNoDespawnRequired()
+                && !(entity instanceof ISpecialMob)
                 && entity.getEntityData().getByte("smi") == 0;
     }
 
