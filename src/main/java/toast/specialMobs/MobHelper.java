@@ -11,6 +11,7 @@ import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.BlockOre;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIArrowAttack;
@@ -258,13 +259,15 @@ public abstract class MobHelper {
 
     // Returns true if the entity can be replaced by a special version.
     public static boolean canReplace(EntityLiving entity) {
-        // Check IMob first: ReplacementEntry only replaces hostiles, but getEntityData() lazily creates and
-        // permanently attaches a ForgeData compound. Reading "smi" before this check gave every non-hostile
-        // entity an otherwise-empty NBTTagCompound (written to the chunk on save) plus a ReplacementEntry
-        // discarded on the next tick
-        return entity instanceof IMob && !entity.isNoDespawnRequired()
-                && !(entity instanceof ISpecialMob)
-                && entity.getEntityData().getByte("smi") == 0;
+        if (!(entity instanceof IMob) || entity.isNoDespawnRequired() || entity instanceof ISpecialMob) return false;
+
+        // Resolve the species before touching ForgeData: getEntityData() lazily attaches a compound that
+        // then persists in the chunk on save. Checking IMob alone isn't enough, also check if special mob
+        // variants can spawn.
+        int key = _SpecialMobs.monsterKey(EntityList.getEntityString(entity));
+        if (key < 0 || !Properties.monsterSpawn()[key]) return false;
+
+        return entity.getEntityData().getByte("smi") == 0;
     }
 
     public static String getDisplayNameForEntity(String mobName) {
