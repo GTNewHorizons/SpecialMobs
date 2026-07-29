@@ -56,7 +56,7 @@ public class Entity_SpecialCaveSpider extends EntityCaveSpider implements ISpeci
     public Entity_SpecialCaveSpider(World world) {
         super(world);
         this.getSpecialData().resetRenderScale(0.7F);
-        this.getSpecialData().immuneToPotions.add(Potion.poison.id);
+        this.getSpecialData().addPotionImmunity(Potion.poison.id);
         this.getSpecialData().isImmuneToWebs = true;
     }
 

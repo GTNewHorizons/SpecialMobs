@@ -73,8 +73,8 @@ public class Entity_SpecialWitch extends EntityWitch implements ISpecialMob, IMo
 
     public Entity_SpecialWitch(World world) {
         super(world);
-        this.getSpecialData().immuneToPotions.add(Potion.poison.id);
-        this.getSpecialData().immuneToPotions.add(Potion.weakness.id);
+        this.getSpecialData().addPotionImmunity(Potion.poison.id);
+        this.getSpecialData().addPotionImmunity(Potion.weakness.id);
 
         MobHelper.clearRangedAttackAI(this);
         this.initTypeAI();

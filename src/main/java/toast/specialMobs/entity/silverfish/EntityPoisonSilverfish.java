@@ -18,7 +18,7 @@ public class EntityPoisonSilverfish extends Entity_SpecialSilverfish {
     public EntityPoisonSilverfish(World world) {
         super(world);
         this.getSpecialData().setTextures(EntityPoisonSilverfish.TEXTURES);
-        this.getSpecialData().immuneToPotions.add(Potion.poison.id);
+        this.getSpecialData().addPotionImmunity(Potion.poison.id);
         this.experienceValue += 1;
     }
 

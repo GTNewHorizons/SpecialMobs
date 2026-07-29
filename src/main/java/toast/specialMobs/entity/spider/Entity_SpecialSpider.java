@@ -57,7 +57,7 @@ public class Entity_SpecialSpider extends EntitySpider implements ISpecialMob, I
 
     public Entity_SpecialSpider(World world) {
         super(world);
-        this.getSpecialData().immuneToPotions.add(Potion.poison.id);
+        this.getSpecialData().addPotionImmunity(Potion.poison.id);
         this.getSpecialData().isImmuneToWebs = true;
     }
 
