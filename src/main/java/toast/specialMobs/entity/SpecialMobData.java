@@ -125,14 +125,17 @@ public class SpecialMobData {
     }
 
     /**
-     * Makes the entity immune to a potion. Ids outside 0-63 are ignored rather than wrapped into the wrong bit.
+     * Makes the entity immune to a potion. Ids outside 0-63 are reported and dropped rather than wrapped into the wrong
+     * bit.
      *
      * @param potionId The id of the potion to become immune to.
      */
     public void addPotionImmunity(int potionId) {
-        if (potionId >= 0 && potionId < Long.SIZE) {
-            this.immuneToPotions |= 1L << potionId;
+        if (potionId < 0 || potionId >= Long.SIZE) {
+            _SpecialMobs.debugException("Potion id " + potionId + " is outside the immunity mask (0-63)!");
+            return;
         }
+        this.immuneToPotions |= 1L << potionId;
     }
 
     /**
