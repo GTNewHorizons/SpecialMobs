@@ -11,6 +11,7 @@ import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.BlockOre;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIArrowAttack;
@@ -18,6 +19,7 @@ import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityFallingBlock;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
@@ -257,8 +259,15 @@ public abstract class MobHelper {
 
     // Returns true if the entity can be replaced by a special version.
     public static boolean canReplace(EntityLiving entity) {
-        return !entity.isNoDespawnRequired() && !(entity instanceof ISpecialMob)
-                && entity.getEntityData().getByte("smi") == 0;
+        if (!(entity instanceof IMob) || entity.isNoDespawnRequired() || entity instanceof ISpecialMob) return false;
+
+        // Resolve the species before touching ForgeData: getEntityData() lazily attaches a compound that
+        // then persists in the chunk on save. Checking IMob alone isn't enough, also check if special mob
+        // variants can spawn.
+        int key = _SpecialMobs.monsterKey(EntityList.getEntityString(entity));
+        if (key < 0 || !Properties.monsterSpawn()[key]) return false;
+
+        return entity.getEntityData().getByte("smi") == 0;
     }
 
     public static String getDisplayNameForEntity(String mobName) {

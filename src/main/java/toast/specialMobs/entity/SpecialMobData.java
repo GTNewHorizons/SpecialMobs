@@ -1,7 +1,5 @@
 package toast.specialMobs.entity;
 
-import java.util.HashSet;
-
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
@@ -98,8 +96,11 @@ public class SpecialMobData {
     public boolean isDamagedByWater;
     /** Whether the entity is immune to all potions. */
     public boolean immuneToAllPotions;
-    /** List of potions that can not be applied to the entity. */
-    public HashSet<Integer> immuneToPotions = new HashSet<>();
+    /**
+     * Bit set of the potion ids that can not be applied to the entity. of entries. Only ids 0-63 can be stored but the
+     * mod itself only ever adds vanilla ids (all below 20).
+     */
+    private long immuneToPotions;
 
     /**
      * Constructs a SpecialMobData to store generic data about a mob, initialized with the mob's texture(s).
@@ -118,9 +119,31 @@ public class SpecialMobData {
                                 ? 1.0F + (entity.getRNG().nextFloat() - 0.5F) * SpecialMobData.RANDOM_SCALING
                                 : 1.0F));
         if (entity.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD) {
-            this.immuneToPotions.add(Potion.regeneration.id);
-            this.immuneToPotions.add(Potion.poison.id);
+            this.addPotionImmunity(Potion.regeneration.id);
+            this.addPotionImmunity(Potion.poison.id);
         }
+    }
+
+    /**
+     * Makes the entity immune to a potion. Ids outside 0-63 are reported and dropped rather than wrapped into the wrong
+     * bit.
+     *
+     * @param potionId The id of the potion to become immune to.
+     */
+    public void addPotionImmunity(int potionId) {
+        if (potionId < 0 || potionId >= Long.SIZE) {
+            _SpecialMobs.debugException("Potion id " + potionId + " is outside the immunity mask (0-63)!");
+            return;
+        }
+        this.immuneToPotions |= 1L << potionId;
+    }
+
+    /**
+     * @param potionId The id of the potion to test.
+     * @return True if the entity is immune to that specific potion.
+     */
+    public boolean isImmuneToPotion(int potionId) {
+        return potionId >= 0 && potionId < Long.SIZE && (this.immuneToPotions & 1L << potionId) != 0;
     }
 
     /** Called each tick for every living special mob. */
@@ -297,7 +320,7 @@ public class SpecialMobData {
      * @return True if the potion is allowed to be applied.
      */
     public boolean isPotionApplicable(PotionEffect effect) {
-        return !this.immuneToAllPotions && !this.immuneToPotions.contains(effect.getPotionID());
+        return !this.immuneToAllPotions && !this.isImmuneToPotion(effect.getPotionID());
     }
 
     /**
@@ -338,12 +361,7 @@ public class SpecialMobData {
         tag.setBoolean("SMWaterDamage", this.isDamagedByWater);
         tag.setBoolean("SMAllPotionImmune", this.immuneToAllPotions);
 
-        int[] potionIds = new int[this.immuneToPotions.size()];
-        int i = 0;
-        for (int id : this.immuneToPotions) {
-            potionIds[i++] = id;
-        }
-        tag.setIntArray("SMPotionImmune", potionIds);
+        tag.setLong("SMPotionImmuneBits", this.immuneToPotions);
     }
 
     /**
@@ -427,11 +445,22 @@ public class SpecialMobData {
             this.immuneToAllPotions = tag.getBoolean("SMAllPotionImmune");
         }
 
+        // migrating old key
         if (tag.hasKey("SMPotionImmune")) {
             int[] potionIds = tag.getIntArray("SMPotionImmune");
-            this.immuneToPotions.clear();
+            this.immuneToPotions = 0L;
             for (int id : potionIds) {
-                this.immuneToPotions.add(id);
+                this.addPotionImmunity(id);
+            }
+        }
+
+        if (tag.hasKey("SMPotionImmuneBits")) {
+            this.immuneToPotions = tag.getLong("SMPotionImmuneBits");
+        } else if (tag.hasKey("SMPotionImmune")) {
+            // Mobs saved before the set became a bit mask.
+            this.immuneToPotions = 0L;
+            for (int id : tag.getIntArray("SMPotionImmune")) {
+                this.addPotionImmunity(id);
             }
         }
     }

@@ -23,7 +23,7 @@ public class EntityGravityCreeper extends Entity_SpecialCreeper {
         this.getSpecialData().setTextures(EntityGravityCreeper.TEXTURES);
         this.getSpecialData().isImmuneToFalling = true;
         this.getSpecialData().ignorePressurePlates = true;
-        this.getSpecialData().immuneToPotions.add(Potion.jump.id);
+        this.getSpecialData().addPotionImmunity(Potion.jump.id);
         this.experienceValue += 1;
     }
 

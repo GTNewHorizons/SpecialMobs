@@ -31,7 +31,7 @@ public class EntityShadowsWitch extends Entity_SpecialWitch {
     public EntityShadowsWitch(World world) {
         super(world);
         this.getSpecialData().setTextures(EntityShadowsWitch.TEXTURES);
-        this.getSpecialData().immuneToPotions.add(Potion.blindness.id);
+        this.getSpecialData().addPotionImmunity(Potion.blindness.id);
     }
 
     /// Called every tick while this entity is alive.
