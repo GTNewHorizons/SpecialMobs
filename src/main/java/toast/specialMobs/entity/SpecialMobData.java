@@ -97,8 +97,8 @@ public class SpecialMobData {
     /** Whether the entity is immune to all potions. */
     public boolean immuneToAllPotions;
     /**
-     * Bit set of the potion ids that can not be applied to the entity. of entries.
-     * Only ids 0-63 can be stored but the mod itself only ever adds vanilla ids (all below 20).
+     * Bit set of the potion ids that can not be applied to the entity. of entries. Only ids 0-63 can be stored but the
+     * mod itself only ever adds vanilla ids (all below 20).
      */
     private long immuneToPotions;
 
