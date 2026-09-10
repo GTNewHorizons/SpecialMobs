@@ -25,6 +25,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -247,6 +248,35 @@ public abstract class MobHelper {
             }
         }
         return null;
+    }
+
+    // Removes a random food item from the player's inventory and returns it.
+    public static ItemStack removeRandomFoodItem(EntityPlayer player) {
+        int count = 0;
+        for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+            ItemStack itemInSlot = player.inventory.getStackInSlot(i);
+            if (itemInSlot != null && itemInSlot.getItem() instanceof ItemFood) {
+                count++;
+            }
+        }
+        if (count > 0) {
+            count = _SpecialMobs.random.nextInt(count);
+            ItemStack item;
+            for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+                item = player.inventory.getStackInSlot(i);
+                if (item != null && item.getItem() instanceof ItemFood && --count < 0) {
+                    player.inventory.decrStackSize(i, 1);
+                    return item;
+                }
+            }
+        }
+        return null;
+    }
+
+    // Steal HP from a player.
+    public static void stealLife(EntityLiving attacker, EntityPlayer target, int amount) {
+        target.attackEntityFrom(new SpecialDamageSource("generic", attacker, attacker), amount);
+        attacker.heal(amount);
     }
 
     // Returns true if the damage from a source is a critical hit.
