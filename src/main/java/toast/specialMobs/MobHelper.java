@@ -3,6 +3,7 @@ package toast.specialMobs;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -24,6 +25,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -34,9 +36,11 @@ import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
 import net.minecraftforge.event.ForgeEventFactory;
 
+import cpw.mods.fml.common.Loader;
 import toast.specialMobs.entity.ISpecialMob;
 import toast.specialMobs.entity.pigzombie.Entity_SpecialPigZombie;
 import toast.specialMobs.network.MessageExplosion;
+import toast.specialMobs.spiceOfLife.SpiceOfLifeCompat;
 
 public abstract class MobHelper {
 
@@ -252,24 +256,51 @@ public abstract class MobHelper {
 
     // Removes a random food item from the player's inventory and returns it.
     public static ItemStack removeRandomFoodItem(EntityPlayer player) {
+
         int count = 0;
+        List<IInventory> foodContainers = new ArrayList<>();
+        boolean isSpiceOfLifeLoaded = Loader.isModLoaded("SpiceOfLife");
+        if (isSpiceOfLifeLoaded) {
+            SpiceOfLifeCompat.addFoodSources(player, foodContainers);
+
+            for (IInventory container : foodContainers) {
+                for (int i = 0; i < container.getSizeInventory(); i++) {
+                    if (container.getStackInSlot(i) != null) {
+                        count++;
+                    }
+                }
+            }
+        }
+
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             ItemStack itemInSlot = player.inventory.getStackInSlot(i);
             if (itemInSlot != null && itemInSlot.getItem() instanceof ItemFood) {
                 count++;
             }
         }
-        if (count > 0) {
-            count = _SpecialMobs.random.nextInt(count);
-            ItemStack item;
-            for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-                item = player.inventory.getStackInSlot(i);
-                if (item != null && item.getItem() instanceof ItemFood && --count < 0) {
-                    player.inventory.decrStackSize(i, 1);
-                    return item;
+
+        if (count == 0) return null;
+        count = _SpecialMobs.random.nextInt(count);
+        ItemStack item;
+        for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+            item = player.inventory.getStackInSlot(i);
+            if (item != null && item.getItem() instanceof ItemFood && --count < 0) {
+                player.inventory.decrStackSize(i, 1);
+                return item;
+            }
+        }
+
+        if (isSpiceOfLifeLoaded) {
+            for (IInventory container : foodContainers) {
+                for (int i = 0; i < container.getSizeInventory(); i++) {
+                    if (container.getStackInSlot(i) != null && --count < 0) {
+                        item = container.decrStackSize(i, 1);
+                        return item;
+                    }
                 }
             }
         }
+
         return null;
     }
 
