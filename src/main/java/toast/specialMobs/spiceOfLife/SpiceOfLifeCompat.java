@@ -14,7 +14,8 @@ public class SpiceOfLifeCompat {
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             ItemStack stack = player.inventory.getStackInSlot(i);
             if (stack != null && stack.getItem() instanceof ItemFoodContainer
-                    && stack != player.inventory.getCurrentItem()) {
+                    && stack != player.inventory.getCurrentItem()
+                    && ((ItemFoodContainer) stack.getItem()).isOpen(stack)) {
                 sources.add(((ItemFoodContainer) stack.getItem()).getInventory(stack));
             }
         }
