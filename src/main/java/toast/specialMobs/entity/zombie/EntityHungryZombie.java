@@ -39,19 +39,14 @@ public class EntityHungryZombie extends Entity_SpecialZombie {
     @Override
     protected void onTypeAttack(Entity target) {
         if (target instanceof EntityPlayer) {
-            ItemStack itemStack = MobHelper.removeRandomItem((EntityPlayer) target);
+            ItemStack itemStack = MobHelper.removeRandomFoodItem((EntityPlayer) target);
             if (itemStack != null) {
-                if (itemStack.getItem() instanceof ItemFood) {
-                    this.heal(
-                            (float) ((ItemFood) itemStack.getItem()).func_150905_g(itemStack)
-                                    * (float) itemStack.stackSize);
-                } else {
-                    this.entityDropItem(itemStack, 0.0F);
-                }
+                this.heal(((ItemFood) itemStack.getItem()).func_150905_g(itemStack));
                 this.worldObj.playSoundAtEntity(this, "random.burp", 0.5F, this.rand.nextFloat() * 0.1F + 0.9F);
+            } else {
+                MobHelper.stealLife(this, (EntityPlayer) target, 3);
             }
         }
-        this.heal(2.0F);
     }
 
     /// Sets this entity's combat AI.
