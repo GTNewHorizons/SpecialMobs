@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
@@ -46,7 +45,7 @@ public class EntityHungryPigZombie extends Entity_SpecialPigZombie {
         if (target instanceof EntityPlayer) {
             ItemStack itemStack = MobHelper.removeRandomFoodItem((EntityPlayer) target);
             if (itemStack != null) {
-                this.heal(((ItemFood) itemStack.getItem()).func_150905_g(itemStack));
+                this.heal(MobHelper.getFoodValue(itemStack));
                 this.worldObj.playSoundAtEntity(this, "random.burp", 0.5F, this.rand.nextFloat() * 0.1F + 0.9F);
             } else {
                 MobHelper.stealLife(this, (EntityPlayer) target, 3);

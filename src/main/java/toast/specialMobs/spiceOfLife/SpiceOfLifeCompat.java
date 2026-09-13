@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
+import squeek.applecore.api.AppleCoreAPI;
 import squeek.spiceoflife.items.ItemFoodContainer;
 
 public class SpiceOfLifeCompat {
@@ -19,5 +20,16 @@ public class SpiceOfLifeCompat {
                 sources.add(((ItemFoodContainer) stack.getItem()).getInventory(stack));
             }
         }
+    }
+
+    public static boolean checkFood(ItemStack item) {
+        if (item.getItem() instanceof ItemFoodContainer) {
+            return false;
+        }
+        return AppleCoreAPI.accessor.getUnmodifiedFoodValues(item) != null;
+    }
+
+    public static int getFoodValue(ItemStack item) {
+        return AppleCoreAPI.accessor.getUnmodifiedFoodValues(item).hunger;
     }
 }

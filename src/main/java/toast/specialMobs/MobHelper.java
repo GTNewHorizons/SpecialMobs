@@ -274,7 +274,7 @@ public abstract class MobHelper {
 
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             ItemStack itemInSlot = player.inventory.getStackInSlot(i);
-            if (itemInSlot != null && itemInSlot.getItem() instanceof ItemFood) {
+            if (itemInSlot != null && checkIfValidFood(itemInSlot)) {
                 count++;
             }
         }
@@ -284,7 +284,7 @@ public abstract class MobHelper {
         ItemStack item;
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             item = player.inventory.getStackInSlot(i);
-            if (item != null && item.getItem() instanceof ItemFood && --count < 0) {
+            if (item != null && checkIfValidFood(item) && --count < 0) {
                 player.inventory.decrStackSize(i, 1);
                 return item;
             }
@@ -302,6 +302,22 @@ public abstract class MobHelper {
         }
 
         return null;
+    }
+
+    // Check if item is a valid food item.
+    public static boolean checkIfValidFood(ItemStack item) {
+        if (Loader.isModLoaded("SpiceOfLife")) {
+            return SpiceOfLifeCompat.checkFood(item);
+        }
+        return item.getItem() instanceof ItemFood;
+    }
+
+    // Get the hunger value of a food item.
+    public static int getFoodValue(ItemStack item) {
+        if (Loader.isModLoaded("SpiceOfLife")) {
+            return SpiceOfLifeCompat.getFoodValue(item);
+        }
+        return ((ItemFood) item.getItem()).func_150905_g(item);
     }
 
     // Steal HP from a player.
