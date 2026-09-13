@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
@@ -69,7 +68,7 @@ public class EntityHungrySpider extends Entity_SpecialSpider {
             }
             this.setFeedingLevel(this.feedingLevel + 1, true);
         }
-        this.heal(((ItemFood) itemStack.getItem()).func_150905_g(itemStack));
+        this.heal(MobHelper.getFoodValue(itemStack));
         this.worldObj.playSoundAtEntity(this, "random.burp", 0.5F, this.rand.nextFloat() * 0.1F + 0.9F);
     }
 
