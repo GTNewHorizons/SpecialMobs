@@ -18,6 +18,8 @@ import toast.specialMobs._SpecialMobs;
 
 public class EntityWitchCaveSpider extends Entity_SpecialCaveSpider {
 
+    private static final String TAG_DEFLECTED_PROJECTILE = "witchSpiderDeflected";
+
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
             new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/witch.png"),
             new ResourceLocation(_SpecialMobs.TEXTURE_PATH + "cavespider/witch_eyes.png") };
@@ -82,6 +84,10 @@ public class EntityWitchCaveSpider extends Entity_SpecialCaveSpider {
     public boolean attackEntityFrom(DamageSource damageSource, float damage) {
         Entity entity = damageSource.getSourceOfDamage();
         if (damageSource.isProjectile() && entity != null) {
+            NBTTagCompound data = entity.getEntityData();
+            if (data == null || data.hasKey(TAG_DEFLECTED_PROJECTILE) && data.getBoolean(TAG_DEFLECTED_PROJECTILE)) {
+                return super.attackEntityFrom(damageSource, damage);
+            }
             Entity deflected = null;
             String entityName = EntityList.getEntityString(entity);
             if (entityName != null) {
@@ -91,6 +97,12 @@ public class EntityWitchCaveSpider extends Entity_SpecialCaveSpider {
                 NBTTagCompound tag = new NBTTagCompound();
                 entity.writeToNBT(tag);
                 deflected.readFromNBT(tag);
+
+                NBTTagCompound deflectedData = deflected.getEntityData();
+                if (deflectedData == null) {
+                    return super.attackEntityFrom(damageSource, damage);
+                }
+                deflectedData.setBoolean(TAG_DEFLECTED_PROJECTILE, true);
 
                 if (entity instanceof EntityArrow) {
                     ((EntityArrow) deflected).shootingEntity = this;
