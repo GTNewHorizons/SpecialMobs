@@ -336,7 +336,7 @@ public abstract class MobHelper {
 
     // Returns true if the entity can be replaced by a special version.
     public static boolean canReplace(EntityLiving entity) {
-        if (!(entity instanceof IMob) || entity.isNoDespawnRequired() || entity instanceof ISpecialMob) return false;
+        if (!(entity instanceof IMob) || entity.isNoDespawnRequired() || !entity.isEntityAlive() || entity instanceof ISpecialMob) return false;
 
         // Resolve the species before touching ForgeData: getEntityData() lazily attaches a compound that
         // then persists in the chunk on save. Checking IMob alone isn't enough, also check if special mob
