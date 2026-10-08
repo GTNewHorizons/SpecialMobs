@@ -18,6 +18,10 @@ public class ReplacementEntry {
 
     // Replaces the entity with its replacement.
     public void replace() {
+        // In case of high spawn rates, the entity may already be dead or a Silverfish may already have infested a stone
+        // block by the time we get to it in the replacement queue.
+        if (!entity.isEntityAlive()) return;
+
         EntityLiving replacement;
         if (this.entity instanceof IMob) {
             this.entity.getEntityData().setByte("smi", (byte) 1);
