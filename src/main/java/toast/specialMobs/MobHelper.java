@@ -265,7 +265,8 @@ public abstract class MobHelper {
 
             for (IInventory container : foodContainers) {
                 for (int i = 0; i < container.getSizeInventory(); i++) {
-                    if (container.getStackInSlot(i) != null) {
+                    ItemStack itemInSlot = container.getStackInSlot(i);
+                    if (itemInSlot != null && checkIfValidFood(itemInSlot)) {
                         count++;
                     }
                 }
@@ -293,7 +294,8 @@ public abstract class MobHelper {
         if (isSpiceOfLifeLoaded) {
             for (IInventory container : foodContainers) {
                 for (int i = 0; i < container.getSizeInventory(); i++) {
-                    if (container.getStackInSlot(i) != null && --count < 0) {
+                    item = container.getStackInSlot(i);
+                    if (item != null && checkIfValidFood(item) && --count < 0) {
                         item = container.decrStackSize(i, 1);
                         return item;
                     }
