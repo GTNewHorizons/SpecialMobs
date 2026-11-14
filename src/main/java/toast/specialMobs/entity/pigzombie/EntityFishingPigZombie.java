@@ -112,8 +112,6 @@ public class EntityFishingPigZombie extends Entity_SpecialPigZombie implements I
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-            this.dropItem(Items.cooked_fished, 1);
-        }
+        this.dropItem(Items.cooked_fished, this.rand.nextInt(2 + looting));
     }
 }

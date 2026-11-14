@@ -38,9 +38,8 @@ public class EntityDeathCreeper extends Entity_SpecialCreeper {
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(3 + looting) + 1; i-- > 0;) {
-            this.dropItem(Items.gunpowder, 1);
-        }
+        this.dropItem(Items.gunpowder, this.rand.nextInt(3 + looting) + 1);
+
         if (hit && this.isBurning() && looting > 0) {
             // this.dropItem(Items.record_13 + this.rand.nextInt(Items.record_wait - Items.record_13 + 1), 1);
         }

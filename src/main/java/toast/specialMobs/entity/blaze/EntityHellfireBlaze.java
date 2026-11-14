@@ -74,9 +74,7 @@ public class EntityHellfireBlaze extends Entity_SpecialBlaze {
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (hit) {
-            for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
-                this.dropItem(Items.gunpowder, 1);
-            }
+            this.dropItem(Items.gunpowder, this.rand.nextInt(3 + looting));
         }
     }
 }

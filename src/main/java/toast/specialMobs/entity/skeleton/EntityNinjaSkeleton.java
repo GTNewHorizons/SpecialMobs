@@ -214,12 +214,8 @@ public class EntityNinjaSkeleton extends Entity_SpecialSkeleton implements INinj
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
-            this.dropItem(Items.paper, 1);
-        }
-        for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-            this.dropItem(Items.dye, 1);
-        }
+        this.dropItem(Items.paper, this.rand.nextInt(3 + looting));
+        this.dropItem(Items.dye, this.rand.nextInt(2 + looting));
     }
 
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.

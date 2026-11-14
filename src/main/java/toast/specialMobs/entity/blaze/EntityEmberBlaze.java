@@ -36,9 +36,7 @@ public class EntityEmberBlaze extends Entity_SpecialBlaze {
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (hit) {
-            for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-                this.dropItem(Items.coal, 1);
-            }
+            this.dropItem(Items.coal, this.rand.nextInt(2 + looting));
         }
     }
 

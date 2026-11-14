@@ -73,9 +73,8 @@ public class EntityConflagrationBlaze extends Entity_SpecialBlaze {
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (hit) {
-            for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
-                this.dropItem(Items.fire_charge, 1);
-            }
+            this.dropItem(Items.fire_charge, this.rand.nextInt(3 + looting));
+
             if (this.rand.nextInt(5) == 0 || this.rand.nextInt(1 + looting) > 0) {
                 ItemStack itemStack = new ItemStack(Items.potionitem, 1, 8195);
                 EffectHelper.addPotionEffect(itemStack, Potion.fireResistance, 600, 0);

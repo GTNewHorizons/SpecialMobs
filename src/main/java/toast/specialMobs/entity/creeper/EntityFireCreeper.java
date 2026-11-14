@@ -52,9 +52,8 @@ public class EntityFireCreeper extends Entity_SpecialCreeper {
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-            this.dropItem(Items.fire_charge, 1);
-        }
+        this.dropItem(Items.fire_charge, this.rand.nextInt(2 + looting));
+
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
             this.dropItem(Items.coal, 1);
         }

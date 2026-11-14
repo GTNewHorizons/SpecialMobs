@@ -270,9 +270,7 @@ public class Entity_SpecialZombie extends EntityZombie implements ISpecialMob, I
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (this.getHeldItem() != null && this.getHeldItem().getItem() instanceof ItemBow) {
-            for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
-                this.dropItem(Items.arrow, 1);
-            }
+            this.dropItem(Items.arrow, this.rand.nextInt(3 + looting));
         }
         if (_SpecialMobs.debug) {
             this.dropRareDrop(Math.max(0, this.rand.nextInt(5) - 3));

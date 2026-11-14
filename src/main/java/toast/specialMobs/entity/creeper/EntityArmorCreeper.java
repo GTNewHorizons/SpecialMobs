@@ -29,8 +29,6 @@ public class EntityArmorCreeper extends Entity_SpecialCreeper {
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-            this.dropItem(Items.leather, 1);
-        }
+        this.dropItem(Items.leather, this.rand.nextInt(2 + looting));
     }
 }

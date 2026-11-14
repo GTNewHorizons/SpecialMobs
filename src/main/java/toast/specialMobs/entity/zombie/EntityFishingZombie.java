@@ -115,8 +115,6 @@ public class EntityFishingZombie extends Entity_SpecialZombie implements IAngler
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-            this.dropItem(Items.fish, 1);
-        }
+        this.dropItem(Items.fish, this.rand.nextInt(2 + looting));
     }
 }

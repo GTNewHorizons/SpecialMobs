@@ -25,8 +25,6 @@ public class EntityGiantSpider extends Entity_SpecialSpider {
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(2) + 1; i-- > 0;) {
-            this.dropItem(Items.string, 1);
-        }
+        this.dropItem(Items.string, this.rand.nextInt(2) + 1);
     }
 }

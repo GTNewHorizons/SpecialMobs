@@ -25,8 +25,6 @@ public class EntityBabyCaveSpider extends Entity_SpecialCaveSpider {
     /// Called when this entity is killed.
     @Override
     protected void dropFewItems(boolean hit, int looting) {
-        for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-            this.dropItem(Items.string, 1);
-        }
+        this.dropItem(Items.string, this.rand.nextInt(2 + looting));
     }
 }

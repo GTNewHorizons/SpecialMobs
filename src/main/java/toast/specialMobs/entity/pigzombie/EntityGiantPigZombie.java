@@ -34,8 +34,6 @@ public class EntityGiantPigZombie extends Entity_SpecialPigZombie {
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(2) + 1; i-- > 0;) {
-            this.dropItem(Items.rotten_flesh, 1);
-        }
+        this.dropItem(Items.rotten_flesh, this.rand.nextInt(2) + 1);
     }
 }
