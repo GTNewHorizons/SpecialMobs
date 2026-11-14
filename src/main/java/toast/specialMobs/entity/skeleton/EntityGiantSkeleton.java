@@ -62,8 +62,6 @@ public class EntityGiantSkeleton extends Entity_SpecialSkeleton {
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(2) + 1; i-- > 0;) {
-            this.dropItem(Items.bone, 1);
-        }
+        this.dropItem(Items.bone, this.rand.nextInt(2) + 1);
     }
 }

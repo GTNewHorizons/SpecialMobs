@@ -233,9 +233,8 @@ public class EntityLavaMonster extends EntityMob implements ISpecialMob {
     /// Called when this entity is killed.
     @Override
     protected void dropFewItems(boolean recentlyHit, int looting) {
-        for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
-            this.dropItem(Items.coal, 1);
-        }
+        this.dropItem(Items.coal, this.rand.nextInt(3 + looting));
+
         if (recentlyHit && (this.rand.nextInt(2) == 0 || this.rand.nextInt(1 + looting) > 0)) {
             this.dropItem(Items.fire_charge, 1);
         }

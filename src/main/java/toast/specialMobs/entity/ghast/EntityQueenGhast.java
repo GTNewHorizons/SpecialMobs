@@ -66,9 +66,8 @@ public class EntityQueenGhast extends Entity_SpecialGhast {
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-            this.dropItem(Items.gold_ingot, 1);
-        }
+        this.dropItem(Items.gold_ingot, this.rand.nextInt(2 + looting));
+
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
             this.dropItem(Items.emerald, 1);
         }

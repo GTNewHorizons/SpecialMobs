@@ -75,9 +75,8 @@ public class EntityWildfireBlaze extends Entity_SpecialBlaze {
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (hit) {
-            for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-                this.dropItem(Items.coal, 1);
-            }
+            this.dropItem(Items.coal, this.rand.nextInt(2 + looting));
+
             if (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0) {
                 this.entityDropItem(
                         new ItemStack(Items.spawn_egg, 1, (int) classToIDMapping.get(EntityBlaze.class)),

@@ -147,9 +147,7 @@ public class EntityDominationWitch extends Entity_SpecialWitch {
     protected void dropFewItems(boolean hit, int looting) {
         // ALL CHANGES IN HERE MUST BE ALSO MADE IN provideDropsInformation
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
-            this.dropItem(Items.experience_bottle, 1);
-        }
+        this.dropItem(Items.experience_bottle, this.rand.nextInt(3 + looting));
     }
 
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.

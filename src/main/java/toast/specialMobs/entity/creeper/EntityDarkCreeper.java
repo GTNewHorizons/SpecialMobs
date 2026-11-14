@@ -55,9 +55,7 @@ public class EntityDarkCreeper extends Entity_SpecialCreeper {
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
-            for (int i = this.rand.nextInt(8 + looting) + 1; i-- > 0;) {
-                this.dropItem(Item.getItemFromBlock(Blocks.torch), 1);
-            }
+            this.dropItem(Item.getItemFromBlock(Blocks.torch), this.rand.nextInt(8 + looting) + 1);
         }
     }
 

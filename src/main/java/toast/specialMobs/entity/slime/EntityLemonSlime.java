@@ -46,9 +46,8 @@ public class EntityLemonSlime extends Entity_SpecialSlime {
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (this.getSlimeSize() == 1) {
-            for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-                this.dropItem(Items.redstone, 1);
-            }
+            this.dropItem(Items.redstone, this.rand.nextInt(2 + looting));
+
             if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
                 this.entityDropItem(new ItemStack(Items.dye, 1, 11), 0.0F);
             }

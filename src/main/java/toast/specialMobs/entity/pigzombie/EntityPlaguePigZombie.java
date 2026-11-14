@@ -50,10 +50,8 @@ public class EntityPlaguePigZombie extends Entity_SpecialPigZombie {
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-            this.dropItem(
-                    Item.getItemFromBlock(this.rand.nextBoolean() ? Blocks.brown_mushroom : Blocks.red_mushroom),
-                    1);
-        }
+        this.dropItem(
+                Item.getItemFromBlock(this.rand.nextBoolean() ? Blocks.brown_mushroom : Blocks.red_mushroom),
+                this.rand.nextInt(2 + looting));
     }
 }

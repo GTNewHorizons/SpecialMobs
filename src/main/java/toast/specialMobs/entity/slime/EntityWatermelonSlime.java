@@ -78,9 +78,8 @@ public class EntityWatermelonSlime extends Entity_SpecialSlime {
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
         if (this.getSlimeSize() == 1) {
-            for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
-                this.dropItem(Items.melon, 1);
-            }
+            this.dropItem(Items.melon, this.rand.nextInt(3 + looting));
+
             if (hit && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + looting) > 0)) {
                 this.entityDropItem(new ItemStack(Items.dye, 1, this.rand.nextBoolean() ? 9 : 10), 0.0F);
             }

@@ -49,9 +49,7 @@ public class EntityFlyingCaveSpider extends Entity_SpecialCaveSpider {
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-            this.dropItem(Items.feather, 1);
-        }
+        this.dropItem(Items.feather, this.rand.nextInt(2 + looting));
     }
 
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.

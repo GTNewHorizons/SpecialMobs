@@ -24,9 +24,7 @@ public class EntityMiniGhast extends EntityMountGhast {
         if (this.dimension != 0) {
             super.dropFewItems(hit, looting);
         } else {
-            for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
-                this.dropItem(Items.gunpowder, 1);
-            }
+            this.dropItem(Items.gunpowder, this.rand.nextInt(3 + looting));
         }
     }
 

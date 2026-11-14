@@ -39,8 +39,6 @@ public class EntitySniperSkeleton extends Entity_SpecialSkeleton {
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(2 + looting); i-- > 0;) {
-            this.dropItem(Items.feather, 1);
-        }
+        this.dropItem(Items.feather, this.rand.nextInt(2 + looting));
     }
 }

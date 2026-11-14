@@ -109,9 +109,7 @@ public class EntityUnholyGhast extends EntityMeleeGhast {
     @Override
     protected void dropFewItems(boolean hit, int looting) {
         super.dropFewItems(hit, looting);
-        for (int i = this.rand.nextInt(3 + looting); i-- > 0;) {
-            this.dropItem(Items.gold_ingot, 1);
-        }
+        this.dropItem(Items.gold_ingot, this.rand.nextInt(3 + looting));
     }
 
     /// Called 2.5% of the time when this entity is killed. 20% chance that superRare == 1, otherwise superRare == 0.
